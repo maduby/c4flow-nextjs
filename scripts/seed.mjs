@@ -308,7 +308,7 @@ async function seed() {
         _type: "contactFormSection",
         heading: "Send a message",
         subtitle: "We'll get back to you as soon as possible.",
-        successMessage: "Thank you! Your message has been sent.",
+        successMessage: "Thank you! We'll get back to you as soon as possible.",
       },
       {
         _key: "map",

@@ -15,15 +15,11 @@ interface AnnouncementBarProps {
 }
 
 export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
-  /* The blocking <script> in layout.tsx already hides the banner via CSS
-     and sets --banner-h: 0px before first paint. We sync React state here
-     so the component returns null on the next render (no DOM waste). */
-  const [dismissed, setDismissed] = useState(() => {
-    if (typeof document !== "undefined") {
-      return document.documentElement.classList.contains("banner-dismissed");
-    }
-    return false;
-  });
+  /* The blocking <script> in layout.tsx hides the banner via CSS
+     (`display:none` on [data-announcement]) and sets --banner-h:0px
+     before first paint — so there is zero CLS. React state starts
+     false to match SSR; the useEffect below syncs it after hydration. */
+  const [dismissed, setDismissed] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
   const bannerRef = useRef<HTMLDivElement>(null);
@@ -98,9 +94,10 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
   return (
     <div
       ref={bannerRef}
+      data-announcement
       role="status"
       aria-label="Announcement"
-      className={`sticky top-(--header-h) z-40 flex items-center justify-center gap-2 bg-pink-500 px-4 py-2 transition-transform duration-300 ${
+      className={`sticky top-(--header-h) z-40 flex min-h-9 items-center justify-center gap-2 bg-pink-500 px-4 py-2 transition-transform duration-300 ${
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >

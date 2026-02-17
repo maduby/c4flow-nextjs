@@ -8,6 +8,6 @@ export const client = createClient({
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION!,
   useCdn: !isDev,
   stega: {
-    studioUrl: "/studio",
+    studioUrl: "/admin",
   },
 });

@@ -22,7 +22,7 @@ export const contactFormSection = defineType({
       name: "successMessage",
       title: "Success Message",
       type: "string",
-      initialValue: "Thank you! Your message has been sent.",
+      initialValue: "Thank you! We'll get back to you as soon as possible.",
     }),
   ],
   preview: {
