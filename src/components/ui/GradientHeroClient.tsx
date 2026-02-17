@@ -12,8 +12,6 @@ interface GradientHeroClientProps {
   ctaUrl?: string | null;
 }
 
-const CLIP_PATH =
-  "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)";
 
 const SPRING_CONFIG = { stiffness: 50, damping: 30, mass: 1 };
 
@@ -72,10 +70,7 @@ export function GradientHeroClient({
         className="absolute -top-10 right-1/2 -z-10 mr-10 hidden transform-gpu blur-3xl sm:block"
         style={{ x: springAx, y: springAy }}
       >
-        <div
-          style={{ clipPath: CLIP_PATH }}
-          className="aspect-1097/845 w-274 bg-linear-to-tr from-pink-300 to-primary-300 opacity-20"
-        />
+        <div className="blob-clip aspect-1097/845 w-274 bg-linear-to-tr from-pink-300 to-primary-300 opacity-20" />
       </motion.div>
 
       {/* Decorative blob — top-left */}
@@ -84,10 +79,7 @@ export function GradientHeroClient({
         className="absolute -top-52 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl sm:ml-16 sm:-top-112 sm:translate-x-0"
         style={{ x: springBx, y: springBy }}
       >
-        <div
-          style={{ clipPath: CLIP_PATH }}
-          className="aspect-1097/845 w-274 bg-linear-to-tr from-pink-400 to-primary-400 opacity-15"
-        />
+        <div className="blob-clip aspect-1097/845 w-274 bg-linear-to-tr from-pink-400 to-primary-400 opacity-15" />
       </motion.div>
 
       <div className="mx-auto max-w-2xl text-center">

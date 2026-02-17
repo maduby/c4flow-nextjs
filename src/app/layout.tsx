@@ -114,13 +114,8 @@ export default async function RootLayout({
     <html
       lang="en"
       className={`${montserrat.variable} ${mynerve.variable}`}
-      style={
-        {
-          "--top-offset":
-            announcement?.enabled && announcement?.text
-              ? "93px"  /* header (~57px) + banner (~36px) */
-              : "57px", /* header only */
-        } as React.CSSProperties
+      data-has-banner={
+        announcement?.enabled && announcement?.text ? "" : undefined
       }
     >
       <head>

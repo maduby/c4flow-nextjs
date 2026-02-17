@@ -67,6 +67,14 @@
   --breakpoint-2xl: 1920px;
 }
 
+/* ===== Top offset for hero height calculation ===== */
+:root {
+  --top-offset: 57px; /* header only */
+}
+html[data-has-banner] {
+  --top-offset: 93px; /* header + banner */
+}
+
 /* ===== Base Styles ===== */
 
 body {
@@ -224,6 +232,54 @@ button {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* ===== Decorative blob clip-path ===== */
+.blob-clip {
+  clip-path: polygon(
+    74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%,
+    80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%,
+    47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%,
+    17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%
+  );
+}
+
+/* ===== Feature Grid card variants ===== */
+.feature-card-1 {
+  border-radius: 36px 14px 30px 14px;
+  background-image: linear-gradient(135deg, #ebe4ff 0%, #ffe8ef 50%, #ebe4ff 100%);
+  background-size: 200% 200%;
+}
+.feature-card-2 {
+  border-radius: 14px 36px 14px 30px;
+  background-image: linear-gradient(135deg, #ffe8ef 0%, #fff8e2 50%, #ffe8ef 100%);
+  background-size: 200% 200%;
+}
+.feature-card-3 {
+  border-radius: 30px 14px 14px 36px;
+  background-image: linear-gradient(135deg, #d5dfff 0%, #ebe4ff 50%, #d5dfff 100%);
+  background-size: 200% 200%;
+}
+.feature-card-4 {
+  border-radius: 14px 30px 36px 14px;
+  background-image: linear-gradient(135deg, #ffe8ef 0%, #def4f0 50%, #ffe8ef 100%);
+  background-size: 200% 200%;
+}
+
+.feature-blob-1 { border-radius: 60% 40% 50% 50% / 55% 45% 55% 45%; background: linear-gradient(135deg, rgba(103,61,230,0.25) 0%, rgba(252,81,133,0.18) 100%); }
+.feature-blob-2 { border-radius: 45% 55% 40% 60% / 50% 50% 55% 45%; background: linear-gradient(135deg, rgba(252,81,133,0.22) 0%, rgba(254,164,25,0.15) 100%); }
+.feature-blob-3 { border-radius: 50% 50% 60% 40% / 40% 60% 45% 55%; background: linear-gradient(135deg, rgba(80,37,209,0.2) 0%, rgba(179,158,243,0.18) 100%); }
+.feature-blob-4 { border-radius: 55% 45% 45% 55% / 60% 40% 50% 50%; background: linear-gradient(135deg, rgba(252,81,133,0.2) 0%, rgba(0,176,144,0.15) 100%); }
+
+.feature-icon-1 { border-radius: 60% 40% 50% 50% / 55% 45% 55% 45%; background: linear-gradient(135deg, #673de6 0%, #fc5185 100%); }
+.feature-icon-2 { border-radius: 45% 55% 40% 60% / 50% 50% 55% 45%; background: linear-gradient(135deg, #fc5185 0%, #fea419 100%); }
+.feature-icon-3 { border-radius: 50% 50% 60% 40% / 40% 60% 45% 55%; background: linear-gradient(135deg, #5025d1 0%, #8c85ff 100%); }
+.feature-icon-4 { border-radius: 55% 45% 45% 55% / 60% 40% 50% 50%; background: linear-gradient(135deg, #fc5185 0%, #00b090 100%); }
+
+.feature-ambient-glow {
+  border-radius: 50% 50% 40% 60% / 60% 40% 55% 45%;
+  background: radial-gradient(ellipse at 35% 45%, rgba(103,61,230,0.1) 0%, rgba(252,81,133,0.08) 45%, transparent 70%);
+  filter: blur(50px);
 }
 
 /* ===== Feature Cards — slow gradient shimmer ===== */
