@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { Clock, Calendar, Tag } from "lucide-react";
+import { motion } from "framer-motion";
 import { urlFor } from "@/sanity/lib/image";
 import { formatCurrency } from "@/lib/utils";
 import { BookNowLink } from "@/components/ui/BookNowLink";
@@ -43,7 +46,6 @@ export function ClassCard({ danceClass, bannerDiscount }: ClassCardProps) {
 
   const originalPrice = price || 0;
 
-  // Banner discount takes priority, then manual salePrice
   const effectiveSalePrice = bannerDiscount
     ? Math.floor(originalPrice * (1 - bannerDiscount / 100))
     : salePrice;
@@ -51,7 +53,14 @@ export function ClassCard({ danceClass, bannerDiscount }: ClassCardProps) {
   const hasDiscount = effectiveSalePrice && effectiveSalePrice < originalPrice;
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-border bg-white shadow-card transition-shadow hover:shadow-card-hover">
+    <motion.article
+      className="group overflow-hidden rounded-2xl border border-border/60 bg-white shadow-card"
+      whileHover={{
+        y: -4,
+        boxShadow: "0 20px 40px -12px rgba(0,0,0,0.12)",
+        transition: { duration: 0.3, ease: "easeOut" },
+      }}
+    >
       {/* Image */}
       {image?.asset && (
         <div className="relative aspect-4/3 overflow-hidden">
@@ -123,6 +132,6 @@ export function ClassCard({ danceClass, bannerDiscount }: ClassCardProps) {
           />
         )}
       </div>
-    </article>
+    </motion.article>
   );
 }

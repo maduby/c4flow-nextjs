@@ -4,14 +4,28 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 import { trackNavClick, trackBookNow } from "@/lib/analytics";
 
 interface HeaderProps {
   siteName: string;
   logoUrl?: string | null;
 }
+
+const menuVariants = {
+  closed: { height: 0, opacity: 0 },
+  open: { height: "auto", opacity: 1 },
+};
+
+const linkVariants = {
+  closed: { opacity: 0, y: -8 },
+  open: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: 0.05 * i, duration: 0.25 },
+  }),
+};
 
 export function Header({ siteName, logoUrl }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -59,6 +73,7 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
             <Link
               key={link.href}
               href={link.href}
+              onClick={() => trackNavClick(link.label)}
               className="text-sm font-medium text-neutral-600 underline decoration-primary-400/0 underline-offset-4 hover:text-primary-500 hover:decoration-primary-400/50"
             >
               {link.label}
@@ -68,6 +83,7 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
             href="https://movetoexpresswithc4flow.setmore.com/"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackBookNow(undefined, "header")}
             className="rounded-full bg-pink-500 px-5 py-2 text-sm font-medium text-white hover:bg-pink-600"
           >
             Book Now
@@ -76,50 +92,99 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
         </nav>
 
         {/* Mobile menu button */}
-        <button
+        <motion.button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-50 md:hidden"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-nav"
+          whileTap={{ scale: 0.9 }}
         >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          <AnimatePresence mode="wait" initial={false}>
+            {mobileMenuOpen ? (
+              <motion.span
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <X size={24} />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="menu"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Menu size={24} />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
       </div>
 
       {/* Mobile nav */}
-      <div
-        id="mobile-nav"
-        role="region"
-        aria-label="Mobile navigation"
-        className={cn(
-          "overflow-hidden border-t border-border transition-all duration-300 md:hidden",
-          mobileMenuOpen ? "max-h-96" : "max-h-0 border-t-0"
-        )}
-      >
-        <nav className="flex flex-col gap-1 px-4 py-4">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={closeMenu}
-              className="rounded-lg px-3 py-2 text-base font-medium text-neutral-600 hover:bg-neutral-50 hover:text-primary-500"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            href="https://movetoexpresswithc4flow.setmore.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={closeMenu}
-            className="mt-2 rounded-full bg-pink-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-pink-600"
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            id="mobile-nav"
+            role="region"
+            aria-label="Mobile navigation"
+            className="overflow-hidden border-t border-border md:hidden"
+            variants={menuVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            Book Now
-            <span className="sr-only"> (opens in new tab)</span>
-          </Link>
-        </nav>
-      </div>
+            <nav className="flex flex-col gap-1 px-4 py-4">
+              {NAV_LINKS.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  custom={i}
+                  variants={linkVariants}
+                  initial="closed"
+                  animate="open"
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => {
+                      closeMenu();
+                      trackNavClick(`${link.label}_mobile`);
+                    }}
+                    className="block rounded-lg px-3 py-2 text-base font-medium text-neutral-600 hover:bg-neutral-50 hover:text-primary-500"
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+              <motion.div
+                custom={NAV_LINKS.length}
+                variants={linkVariants}
+                initial="closed"
+                animate="open"
+              >
+                <Link
+                  href="https://movetoexpresswithc4flow.setmore.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    closeMenu();
+                    trackBookNow(undefined, "header_mobile");
+                  }}
+                  className="mt-2 block rounded-full bg-pink-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-pink-600"
+                >
+                  Book Now
+                  <span className="sr-only"> (opens in new tab)</span>
+                </Link>
+              </motion.div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import { trackGalleryOpen } from "@/lib/analytics";
 import Captions from "yet-another-react-lightbox/plugins/captions";
@@ -23,6 +24,20 @@ interface GalleryGridProps {
   images: GalleryImage[];
 }
 
+const gridVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+};
+
 export function GalleryGrid({ images }: GalleryGridProps) {
   const [index, setIndex] = useState(-1);
 
@@ -39,14 +54,23 @@ export function GalleryGrid({ images }: GalleryGridProps) {
 
   return (
     <>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.div
+        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        variants={gridVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
         {images.map((image, i) => (
-          <button
+          <motion.button
             key={image._key}
             type="button"
             onClick={() => openLightbox(i)}
             className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2"
             aria-label={`View ${image.alt || "gallery image"} in lightbox`}
+            variants={itemVariants}
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.3 }}
           >
             <Image
               src={image.thumbUrl}
@@ -85,9 +109,9 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 <line x1="3" y1="21" x2="10" y2="14" />
               </svg>
             </div>
-          </button>
+          </motion.button>
         ))}
-      </div>
+      </motion.div>
 
       <Lightbox
         open={index >= 0}

@@ -6,12 +6,27 @@ import {
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ClassCard } from "@/components/ui/ClassCard";
+import { MotionDiv } from "@/components/shared/MotionDiv";
 
 interface ClassesSectionProps {
   heading?: string | null;
   subtitle?: string | null;
   showBookingNote?: boolean | null;
 }
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const cardReveal = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" as const },
+  },
+};
 
 export async function ClassesSection({
   heading,
@@ -25,7 +40,6 @@ export async function ClassesSection({
 
   if (!classes?.length) return null;
 
-  // Determine if a banner discount is active
   const promoActive =
     announcement?.enabled &&
     announcement?.discountEnabled &&
@@ -48,21 +62,26 @@ export async function ClassesSection({
   }
 
   return (
-    <section className="bg-muted py-16 md:py-24">
+    <section className="relative overflow-hidden bg-muted py-20 md:py-28">
       <Container>
         <SectionHeading subtitle={subtitle}>
           {heading || "Our Classes"}
         </SectionHeading>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <MotionDiv
+          className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+          variants={staggerContainer}
+          viewport={{ once: true, amount: 0.15 }}
+        >
           {classes.map((cls) => (
-            <ClassCard
-              key={cls._id}
-              danceClass={cls}
-              bannerDiscount={getDiscountForClass(cls._id)}
-            />
+            <MotionDiv key={cls._id} variants={cardReveal}>
+              <ClassCard
+                danceClass={cls}
+                bannerDiscount={getDiscountForClass(cls._id)}
+              />
+            </MotionDiv>
           ))}
-        </div>
+        </MotionDiv>
 
         {showBookingNote && (
           <p className="mt-8 text-center text-sm text-neutral-400">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { trackBannerClick, trackBannerDismiss } from "@/lib/analytics";
 
 const STORAGE_KEY = "c4flow-banner-dismissed";
@@ -35,40 +36,46 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
         localStorage.setItem(STORAGE_KEY, version);
       }
     } catch {
-      /* localStorage unavailable (private browsing, etc.) */
+      /* localStorage unavailable */
     }
   }
-
-  if (!visible) return null;
 
   const content = (
     <span className="text-sm font-medium text-white">{text}</span>
   );
 
   return (
-    <div
-      role="status"
-      aria-label="Announcement"
-      className="relative flex items-center justify-center gap-2 bg-pink-500 px-4 py-2"
-    >
-      {link ? (
-        <a
-          href={link}
-          onClick={trackBannerClick}
-          className="underline decoration-white/0 underline-offset-2 hover:decoration-white/70"
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          role="status"
+          aria-label="Announcement"
+          className="relative flex items-center justify-center gap-2 bg-pink-500 px-4 py-2"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          {content}
-        </a>
-      ) : (
-        content
+          {link ? (
+            <a
+              href={link}
+              onClick={trackBannerClick}
+              className="underline decoration-white/0 underline-offset-2 hover:decoration-white/70"
+            >
+              {content}
+            </a>
+          ) : (
+            content
+          )}
+          <button
+            onClick={dismiss}
+            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-white/80 hover:bg-white/20 hover:text-white"
+            aria-label="Dismiss announcement"
+          >
+            <X size={16} />
+          </button>
+        </motion.div>
       )}
-      <button
-        onClick={dismiss}
-        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-white/80 hover:bg-white/20 hover:text-white"
-        aria-label="Dismiss announcement"
-      >
-        <X size={16} />
-      </button>
-    </div>
+    </AnimatePresence>
   );
 }
