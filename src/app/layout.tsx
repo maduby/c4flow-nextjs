@@ -102,8 +102,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const [{ data: settings }, { data: announcement }] = await Promise.all([
-    sanityFetch({ query: SITE_SETTINGS_QUERY }),
-    sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY }),
+    sanityFetch({ query: SITE_SETTINGS_QUERY, stega: false }),
+    sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY, stega: false }),
   ]);
 
   const logoUrl = settings?.logo?.asset

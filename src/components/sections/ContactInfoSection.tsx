@@ -21,6 +21,7 @@ export async function ContactInfoSection({
 }: ContactInfoSectionProps) {
   const { data: settings } = await sanityFetch({
     query: SITE_SETTINGS_QUERY,
+    stega: false,
   });
 
   if (!settings) return null;

@@ -104,7 +104,7 @@ export async function ScheduleSection({
   const [{ data: schedule }, { data: announcement }, { data: discountDoc }] =
     await Promise.all([
       sanityFetch({ query: WEEKLY_SCHEDULE_QUERY }),
-      sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY }),
+      sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY, stega: false }),
       sanityFetch({ query: DISCOUNT_QUERY, stega: false }),
     ]);
 

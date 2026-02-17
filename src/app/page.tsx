@@ -36,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   const [{ data: page }, { data: settings }] = await Promise.all([
     sanityFetch({ query: PAGE_BY_SLUG_QUERY, params: { slug: "home" } }),
-    sanityFetch({ query: SITE_SETTINGS_QUERY }),
+    sanityFetch({ query: SITE_SETTINGS_QUERY, stega: false }),
   ]);
 
   if (!page) notFound();
