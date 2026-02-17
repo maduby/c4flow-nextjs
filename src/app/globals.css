@@ -217,8 +217,19 @@ button {
   );
 }
 
-/* ===== Feature Cards — bold organic style ===== */
-/* Border + hover handled by Framer Motion; base border stays in CSS */
+/* ===== Feature Cards — slow gradient shimmer ===== */
 .feature-card {
-  border: 2px solid rgba(179, 158, 243, 0.35);
+  border: 2px solid rgba(179, 158, 243, 0.3);
+  animation: feature-gradient-shift 8s ease infinite;
+  cursor: default;
+}
+
+@keyframes feature-gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }

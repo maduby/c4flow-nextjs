@@ -48,6 +48,7 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
               <FeatureGridSection
                 key={section._key}
                 heading={section.heading as string | null}
+                subtitle={section.subtitle as string | null}
                 features={section.features as never}
               />
             );

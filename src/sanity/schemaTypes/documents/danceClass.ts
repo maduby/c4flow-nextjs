@@ -102,7 +102,7 @@ export const danceClass = defineType({
       type: "url",
       group: "pricing",
       description:
-        'The Setmore link for this class. Visitors click "Book Now" and are taken here.',
+        'The Setmore link for this specific class. If left empty, the "Book Now" button links to the main Setmore booking page instead.',
     }),
 
     // ── Schedule ──

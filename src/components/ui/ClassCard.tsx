@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { urlFor } from "@/sanity/lib/image";
 import { formatCurrency } from "@/lib/utils";
 import { BookNowLink } from "@/components/ui/BookNowLink";
+import { SITE_CONFIG } from "@/lib/constants";
 
 interface ScheduleEntry {
   _key: string;
@@ -51,6 +52,8 @@ export function ClassCard({ danceClass, bannerDiscount }: ClassCardProps) {
     : salePrice;
 
   const hasDiscount = effectiveSalePrice && effectiveSalePrice < originalPrice;
+
+  const resolvedBookingUrl = bookingUrl || SITE_CONFIG.booking.url;
 
   return (
     <motion.article
@@ -122,15 +125,13 @@ export function ClassCard({ danceClass, bannerDiscount }: ClassCardProps) {
           )}
         </div>
 
-        {/* Book button */}
-        {bookingUrl && (
-          <BookNowLink
-            href={bookingUrl}
-            label={name || "class"}
-            source="class_card"
-            className="block w-full rounded-full bg-pink-500 py-2.5 text-center text-sm font-medium text-white hover:bg-pink-600"
-          />
-        )}
+        {/* Book button — falls back to main Setmore page if no class-specific URL */}
+        <BookNowLink
+          href={resolvedBookingUrl}
+          label={name || "class"}
+          source="class_card"
+          className="block w-full rounded-full bg-pink-500 py-2.5 text-center text-sm font-medium text-white hover:bg-pink-600"
+        />
       </div>
     </motion.article>
   );

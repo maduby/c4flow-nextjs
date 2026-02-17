@@ -4,6 +4,7 @@ import { Clock } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { BookNowLink } from "@/components/ui/BookNowLink";
+import { SITE_CONFIG } from "@/lib/constants";
 
 interface ScheduleSectionProps {
   heading?: string | null;
@@ -13,7 +14,7 @@ interface ScheduleSectionProps {
 interface ScheduleEntry {
   className: string;
   time: string;
-  bookingUrl: string | null;
+  bookingUrl: string;
 }
 
 const DAY_ORDER = [
@@ -41,7 +42,7 @@ export async function ScheduleSection({
       scheduleByDay.get(day)!.push({
         className: cls.name || "Class",
         time: entry.time,
-        bookingUrl: cls.bookingUrl,
+        bookingUrl: cls.bookingUrl || SITE_CONFIG.booking.url,
       });
     }
   }
@@ -83,17 +84,15 @@ export async function ScheduleSection({
                         {entry.time}
                       </p>
                     </div>
-                    {entry.bookingUrl && (
-                      <BookNowLink
-                        href={entry.bookingUrl}
-                        label={entry.className}
-                        source="schedule_mobile"
-                        ariaLabel={`Book ${entry.className} on ${day}`}
-                        className="shrink-0 rounded-full bg-pink-500 px-4 py-1.5 text-xs font-medium text-white hover:bg-pink-600"
-                      >
-                        Book
-                      </BookNowLink>
-                    )}
+                    <BookNowLink
+                      href={entry.bookingUrl}
+                      label={entry.className}
+                      source="schedule_mobile"
+                      ariaLabel={`Book ${entry.className} on ${day}`}
+                      className="shrink-0 rounded-full bg-pink-500 px-4 py-1.5 text-xs font-medium text-white hover:bg-pink-600"
+                    >
+                      Book
+                    </BookNowLink>
                   </div>
                 ))}
               </div>
@@ -139,17 +138,15 @@ export async function ScheduleSection({
                     </td>
                     <td className="px-6 py-4 text-neutral-600">{entry.time}</td>
                     <td className="px-6 py-4 text-right">
-                      {entry.bookingUrl && (
-                        <BookNowLink
-                          href={entry.bookingUrl}
-                          label={entry.className}
-                          source="schedule_table"
-                          ariaLabel={`Book ${entry.className} on ${day}`}
-                          className="text-sm font-medium text-pink-500 hover:text-pink-600"
-                        >
-                          Book
-                        </BookNowLink>
-                      )}
+                      <BookNowLink
+                        href={entry.bookingUrl}
+                        label={entry.className}
+                        source="schedule_table"
+                        ariaLabel={`Book ${entry.className} on ${day}`}
+                        className="text-sm font-medium text-pink-500 hover:text-pink-600"
+                      >
+                        Book
+                      </BookNowLink>
                     </td>
                   </tr>
                 ))

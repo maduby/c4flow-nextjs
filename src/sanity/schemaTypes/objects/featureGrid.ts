@@ -13,9 +13,18 @@ export const featureGrid = defineType({
       type: "string",
     }),
     defineField({
+      name: "subtitle",
+      title: "Subtitle",
+      type: "text",
+      rows: 2,
+      description: "Optional short text shown below the heading.",
+    }),
+    defineField({
       name: "features",
       title: "Features",
       type: "array",
+      description:
+        'Click "+ Add item" to add a feature card. Drag to reorder. The grid adjusts automatically based on how many cards you add (up to 6).',
       of: [
         defineArrayMember({
           type: "object",
