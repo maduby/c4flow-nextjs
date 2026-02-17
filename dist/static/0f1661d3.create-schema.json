@@ -1,0 +1,2230 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The studio name shown in the header, footer, and browser tab.",
+        "name": "siteName",
+        "type": "string"
+      },
+      {
+        "description": "Shown below the name in the footer, e.g. \"Pole & Exotic Dance Studio\".",
+        "name": "tagline",
+        "type": "string"
+      },
+      {
+        "description": "An optional italic line, e.g. \"Move to Express\".",
+        "name": "motto",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "The C4 Flow logo. Used in the header, footer, and hero section. PNG with transparent background works best.",
+        "name": "logo",
+        "type": "image"
+      },
+      {
+        "description": "Small icon shown in the browser tab. Square image, ideally 512 x 512 px.",
+        "name": "favicon",
+        "type": "image"
+      },
+      {
+        "description": "Shown in the footer and used for the contact form.",
+        "name": "contactEmail",
+        "type": "string"
+      },
+      {
+        "description": "Include country code, e.g. \"+27 65 391 7901\".",
+        "name": "phone",
+        "type": "string",
+        "title": "Phone Number"
+      },
+      {
+        "description": "International format WITHOUT the + sign, e.g. \"27653917901\". This powers the green WhatsApp button on every page.",
+        "name": "whatsappNumber",
+        "type": "string",
+        "title": "WhatsApp Number"
+      },
+      {
+        "description": "Pre-filled message when someone clicks the WhatsApp button. Leave empty for no pre-filled text.",
+        "name": "whatsappMessage",
+        "type": "string",
+        "title": "WhatsApp Default Message"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Full URL to the studio Instagram profile.",
+        "name": "instagramUrl",
+        "type": "url",
+        "title": "Instagram (Studio)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Full URL to the instructor's personal Instagram.",
+        "name": "instructorInstagramUrl",
+        "type": "url",
+        "title": "Instagram (Instructor)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The main Setmore booking link. Used for the \"Book Now\" button in the navigation.",
+        "name": "bookingUrl",
+        "type": "url",
+        "title": "Booking Platform URL"
+      },
+      {
+        "description": "The physical address shown in the footer and on the contact page.",
+        "fields": [
+          {
+            "name": "building",
+            "type": "string",
+            "title": "Building Name"
+          },
+          {
+            "name": "street",
+            "type": "string",
+            "title": "Street Address"
+          },
+          {
+            "name": "city",
+            "type": "string"
+          },
+          {
+            "name": "province",
+            "type": "string"
+          },
+          {
+            "name": "postalCode",
+            "type": "string"
+          }
+        ],
+        "name": "address",
+        "type": "object",
+        "title": "Studio Address"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Go to Google Maps, find the studio, click \"Share\" → \"Copy link\" and paste it here.",
+        "name": "mapsUrl",
+        "type": "url",
+        "title": "Google Maps Link"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "This image appears when someone shares a page on Facebook, WhatsApp, or Twitter. Recommended size: 1200 x 630 pixels.",
+        "name": "defaultOgImage",
+        "type": "image",
+        "title": "Default Social Share Image"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "description": "The coloured banner shown at the very top of every page. Use it for promotions, new class announcements, or important notices. You can also attach a discount that automatically reduces class prices while the banner is live.",
+    "fields": [
+      {
+        "initialValue": false,
+        "description": "Turn this ON to show the banner on every page. Turn it OFF to hide the banner AND remove any active discount from class prices.",
+        "name": "enabled",
+        "type": "boolean",
+        "title": "Show Banner"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "max",
+                "constraint": 120
+              }
+            ],
+            "level": "warning",
+            "message": "Keep under 120 characters so it fits on mobile."
+          }
+        ],
+        "description": "Keep it short — one sentence. Example: \"SALE! 25% OFF all group classes until end of March 2026\"",
+        "name": "text",
+        "type": "string",
+        "title": "Banner Text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": true,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "If set, visitors can click the banner to go to this page (e.g. the booking link).",
+        "name": "link",
+        "type": "url",
+        "title": "Link URL (optional)"
+      },
+      {
+        "initialValue": false,
+        "description": "When ON, class prices on the website are automatically reduced by the percentage below. Only works while the banner is also enabled.",
+        "name": "discountEnabled",
+        "type": "boolean",
+        "title": "Enable Price Discount"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 99
+              },
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The percentage to reduce prices by. Enter 25 for \"25% off\". Prices are rounded down to the nearest Rand.",
+        "name": "discountPercent",
+        "type": "number",
+        "title": "Discount Percentage"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "All classes",
+              "value": "all"
+            },
+            {
+              "title": "Specific classes only",
+              "value": "specific"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "all",
+        "description": "Choose whether the discount applies to all classes or just specific ones.",
+        "hidden": "conditional",
+        "name": "discountScope",
+        "type": "string",
+        "title": "Apply Discount To"
+      },
+      {
+        "description": "Pick which classes get the discount. Leave empty if applying to all.",
+        "of": [
+          {
+            "to": [
+              {
+                "type": "danceClass"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to dance class"
+          }
+        ],
+        "hidden": "conditional",
+        "name": "discountClasses",
+        "type": "array",
+        "title": "Discounted Classes"
+      },
+      {
+        "initialValue": true,
+        "description": "When ON, this promotion also appears as a notice card above the weekly schedule — giving it more visibility with room for extra detail.",
+        "name": "showInSchedule",
+        "type": "boolean",
+        "title": "Also Show in Weekly Schedule"
+      },
+      {
+        "rows": 3,
+        "description": "A longer version of the banner message shown in the schedule section. Example: \"Bring your partner or galentine and enjoy discounted rates all weekend.\"",
+        "hidden": "conditional",
+        "name": "scheduleText",
+        "type": "text",
+        "title": "Schedule Notice Text"
+      }
+    ],
+    "name": "announcementBar",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Internal name for this page (also used as a fallback for the browser tab title).",
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "options": {
+          "source": "title"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The page URL path. \"home\" = homepage, \"about\" = /about, \"classes\" = /classes, etc. Click \"Generate\" to auto-create from the title.",
+        "name": "slug",
+        "type": "slug",
+        "title": "URL Slug"
+      },
+      {
+        "description": "Build your page by adding sections below. Click \"+ Add item\" and choose a section type (Hero, Classes, Gallery, etc.). Drag to reorder.",
+        "of": [
+          {
+            "type": "hero",
+            "title": "Hero Section"
+          },
+          {
+            "type": "featureGrid"
+          },
+          {
+            "type": "classesSection"
+          },
+          {
+            "type": "instructorSection"
+          },
+          {
+            "type": "scheduleSection"
+          },
+          {
+            "type": "richTextSection"
+          },
+          {
+            "type": "gallerySection"
+          },
+          {
+            "type": "ctaSection",
+            "title": "Call to Action"
+          },
+          {
+            "type": "contactFormSection"
+          },
+          {
+            "type": "testimonialsSection"
+          },
+          {
+            "type": "mapSection"
+          }
+        ],
+        "name": "sections",
+        "type": "array",
+        "title": "Page Sections"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "warning",
+            "message": "Keep under 60 characters for best SEO"
+          }
+        ],
+        "name": "seoTitle",
+        "type": "string",
+        "title": "SEO Title"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "warning",
+            "message": "Keep under 160 characters for best SEO"
+          }
+        ],
+        "name": "seoDescription",
+        "type": "text",
+        "title": "SEO Description"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Image shown when shared on social media (1200x630 recommended)",
+        "name": "ogImage",
+        "type": "image",
+        "title": "Open Graph Image"
+      }
+    ],
+    "name": "page",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The instructor's display name.",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "description": "Shown below the name, e.g. \"Pole dance instructor\".",
+        "name": "title",
+        "type": "string",
+        "title": "Job Title"
+      },
+      {
+        "description": "A short line, e.g. \"4 years experience\".",
+        "name": "experience",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "A portrait photo. Vertical/portrait orientation works best (3:4 ratio). Use the hotspot tool to set the focal point.",
+        "name": "photo",
+        "type": "image"
+      },
+      {
+        "rows": 3,
+        "description": "A 1–2 sentence summary shown when there's no full bio. Keep it personal and welcoming.",
+        "name": "shortBio",
+        "type": "text"
+      },
+      {
+        "description": "A longer biography with rich text formatting. Shown on the About page.",
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "bio",
+        "type": "array",
+        "title": "Full Bio"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Full link to the instructor's Instagram profile.",
+        "name": "instagramUrl",
+        "type": "url",
+        "title": "Instagram Profile URL"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Personal Setmore booking link. Powers the \"Book a Session\" button.",
+        "name": "bookingUrl",
+        "type": "url",
+        "title": "Booking Link"
+      }
+    ],
+    "name": "instructor",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": true,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Only active classes are shown on the website. Turn off to hide a class without deleting it.",
+        "name": "active",
+        "type": "boolean"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The name shown on the website, e.g. \"Group Pole Class\".",
+        "name": "name",
+        "type": "string",
+        "title": "Class Name"
+      },
+      {
+        "options": {
+          "source": "name"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Auto-generated from the name. Click Generate to create it.",
+        "name": "slug",
+        "type": "slug",
+        "title": "URL Slug"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "A photo representing this class. Landscape orientation works best (4:3 ratio).",
+        "name": "image",
+        "type": "image",
+        "title": "Class Image"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 200
+              }
+            ],
+            "level": "warning",
+            "message": "Keep under 200 characters for clean card layout."
+          }
+        ],
+        "description": "A brief summary shown on class cards (1–2 sentences).",
+        "name": "shortDescription",
+        "type": "text"
+      },
+      {
+        "description": "Detailed description shown on the class detail page.",
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "description",
+        "type": "array",
+        "title": "Full Description"
+      },
+      {
+        "initialValue": 0,
+        "description": "Controls the order classes appear on the website. Lower numbers show first (e.g. 1 = first, 2 = second).",
+        "name": "order",
+        "type": "number",
+        "title": "Display Order"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The normal price in Rands. Just enter the number, e.g. \"350\".",
+        "name": "price",
+        "type": "number",
+        "title": "Regular Price (ZAR)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 0
+              },
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Optional — set a sale price to show a discount on the website. The regular price will appear crossed out. Clear this field to end the sale.",
+        "name": "salePrice",
+        "type": "number",
+        "title": "Sale Price (ZAR)"
+      },
+      {
+        "initialValue": 60,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "How long the class runs, e.g. 60 for a 1-hour class.",
+        "name": "duration",
+        "type": "number",
+        "title": "Duration (minutes)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The Setmore link for this specific class. If left empty, the \"Book Now\" button links to the main Setmore booking page instead.",
+        "name": "bookingUrl",
+        "type": "url",
+        "title": "Booking Link"
+      }
+    ],
+    "name": "danceClass",
+    "type": "document"
+  },
+  {
+    "description": "Messages sent via the contact form on the website. These are read-only — you can mark them as read but cannot edit the content.",
+    "fields": [
+      {
+        "readOnly": true,
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "readOnly": true,
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "readOnly": true,
+        "name": "message",
+        "type": "text"
+      },
+      {
+        "initialValue": false,
+        "description": "Check this box once you've responded to the message.",
+        "readOnly": false,
+        "name": "read",
+        "type": "boolean",
+        "title": "Mark as Read"
+      },
+      {
+        "readOnly": true,
+        "name": "submittedAt",
+        "type": "datetime"
+      }
+    ],
+    "readOnly": true,
+    "name": "contactSubmission",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "description": "Add a row for every class on the weekly schedule. Click \"+ Add item\", choose the day, time, and class. Drag rows to reorder.",
+        "of": [
+          {
+            "fields": [
+              {
+                "options": {
+                  "list": [
+                    {
+                      "title": "Monday",
+                      "value": "Monday"
+                    },
+                    {
+                      "title": "Tuesday",
+                      "value": "Tuesday"
+                    },
+                    {
+                      "title": "Wednesday",
+                      "value": "Wednesday"
+                    },
+                    {
+                      "title": "Thursday",
+                      "value": "Thursday"
+                    },
+                    {
+                      "title": "Friday",
+                      "value": "Friday"
+                    },
+                    {
+                      "title": "Saturday",
+                      "value": "Saturday"
+                    },
+                    {
+                      "title": "Sunday",
+                      "value": "Sunday"
+                    }
+                  ],
+                  "layout": "dropdown"
+                },
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "valid",
+                        "constraint": [
+                          "Monday",
+                          "Tuesday",
+                          "Wednesday",
+                          "Thursday",
+                          "Friday",
+                          "Saturday",
+                          "Sunday"
+                        ]
+                      },
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "description": "Which day of the week?",
+                "name": "day",
+                "type": "string"
+              },
+              {
+                "options": {
+                  "list": [
+                    "6 AM",
+                    "6:15 AM",
+                    "6:30 AM",
+                    "6:45 AM",
+                    "7 AM",
+                    "7:15 AM",
+                    "7:30 AM",
+                    "7:45 AM",
+                    "8 AM",
+                    "8:15 AM",
+                    "8:30 AM",
+                    "8:45 AM",
+                    "9 AM",
+                    "9:15 AM",
+                    "9:30 AM",
+                    "9:45 AM",
+                    "10 AM",
+                    "10:15 AM",
+                    "10:30 AM",
+                    "10:45 AM",
+                    "11 AM",
+                    "11:15 AM",
+                    "11:30 AM",
+                    "11:45 AM",
+                    "12 PM",
+                    "12:15 PM",
+                    "12:30 PM",
+                    "12:45 PM",
+                    "1 PM",
+                    "1:15 PM",
+                    "1:30 PM",
+                    "1:45 PM",
+                    "2 PM",
+                    "2:15 PM",
+                    "2:30 PM",
+                    "2:45 PM",
+                    "3 PM",
+                    "3:15 PM",
+                    "3:30 PM",
+                    "3:45 PM",
+                    "4 PM",
+                    "4:15 PM",
+                    "4:30 PM",
+                    "4:45 PM",
+                    "5 PM",
+                    "5:15 PM",
+                    "5:30 PM",
+                    "5:45 PM",
+                    "6 PM",
+                    "6:15 PM",
+                    "6:30 PM",
+                    "6:45 PM",
+                    "7 PM",
+                    "7:15 PM",
+                    "7:30 PM",
+                    "7:45 PM",
+                    "8 PM",
+                    "8:15 PM",
+                    "8:30 PM",
+                    "8:45 PM",
+                    "9 PM",
+                    "9:15 PM",
+                    "9:30 PM",
+                    "9:45 PM"
+                  ]
+                },
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "valid",
+                        "constraint": [
+                          "6 AM",
+                          "6:15 AM",
+                          "6:30 AM",
+                          "6:45 AM",
+                          "7 AM",
+                          "7:15 AM",
+                          "7:30 AM",
+                          "7:45 AM",
+                          "8 AM",
+                          "8:15 AM",
+                          "8:30 AM",
+                          "8:45 AM",
+                          "9 AM",
+                          "9:15 AM",
+                          "9:30 AM",
+                          "9:45 AM",
+                          "10 AM",
+                          "10:15 AM",
+                          "10:30 AM",
+                          "10:45 AM",
+                          "11 AM",
+                          "11:15 AM",
+                          "11:30 AM",
+                          "11:45 AM",
+                          "12 PM",
+                          "12:15 PM",
+                          "12:30 PM",
+                          "12:45 PM",
+                          "1 PM",
+                          "1:15 PM",
+                          "1:30 PM",
+                          "1:45 PM",
+                          "2 PM",
+                          "2:15 PM",
+                          "2:30 PM",
+                          "2:45 PM",
+                          "3 PM",
+                          "3:15 PM",
+                          "3:30 PM",
+                          "3:45 PM",
+                          "4 PM",
+                          "4:15 PM",
+                          "4:30 PM",
+                          "4:45 PM",
+                          "5 PM",
+                          "5:15 PM",
+                          "5:30 PM",
+                          "5:45 PM",
+                          "6 PM",
+                          "6:15 PM",
+                          "6:30 PM",
+                          "6:45 PM",
+                          "7 PM",
+                          "7:15 PM",
+                          "7:30 PM",
+                          "7:45 PM",
+                          "8 PM",
+                          "8:15 PM",
+                          "8:30 PM",
+                          "8:45 PM",
+                          "9 PM",
+                          "9:15 PM",
+                          "9:30 PM",
+                          "9:45 PM"
+                        ]
+                      },
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "description": "Pick a time slot or type your own.",
+                "name": "time",
+                "type": "string"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "description": "Which class runs at this time?",
+                "to": [
+                  {
+                    "type": "danceClass"
+                  }
+                ],
+                "name": "danceClass",
+                "type": "reference",
+                "title": "Class"
+              }
+            ],
+            "type": "object",
+            "name": "scheduleSlot"
+          }
+        ],
+        "name": "slots",
+        "type": "array",
+        "title": "Time Slots"
+      },
+      {
+        "description": "Temporary announcements shown above the schedule — holiday hours, specials, closures, etc. Toggle each notice on/off, or set start and end dates so they appear automatically. Click \"+ Add item\" to create one.",
+        "of": [
+          {
+            "fields": [
+              {
+                "initialValue": true,
+                "description": "Turn this on to show the notice on the website. If you also set dates below, it must be active AND within the date range to appear.",
+                "name": "active",
+                "type": "boolean"
+              },
+              {
+                "options": {
+                  "list": [
+                    {
+                      "title": "🎉 Celebration (pink/purple — specials, events)",
+                      "value": "celebration"
+                    },
+                    {
+                      "title": "ℹ️ Info (blue — general updates)",
+                      "value": "info"
+                    },
+                    {
+                      "title": "⚠️ Warning (amber — closures, changes)",
+                      "value": "warning"
+                    },
+                    {
+                      "title": "🆕 New (green — new classes, launches)",
+                      "value": "new"
+                    }
+                  ],
+                  "layout": "radio"
+                },
+                "initialValue": "celebration",
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "valid",
+                        "constraint": [
+                          "celebration",
+                          "info",
+                          "warning",
+                          "new"
+                        ]
+                      },
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "description": "Pick a look that matches the mood of the notice.",
+                "name": "style",
+                "type": "string"
+              },
+              {
+                "description": "An emoji shown before the title, e.g. \"🎄\" or \"💕\". Leave empty for the default style emoji.",
+                "name": "emoji",
+                "type": "string",
+                "title": "Emoji (optional)"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      },
+                      {
+                        "flag": "max",
+                        "constraint": 80
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "description": "Short headline, e.g. \"Valentine's Special\" or \"Holiday Hours\".",
+                "name": "title",
+                "type": "string"
+              },
+              {
+                "rows": 2,
+                "description": "Extra info, e.g. \"All classes 20% off this weekend!\" or \"Studio closed Dec 25–26, reopening Dec 27.\"",
+                "name": "body",
+                "type": "text",
+                "title": "Details (optional)"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "uri",
+                        "constraint": {
+                          "options": {
+                            "scheme": [
+                              "/^http$/",
+                              "/^https$/"
+                            ],
+                            "allowRelative": true,
+                            "relativeOnly": false,
+                            "allowCredentials": false
+                          }
+                        }
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "description": "Add a link to make a button appear — e.g. a booking page or event details.",
+                "name": "linkUrl",
+                "type": "url",
+                "title": "Button Link (optional)"
+              },
+              {
+                "initialValue": "Learn More",
+                "description": "The text on the button, e.g. \"Book Now\" or \"Learn More\". Only shown if a link is set.",
+                "hidden": "conditional",
+                "name": "linkLabel",
+                "type": "string",
+                "title": "Button Text"
+              },
+              {
+                "description": "If set, the notice only appears from this date onward. Leave empty to show immediately.",
+                "name": "startDate",
+                "type": "date",
+                "title": "Show From (optional)"
+              },
+              {
+                "description": "If set, the notice hides after this date. Leave empty to show indefinitely (until you turn it off).",
+                "name": "endDate",
+                "type": "date",
+                "title": "Show Until (optional)"
+              }
+            ],
+            "type": "object",
+            "name": "scheduleNotice"
+          }
+        ],
+        "name": "notices",
+        "type": "array",
+        "title": "Schedule Notices"
+      }
+    ],
+    "name": "weeklySchedule",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "max",
+                "constraint": 500
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The testimonial text. This is the only required field.",
+        "name": "quote",
+        "type": "text"
+      },
+      {
+        "description": "The person's name, e.g. \"Sarah M.\" — leave blank for an anonymous testimonial.",
+        "name": "name",
+        "type": "string",
+        "title": "Name (optional)"
+      },
+      {
+        "description": "E.g. \"Pole Student\", \"Exotic Baddies regular\", or \"3-month member\".",
+        "name": "role",
+        "type": "string",
+        "title": "Role / Class (optional)"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "A headshot or profile photo. Works great without one too — a colourful placeholder will be shown instead.",
+        "name": "photo",
+        "type": "image",
+        "title": "Photo (optional)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "1–5 stars. Leave empty to hide stars.",
+        "name": "rating",
+        "type": "number",
+        "title": "Star Rating (optional)"
+      },
+      {
+        "initialValue": 0,
+        "description": "Controls the order in the carousel. Lower numbers appear first.",
+        "name": "order",
+        "type": "number",
+        "title": "Display Order"
+      }
+    ],
+    "name": "testimonial",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Centered with Logo (Homepage style)",
+              "value": "centered"
+            },
+            {
+              "title": "Split — Text Left, Image Right (Classes/Contact style)",
+              "value": "split"
+            },
+            {
+              "title": "Gradient — Centered Text, No Image (About/Mission style)",
+              "value": "gradient"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "centered",
+        "description": "Choose how the hero looks on the page.",
+        "name": "layout",
+        "type": "string",
+        "title": "Layout Style"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The big heading text.",
+        "name": "headline",
+        "type": "string"
+      },
+      {
+        "description": "A short line below the headline.",
+        "name": "subtitle",
+        "type": "string"
+      },
+      {
+        "description": "Optional italic text, e.g. a motto like \"Move to Express\".",
+        "name": "tagline",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "description": "Optional paragraph shown below the headline. Useful for the \"Split\" and \"Gradient\" layouts.",
+        "name": "body",
+        "type": "text",
+        "title": "Body Text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Used as the full background in \"Centered\" layout, or as the right-side image in \"Split\" layout. Not used in \"Gradient\" layout.",
+        "name": "backgroundImage",
+        "type": "image",
+        "title": "Background / Side Image"
+      },
+      {
+        "description": "Optional logo shown in the hero. Only appears in the \"Centered\" layout.",
+        "name": "overlayLogo",
+        "type": "image"
+      },
+      {
+        "description": "Optional call-to-action button, e.g. \"Book a Class\".",
+        "name": "ctaText",
+        "type": "string",
+        "title": "Button Text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": true,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Where the button goes when clicked.",
+        "name": "ctaUrl",
+        "type": "url",
+        "title": "Button Link"
+      }
+    ],
+    "name": "hero",
+    "type": "object",
+    "title": "Hero Section"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Minimal — icons & text, no card backgrounds",
+              "value": "minimal"
+            },
+            {
+              "title": "Cards — gradient backgrounds with decorative blobs",
+              "value": "cards"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "minimal",
+        "name": "style",
+        "type": "string",
+        "title": "Display Style"
+      },
+      {
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "rows": 2,
+        "description": "Optional short text shown below the heading.",
+        "name": "subtitle",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Click \"+ Add item\" to add a feature card. Drag to reorder. The grid adjusts automatically based on how many cards you add (up to 6).",
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "title",
+                "type": "string"
+              },
+              {
+                "rows": 3,
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "description",
+                "type": "text"
+              },
+              {
+                "options": {
+                  "hotspot": true
+                },
+                "name": "icon",
+                "type": "image",
+                "title": "Icon Image"
+              }
+            ],
+            "type": "object",
+            "name": "feature"
+          }
+        ],
+        "name": "features",
+        "type": "array"
+      }
+    ],
+    "name": "featureGrid",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Our Classes",
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "rows": 2,
+        "name": "subtitle",
+        "type": "text"
+      },
+      {
+        "initialValue": true,
+        "description": "Show \"Clicking Book Now will redirect...\" note",
+        "name": "showBookingNote",
+        "type": "boolean"
+      }
+    ],
+    "name": "classesSection",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Meet Your Instructor",
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "to": [
+          {
+            "type": "instructor"
+          }
+        ],
+        "name": "instructor",
+        "type": "reference"
+      }
+    ],
+    "name": "instructorSection",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Weekly Schedule",
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "rows": 2,
+        "name": "subtitle",
+        "type": "text"
+      }
+    ],
+    "name": "scheduleSection",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "type": "image"
+          }
+        ],
+        "name": "content",
+        "type": "array"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Centered",
+              "value": "centered"
+            },
+            {
+              "title": "Left Aligned",
+              "value": "left"
+            },
+            {
+              "title": "Two Column",
+              "value": "twoColumn"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "centered",
+        "name": "layout",
+        "type": "string"
+      }
+    ],
+    "name": "richTextSection",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Our Space",
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "name": "subtitle",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "alt",
+                "type": "string",
+                "title": "Alt Text"
+              },
+              {
+                "name": "caption",
+                "type": "string"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "images",
+        "type": "array",
+        "title": "Gallery Images"
+      }
+    ],
+    "name": "gallerySection",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 2,
+        "name": "subtitle",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "buttonText",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": true,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "buttonUrl",
+        "type": "url",
+        "title": "Button URL"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Light Background",
+              "value": "light"
+            },
+            {
+              "title": "Dark Background",
+              "value": "dark"
+            },
+            {
+              "title": "Purple Gradient",
+              "value": "gradient"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "gradient",
+        "name": "style",
+        "type": "string"
+      }
+    ],
+    "name": "ctaSection",
+    "type": "object",
+    "title": "Call to Action"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Send a message",
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "name": "subtitle",
+        "type": "string"
+      },
+      {
+        "initialValue": "Thank you! Your message has been sent.",
+        "name": "successMessage",
+        "type": "string"
+      }
+    ],
+    "name": "contactFormSection",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Find us",
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "rows": 3,
+        "description": "e.g. parking instructions",
+        "name": "additionalInfo",
+        "type": "text"
+      }
+    ],
+    "name": "mapSection",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "What Our Students Say",
+        "name": "heading",
+        "type": "string",
+        "title": "Section Heading"
+      },
+      {
+        "rows": 2,
+        "name": "subtitle",
+        "type": "text"
+      }
+    ],
+    "name": "testimonialsSection",
+    "type": "object"
+  }
+]
