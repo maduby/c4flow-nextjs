@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && echo '=== STANDALONE CHECK ===' && ls -la .next/standalone/server.js && echo '=== STANDALONE OK ==='",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
