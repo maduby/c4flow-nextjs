@@ -1,11 +1,11 @@
 {
   "version": 3,
-  "createdAt": "2026-02-17T08:53:10.527Z",
+  "createdAt": "2026-02-17T17:30:18.768Z",
   "workspaces": [
     {
       "name": "c4flow",
       "title": "C4 Flow Studio",
-      "basePath": "/",
+      "basePath": "/studio",
       "projectId": "ik9ho36m",
       "dataset": "production",
       "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"><rect width=\"32\" height=\"32\" rx=\"2\" fill=\"#fdada5\"></rect><text x=\"50%\" y=\"50%\" text-anchor=\"middle\" alignment-baseline=\"middle\" fill=\"hsla(5, 96%, 42%, 1)\" style=\"font-family:Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, &quot;Liberation Sans&quot;, Helvetica, Arial, system-ui, sans-serif;font-weight:500;font-size:13px;transform:translateY(1px)\">CF</text></svg>",
@@ -13,8 +13,8 @@
         "enabled": false,
         "__internal": {}
       },
-      "schema": "9428aeec.create-schema.json",
-      "tools": "ba47da56.create-tools.json"
+      "schema": "0f1661d3.create-schema.json",
+      "tools": "3ce930d2.create-tools.json"
     }
   ],
   "studioVersion": "5.9.0"
