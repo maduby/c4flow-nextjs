@@ -1,5 +1,5 @@
 import { sanityFetch } from "@/sanity/lib/live";
-import { ALL_CLASSES_QUERY } from "@/sanity/lib/queries";
+import { WEEKLY_SCHEDULE_QUERY } from "@/sanity/lib/queries";
 import { Clock } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -11,10 +11,12 @@ interface ScheduleSectionProps {
   subtitle?: string | null;
 }
 
-interface ScheduleEntry {
-  className: string;
+interface Slot {
+  _key: string;
+  day: string;
   time: string;
-  bookingUrl: string;
+  className: string | null;
+  bookingUrl: string | null;
 }
 
 const DAY_ORDER = [
@@ -31,20 +33,19 @@ export async function ScheduleSection({
   heading,
   subtitle,
 }: ScheduleSectionProps) {
-  const { data: classes } = await sanityFetch({ query: ALL_CLASSES_QUERY });
+  const { data: schedule } = await sanityFetch({
+    query: WEEKLY_SCHEDULE_QUERY,
+  });
 
-  const scheduleByDay = new Map<string, ScheduleEntry[]>();
+  const slots: Slot[] = (schedule?.slots as Slot[]) || [];
 
-  for (const cls of classes || []) {
-    for (const entry of cls.schedule || []) {
-      const day = entry.day;
-      if (!scheduleByDay.has(day)) scheduleByDay.set(day, []);
-      scheduleByDay.get(day)!.push({
-        className: cls.name || "Class",
-        time: entry.time,
-        bookingUrl: cls.bookingUrl || SITE_CONFIG.booking.url,
-      });
-    }
+  if (!slots.length) return null;
+
+  const scheduleByDay = new Map<string, Slot[]>();
+  for (const slot of slots) {
+    if (!slot.day) continue;
+    if (!scheduleByDay.has(slot.day)) scheduleByDay.set(slot.day, []);
+    scheduleByDay.get(slot.day)!.push(slot);
   }
 
   const activeDays = DAY_ORDER.filter((d) => scheduleByDay.has(d));
@@ -70,25 +71,25 @@ export async function ScheduleSection({
                 <h3 className="text-sm font-medium text-white">{day}</h3>
               </div>
               <div className="divide-y divide-border">
-                {scheduleByDay.get(day)!.map((entry, i) => (
+                {scheduleByDay.get(day)!.map((slot) => (
                   <div
-                    key={`${day}-${i}`}
+                    key={slot._key}
                     className="flex items-center justify-between gap-3 px-4 py-3"
                   >
                     <div className="min-w-0">
                       <p className="font-medium text-neutral-800">
-                        {entry.className}
+                        {slot.className || "Class"}
                       </p>
                       <p className="mt-0.5 flex items-center gap-1 text-sm text-neutral-400">
                         <Clock size={12} aria-hidden="true" />
-                        {entry.time}
+                        {slot.time}
                       </p>
                     </div>
                     <BookNowLink
-                      href={entry.bookingUrl}
-                      label={entry.className}
+                      href={slot.bookingUrl || SITE_CONFIG.booking.url}
+                      label={slot.className || "class"}
                       source="schedule_mobile"
-                      ariaLabel={`Book ${entry.className} on ${day}`}
+                      ariaLabel={`Book ${slot.className || "class"} on ${day}`}
                       className="shrink-0 rounded-full bg-pink-500 px-4 py-1.5 text-xs font-medium text-white hover:bg-pink-600"
                     >
                       Book
@@ -125,24 +126,24 @@ export async function ScheduleSection({
             </thead>
             <tbody>
               {activeDays.map((day) =>
-                scheduleByDay.get(day)!.map((entry, i) => (
+                scheduleByDay.get(day)!.map((slot, i) => (
                   <tr
-                    key={`${day}-${i}`}
+                    key={slot._key}
                     className="border-t border-border transition-colors hover:bg-neutral-50"
                   >
                     <td className="px-6 py-4 font-medium text-neutral-800">
                       {i === 0 ? day : <span className="sr-only">{day}</span>}
                     </td>
                     <td className="px-6 py-4 text-neutral-600">
-                      {entry.className}
+                      {slot.className || "Class"}
                     </td>
-                    <td className="px-6 py-4 text-neutral-600">{entry.time}</td>
+                    <td className="px-6 py-4 text-neutral-600">{slot.time}</td>
                     <td className="px-6 py-4 text-right">
                       <BookNowLink
-                        href={entry.bookingUrl}
-                        label={entry.className}
+                        href={slot.bookingUrl || SITE_CONFIG.booking.url}
+                        label={slot.className || "class"}
                         source="schedule_table"
-                        ariaLabel={`Book ${entry.className} on ${day}`}
+                        ariaLabel={`Book ${slot.className || "class"} on ${day}`}
                         className="text-sm font-medium text-pink-500 hover:text-pink-600"
                       >
                         Book

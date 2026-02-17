@@ -5,10 +5,11 @@ import {
   DocumentIcon,
   UsersIcon,
   CalendarIcon,
+  ClockIcon,
   EnvelopeIcon,
 } from "@sanity/icons";
 
-const SINGLETONS = ["siteSettings", "announcementBar"];
+const SINGLETONS = ["siteSettings", "announcementBar", "weeklySchedule"];
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -42,13 +43,22 @@ export const structure: StructureResolver = (S) =>
 
       // Content
       S.listItem()
-        .title("Instructors")
-        .icon(UsersIcon)
-        .child(S.documentTypeList("instructor").title("Instructors")),
-      S.listItem()
         .title("Dance Classes")
         .icon(CalendarIcon)
         .child(S.documentTypeList("danceClass").title("Dance Classes")),
+      S.listItem()
+        .title("Weekly Schedule")
+        .icon(ClockIcon)
+        .child(
+          S.document()
+            .schemaType("weeklySchedule")
+            .documentId("weeklySchedule")
+            .title("Weekly Schedule")
+        ),
+      S.listItem()
+        .title("Instructors")
+        .icon(UsersIcon)
+        .child(S.documentTypeList("instructor").title("Instructors")),
 
       S.divider(),
 

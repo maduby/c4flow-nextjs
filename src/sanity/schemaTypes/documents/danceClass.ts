@@ -1,4 +1,4 @@
-import { defineType, defineField, defineArrayMember } from "sanity";
+import { defineType, defineField } from "sanity";
 import { CalendarIcon } from "@sanity/icons";
 
 export const danceClass = defineType({
@@ -8,8 +8,7 @@ export const danceClass = defineType({
   icon: CalendarIcon,
   groups: [
     { name: "info", title: "Class Info", default: true },
-    { name: "pricing", title: "Pricing" },
-    { name: "schedule", title: "Schedule" },
+    { name: "pricing", title: "Pricing & Booking" },
   ],
   fields: [
     // ── Class Info ──
@@ -60,8 +59,17 @@ export const danceClass = defineType({
       group: "info",
       description: "Detailed description shown on the class detail page.",
     }),
+    defineField({
+      name: "order",
+      title: "Display Order",
+      type: "number",
+      group: "info",
+      description:
+        "Controls the order classes appear on the website. Lower numbers show first (e.g. 1 = first, 2 = second).",
+      initialValue: 0,
+    }),
 
-    // ── Pricing ──
+    // ── Pricing & Booking ──
     defineField({
       name: "price",
       title: "Regular Price (ZAR)",
@@ -103,63 +111,6 @@ export const danceClass = defineType({
       group: "pricing",
       description:
         'The Setmore link for this specific class. If left empty, the "Book Now" button links to the main Setmore booking page instead.',
-    }),
-
-    // ── Schedule ──
-    defineField({
-      name: "schedule",
-      title: "Weekly Schedule",
-      type: "array",
-      group: "schedule",
-      description:
-        'Add each time slot this class runs. Click "+ Add item" and pick the day and time.',
-      of: [
-        defineArrayMember({
-          type: "object",
-          name: "scheduleEntry",
-          fields: [
-            defineField({
-              name: "day",
-              title: "Day",
-              type: "string",
-              options: {
-                list: [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                  "Sunday",
-                ],
-              },
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: "time",
-              title: "Time",
-              type: "string",
-              description: 'e.g. "6 PM" or "11 AM"',
-              validation: (rule) => rule.required(),
-            }),
-          ],
-          preview: {
-            select: { day: "day", time: "time" },
-            prepare({ day, time }) {
-              return { title: `${day} — ${time}` };
-            },
-          },
-        }),
-      ],
-    }),
-    defineField({
-      name: "order",
-      title: "Display Order",
-      type: "number",
-      group: "info",
-      description:
-        "Controls the order classes appear on the website. Lower numbers show first (e.g. 1 = first, 2 = second).",
-      initialValue: 0,
     }),
   ],
   orderings: [

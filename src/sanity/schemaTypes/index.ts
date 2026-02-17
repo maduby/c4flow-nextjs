@@ -7,6 +7,7 @@ import { page } from "./documents/page";
 import { instructor } from "./documents/instructor";
 import { danceClass } from "./documents/danceClass";
 import { contactSubmission } from "./documents/contactSubmission";
+import { weeklySchedule } from "./documents/weeklySchedule";
 
 // Page builder objects
 import { hero } from "./objects/hero";
@@ -28,6 +29,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   instructor,
   danceClass,
   contactSubmission,
+  weeklySchedule,
 
   // Page builder objects
   hero,

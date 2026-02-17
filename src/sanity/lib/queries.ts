@@ -82,7 +82,6 @@ export const ALL_CLASSES_QUERY = defineQuery(`
     price,
     salePrice,
     duration,
-    schedule,
     bookingUrl
   }
 `);
@@ -98,8 +97,21 @@ export const CLASS_BY_SLUG_QUERY = defineQuery(`
     price,
     salePrice,
     duration,
-    schedule,
     bookingUrl
+  }
+`);
+
+// ===== Weekly Schedule =====
+
+export const WEEKLY_SCHEDULE_QUERY = defineQuery(`
+  *[_type == "weeklySchedule"][0]{
+    slots[]{
+      _key,
+      day,
+      time,
+      "className": danceClass->name,
+      "bookingUrl": danceClass->bookingUrl
+    }
   }
 `);
 

@@ -1,18 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { Clock, Calendar, Tag } from "lucide-react";
+import { Clock, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import { urlFor } from "@/sanity/lib/image";
 import { formatCurrency } from "@/lib/utils";
 import { BookNowLink } from "@/components/ui/BookNowLink";
 import { SITE_CONFIG } from "@/lib/constants";
-
-interface ScheduleEntry {
-  _key: string;
-  day: string;
-  time: string;
-}
 
 interface DanceClass {
   _id: string;
@@ -23,7 +17,6 @@ interface DanceClass {
   price: number | null;
   salePrice: number | null;
   duration: number | null;
-  schedule: ScheduleEntry[] | null;
   bookingUrl: string | null;
 }
 
@@ -41,7 +34,6 @@ export function ClassCard({ danceClass, bannerDiscount }: ClassCardProps) {
     price,
     salePrice,
     duration,
-    schedule,
     bookingUrl,
   } = danceClass;
 
@@ -110,20 +102,14 @@ export function ClassCard({ danceClass, bannerDiscount }: ClassCardProps) {
         )}
 
         {/* Meta */}
-        <div className="mb-4 flex flex-wrap gap-3 text-xs text-neutral-400">
-          {duration && (
+        {duration && (
+          <div className="mb-4 flex flex-wrap gap-3 text-xs text-neutral-400">
             <span className="inline-flex items-center gap-1">
               <Clock size={12} />
               {duration} min
             </span>
-          )}
-          {schedule && schedule.length > 0 && (
-            <span className="inline-flex items-center gap-1">
-              <Calendar size={12} />
-              {schedule.map((s) => s.day).join(", ")}
-            </span>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Book button — falls back to main Setmore page if no class-specific URL */}
         <BookNowLink
