@@ -4,6 +4,7 @@ import { Clock } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { BookNowLink } from "@/components/ui/BookNowLink";
+import { ScheduleNotices } from "@/components/ui/ScheduleNotices";
 import { SITE_CONFIG } from "@/lib/constants";
 
 interface ScheduleSectionProps {
@@ -17,6 +18,18 @@ interface Slot {
   time: string;
   className: string | null;
   bookingUrl: string | null;
+}
+
+interface Notice {
+  _key: string;
+  style: string | null;
+  emoji: string | null;
+  title: string | null;
+  body: string | null;
+  linkUrl: string | null;
+  linkLabel: string | null;
+  startDate: string | null;
+  endDate: string | null;
 }
 
 const DAY_ORDER = [
@@ -38,6 +51,7 @@ export async function ScheduleSection({
   });
 
   const slots: Slot[] = (schedule?.slots as Slot[]) || [];
+  const notices: Notice[] = (schedule?.notices as Notice[]) || [];
 
   if (!slots.length) return null;
 
@@ -58,6 +72,9 @@ export async function ScheduleSection({
         <SectionHeading subtitle={subtitle}>
           {heading || "Weekly Schedule"}
         </SectionHeading>
+
+        {/* ── Schedule Notices ── */}
+        {notices.length > 0 && <ScheduleNotices notices={notices} />}
 
         {/* ── Mobile: stacked cards ── */}
         <div className="mx-auto max-w-lg space-y-4 md:hidden" role="list">

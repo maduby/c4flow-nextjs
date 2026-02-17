@@ -111,6 +111,17 @@ export const WEEKLY_SCHEDULE_QUERY = defineQuery(`
       time,
       "className": danceClass->name,
       "bookingUrl": danceClass->bookingUrl
+    },
+    "notices": notices[active == true]{
+      _key,
+      style,
+      emoji,
+      title,
+      body,
+      linkUrl,
+      linkLabel,
+      startDate,
+      endDate
     }
   }
 `);
