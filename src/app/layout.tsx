@@ -130,7 +130,7 @@ export default async function RootLayout({
               "Pole & Exotic Dance Studio in Woodstock, Cape Town. Group and private classes for all levels.",
             url: process.env.NEXT_PUBLIC_SITE_URL || "https://c4flow.co.za",
             telephone: settings?.phone || "+27 65 391 7901",
-            email: settings?.contactEmail || "info@c4flow.co.za",
+            email: settings?.contactEmail || "marc@duby.io",
             address: {
               "@type": "PostalAddress",
               streetAddress: settings?.address?.street || "66 Albert Road",

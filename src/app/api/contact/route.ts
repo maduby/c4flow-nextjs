@@ -44,9 +44,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // TODO [GO-LIVE]: Change CONTACT_EMAIL env var to info@c4flow.co.za
-    // TODO [GO-LIVE]: Remove CONTACT_REPLY_TO env var (defaults to visitor's email)
-    const rawEmail = process.env.CONTACT_EMAIL || "info@c4flow.co.za";
+    const rawEmail = process.env.CONTACT_EMAIL || "marc@duby.io";
     const recipients = rawEmail.split(",").map((e) => e.trim());
     const replyToEmail = process.env.CONTACT_REPLY_TO || email;
 
