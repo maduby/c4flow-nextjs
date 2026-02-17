@@ -118,7 +118,7 @@ function TestimonialCarousel({
       {canScrollLeft && (
         <button
           onClick={() => scroll("left")}
-          className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-2.5 shadow-md ring-1 ring-black/5 transition-colors hover:bg-neutral-50 md:left-4 lg:left-8"
+          className="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white p-2.5 shadow-lg ring-1 ring-black/5 transition-colors hover:bg-neutral-50 md:left-4 lg:left-8"
           aria-label="Previous testimonial"
         >
           <ChevronLeft size={20} className="text-neutral-600" />
@@ -127,7 +127,7 @@ function TestimonialCarousel({
       {canScrollRight && (
         <button
           onClick={() => scroll("right")}
-          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-2.5 shadow-md ring-1 ring-black/5 transition-colors hover:bg-neutral-50 md:right-4 lg:right-8"
+          className="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white p-2.5 shadow-lg ring-1 ring-black/5 transition-colors hover:bg-neutral-50 md:right-4 lg:right-8"
           aria-label="Next testimonial"
         >
           <ChevronRight size={20} className="text-neutral-600" />
