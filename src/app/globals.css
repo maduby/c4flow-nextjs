@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+/* ===== C4 Flow Design System ===== */
+
+@theme inline {
+  /* Fonts */
+  --font-heading: var(--font-mynerve);
+  --font-body: var(--font-montserrat);
+
+  /* Primary Purple Scale */
+  --color-primary-50: #ebe4ff;
+  --color-primary-100: #d5dfff;
+  --color-primary-200: #B39EF3;
+  --color-primary-300: #8c85ff;
+  --color-primary-400: #673de6;
+  --color-primary-500: #5025d1;
+  --color-primary-600: #2f1c6a;
+  --color-primary-700: #1F1346;
+
+  /* Pink Accent Scale */
+  --color-pink-50: #ffe8ef;
+  --color-pink-200: #FEA8C2;
+  --color-pink-500: #fc5185;
+  --color-pink-600: #d63163;
+
+  /* Orange/Yellow Scale */
+  --color-orange-50: #fff8e2;
+  --color-orange-200: #FFD28C;
+  --color-orange-400: #ffcd35;
+  --color-orange-500: #fea419;
+  --color-orange-600: #9F6000;
+
+  /* Teal/Success Scale */
+  --color-teal-50: #def4f0;
+  --color-teal-500: #00b090;
+  --color-teal-600: #008361;
+
+  /* Neutral Scale */
+  --color-neutral-50: #f2f3f6;
+  --color-neutral-100: #D8DAE0;
+  --color-neutral-200: #dadce0;
+  --color-neutral-400: #727586;
+  --color-neutral-600: #36344d;
+  --color-neutral-800: #1d1e20;
+  --color-neutral-900: #000000;
+
+  /* Semantic Colors */
+  --color-background: #ffffff;
+  --color-foreground: #1d1e20;
+  --color-muted: #f2f3f6;
+  --color-muted-foreground: #727586;
+  --color-border: #dadce0;
+
+  /* Shadows */
+  --shadow-sm: 0 6px 14px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 6px 14px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 6px 14px rgba(0, 0, 0, 0.2);
+  --shadow-card: 0 6px 14px rgba(0, 0, 0, 0.1);
+  --shadow-card-hover: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+  /* Breakpoints (matching c4flow.co.za) */
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 920px;
+  --breakpoint-lg: 1224px;
+  --breakpoint-xl: 1440px;
+  --breakpoint-2xl: 1920px;
+}
+
+/* ===== Base Styles ===== */
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Heading font */
+h1, h2, h3, .font-heading {
+  font-family: var(--font-heading), cursive;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.skip-to-content:focus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  padding: 1rem 1.5rem;
+  background: var(--color-primary-600);
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  z-index: 9999;
+}

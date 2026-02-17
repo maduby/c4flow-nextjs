@@ -1,22 +1,54 @@
-# c4flow-nextjs
+# C-4 Flow — Pole & Exotic Dance Studio
 
-A Next.js application for C4 architecture flow visualization.
+Marketing website for C-4 Flow Dance Studio, Cape Town.
+
+## Tech Stack
+
+- **Next.js 16** (App Router, TypeScript, Standalone output)
+- **Sanity v3** (Embedded Studio, Visual Editing, Live Content API)
+- **Tailwind CSS v4** (Custom design system)
+- **Resend** (Contact form emails)
+- **Framer Motion** (Animations)
 
 ## Getting Started
 
 ```bash
+# Use correct Node version
+nvm use
+
+# Install dependencies
 npm install
+
+# Copy env file and fill in secrets
+cp .env.example .env.local
+
+# Run development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Tech Stack
+## Sanity Studio
 
-- [Next.js](https://nextjs.org/) - React framework
-- [TypeScript](https://www.typescriptlang.org/) - Type safety
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS
+Embedded at `/studio` — accessible after starting the dev server.
 
-## Development
+## Project Structure
 
-This project is under active development. See the project documentation for architecture decisions and planning.
+```
+src/
+├── app/            # Next.js routes and pages
+├── components/     # React components (layout, sections, ui, shared)
+├── lib/            # Utilities, constants, server actions
+├── sanity/         # Sanity schemas, client, queries
+docs/
+├── analysis/       # Website analysis from c4flow.co.za
+├── progress/       # Timestamped progress logs
+```
+
+## Deployment
+
+Deployed to Hostinger Business Hosting via GitHub integration.
+
+## License
+
+Private — C-4 Flow Dance Studio.
