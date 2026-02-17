@@ -73,10 +73,10 @@ export async function ClassesSection({
           variants={staggerContainer}
           viewport={{ once: true, amount: 0.15 }}
         >
-          {classes.map((cls) => (
+          {classes.map((cls: { _id: string; [key: string]: unknown }) => (
             <MotionDiv key={cls._id} variants={cardReveal}>
               <ClassCard
-                danceClass={cls}
+                danceClass={cls as never}
                 bannerDiscount={getDiscountForClass(cls._id)}
               />
             </MotionDiv>

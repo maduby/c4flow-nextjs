@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
     // Tag-based revalidation (used by next-sanity/live)
     if (Array.isArray(body?.tags) && body.tags.length) {
-      body.tags.forEach((tag) => revalidateTag(tag));
+      body.tags.forEach((tag) => revalidateTag(tag, { expire: 0 }));
       return NextResponse.json({
         revalidated: true,
         tags: body.tags,

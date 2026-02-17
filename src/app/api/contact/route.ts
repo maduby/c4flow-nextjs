@@ -44,14 +44,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const contactEmail = process.env.CONTACT_EMAIL || "info@c4flow.co.za";
+    // TODO [GO-LIVE]: Change CONTACT_EMAIL env var to info@c4flow.co.za
+    // TODO [GO-LIVE]: Remove CONTACT_REPLY_TO env var (defaults to visitor's email)
+    const rawEmail = process.env.CONTACT_EMAIL || "info@c4flow.co.za";
+    const recipients = rawEmail.split(",").map((e) => e.trim());
+    const replyToEmail = process.env.CONTACT_REPLY_TO || email;
 
     // Send email via Resend and store in Sanity concurrently
     const [emailResult] = await Promise.allSettled([
       resend.emails.send({
         from: `C4 Flow Website <noreply@mail.pixelpoetry.dev>`,
-        to: contactEmail,
-        replyTo: email,
+        to: recipients,
+        replyTo: replyToEmail,
         subject: `New contact from ${name} — C4 Flow Website`,
         text: [
           `Name: ${name}`,

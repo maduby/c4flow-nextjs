@@ -21,8 +21,8 @@ export async function generateStaticParams() {
   });
 
   return (slugs || [])
-    .filter((s) => s.slug !== "home")
-    .map((s) => ({ slug: s.slug }));
+    .filter((s: { slug: string }) => s.slug !== "home")
+    .map((s: { slug: string }) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({
