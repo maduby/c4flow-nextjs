@@ -44,7 +44,7 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
   }, [mobileMenuOpen, closeMenu]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur-sm">
+    <header id="site-header" className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
         {/* Logo */}
         <Link

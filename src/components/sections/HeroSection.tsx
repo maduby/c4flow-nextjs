@@ -70,7 +70,10 @@ function CenteredHero({
     : siteLogoUrl;
 
   return (
-    <section className="relative flex min-h-svh items-center justify-center overflow-hidden bg-primary-700 text-white">
+    <section
+      className="relative flex items-center justify-center overflow-hidden bg-primary-700 text-white"
+      style={{ minHeight: "calc(100svh - var(--top-offset, 0px))" }}
+    >
       {backgroundImage?.asset && (
         <>
           <Image
