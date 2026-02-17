@@ -105,7 +105,7 @@ export async function ScheduleSection({
     await Promise.all([
       sanityFetch({ query: WEEKLY_SCHEDULE_QUERY }),
       sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY }),
-      sanityFetch({ query: DISCOUNT_QUERY }),
+      sanityFetch({ query: DISCOUNT_QUERY, stega: false }),
     ]);
 
   const slots: Slot[] = (schedule?.slots as Slot[]) || [];

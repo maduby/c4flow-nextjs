@@ -34,7 +34,7 @@ export async function ClassDetailsSection({
   const [{ data: classes }, { data: discountDoc }, { data: schedule }] =
     await Promise.all([
       sanityFetch({ query: ALL_CLASSES_QUERY }),
-      sanityFetch({ query: DISCOUNT_QUERY }),
+      sanityFetch({ query: DISCOUNT_QUERY, stega: false }),
       sanityFetch({ query: WEEKLY_SCHEDULE_QUERY }),
     ]);
 
