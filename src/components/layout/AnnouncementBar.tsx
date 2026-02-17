@@ -21,6 +21,7 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored === version) {
         setDismissed(true);
+        document.documentElement.removeAttribute("data-has-banner");
       }
     } catch {
       /* localStorage unavailable — keep showing */
@@ -30,6 +31,7 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
   function dismiss() {
     setDismissed(true);
     trackBannerDismiss();
+    document.documentElement.removeAttribute("data-has-banner");
     try {
       if (version) {
         localStorage.setItem(STORAGE_KEY, version);

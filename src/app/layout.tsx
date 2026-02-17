@@ -11,7 +11,6 @@ import {
 import { urlFor } from "@/sanity/lib/image";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
-import { TopOffsetTracker } from "@/components/layout/TopOffsetTracker";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { JsonLd } from "@/components/shared/JsonLd";
@@ -208,7 +207,6 @@ export default async function RootLayout({
           siteName={settings?.siteName || "C-4 Flow"}
           logoUrl={logoUrl}
         />
-        <TopOffsetTracker />
         {children}
         <Footer
           siteName={settings?.siteName || "C-4 Flow"}

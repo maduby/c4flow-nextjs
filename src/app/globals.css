@@ -67,12 +67,16 @@
   --breakpoint-2xl: 1920px;
 }
 
-/* ===== Top offset for hero height calculation ===== */
+/* ===== Full-bleed hero — fills to the fold ===== */
 :root {
   --top-offset: 57px; /* header only */
 }
 html[data-has-banner] {
   --top-offset: 93px; /* header + banner */
+}
+.hero-full-bleed {
+  margin-top: calc(var(--top-offset) * -1);
+  padding-top: var(--top-offset);
 }
 
 /* ===== Base Styles ===== */
