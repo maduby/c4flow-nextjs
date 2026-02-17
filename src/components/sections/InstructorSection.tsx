@@ -37,20 +37,20 @@ export function InstructorSection({
       <Container className="relative z-10">
         <SectionHeading>{heading || "Meet Your Instructor"}</SectionHeading>
 
-        <div className="mx-auto grid max-w-4xl items-center gap-10 md:grid-cols-2">
-          {/* Photo */}
+        <div className="grid items-stretch gap-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-8 lg:gap-10">
+          {/* Photo — stretches to match bio height */}
           {instructor.photo?.asset && (
-            <div className="relative aspect-3/4 overflow-hidden rounded-2xl shadow-lg">
+            <div className="relative min-h-[360px] overflow-hidden rounded-2xl shadow-lg md:max-w-sm">
               <Image
                 src={urlFor(instructor.photo)
-                  .width(600)
-                  .height(800)
+                  .width(500)
+                  .height(670)
                   .quality(85)
                   .url()}
                 alt={instructor.name || "Instructor"}
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 320px"
                 {...(instructor.photo.lqip && {
                   placeholder: "blur" as const,
                   blurDataURL: instructor.photo.lqip,
@@ -61,7 +61,7 @@ export function InstructorSection({
 
           {/* Bio */}
           <div>
-            <h3 className="font-heading text-3xl text-primary-600">
+            <h3 className="font-heading text-3xl text-primary-600 lg:text-4xl">
               {instructor.name}
             </h3>
             {instructor.title && (
@@ -75,7 +75,7 @@ export function InstructorSection({
               </p>
             )}
 
-            <div className="mt-4 space-y-3 text-neutral-600">
+            <div className="mt-4 text-sm leading-relaxed text-neutral-600 [&_p]:mb-4 [&_p]:leading-relaxed md:text-base">
               {instructor.bio ? (
                 <PortableText value={instructor.bio as never} />
               ) : instructor.shortBio ? (

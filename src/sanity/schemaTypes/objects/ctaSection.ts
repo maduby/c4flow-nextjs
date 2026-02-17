@@ -41,10 +41,20 @@ export const ctaSection = defineType({
           { title: "Light Background", value: "light" },
           { title: "Dark Background", value: "dark" },
           { title: "Purple Gradient", value: "gradient" },
+          { title: "Background Image", value: "bgImage" },
         ],
         layout: "radio",
       },
       initialValue: "gradient",
+    }),
+    defineField({
+      name: "backgroundImage",
+      title: "Background Image",
+      type: "image",
+      description:
+        'Full-width background image. Select "Background Image" style to use it.',
+      options: { hotspot: true },
+      hidden: ({ parent }) => parent?.style !== "bgImage",
     }),
   ],
   preview: {

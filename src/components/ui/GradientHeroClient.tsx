@@ -1,13 +1,20 @@
 "use client";
 
 import { useRef, useCallback } from "react";
+import Image from "next/image";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
+import { urlFor } from "@/sanity/lib/image";
 
 interface GradientHeroClientProps {
   headline: string;
   subtitle?: string | null;
   body?: string | null;
+  backgroundImage?: {
+    asset?: { _ref: string };
+    alt?: string;
+    lqip?: string | null;
+  } | null;
   ctaText?: string | null;
   ctaUrl?: string | null;
 }
@@ -19,9 +26,11 @@ export function GradientHeroClient({
   headline,
   subtitle,
   body,
+  backgroundImage,
   ctaText,
   ctaUrl,
 }: GradientHeroClientProps) {
+  const hasBgImage = !!backgroundImage?.asset;
   const sectionRef = useRef<HTMLElement>(null);
 
   const blobAx = useMotionValue(0);
@@ -64,6 +73,22 @@ export function GradientHeroClient({
       onMouseLeave={handleMouseLeave}
       className="relative isolate overflow-hidden bg-white px-6 py-14 sm:py-20 lg:px-8 lg:py-28"
     >
+      {/* Optional background image */}
+      {hasBgImage && (
+        <Image
+          src={urlFor(backgroundImage).width(1920).height(800).quality(80).url()}
+          alt=""
+          fill
+          priority
+          className="object-cover -z-20"
+          sizes="100vw"
+          {...(backgroundImage.lqip && {
+            placeholder: "blur" as const,
+            blurDataURL: backgroundImage.lqip,
+          })}
+        />
+      )}
+
       {/* Decorative blob — top-right */}
       <motion.div
         aria-hidden="true"

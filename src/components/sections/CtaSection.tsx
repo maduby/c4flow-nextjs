@@ -1,10 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { Container } from "@/components/shared/Container";
 import { cn } from "@/lib/utils";
 import { stegaClean } from "next-sanity";
 import { motion } from "framer-motion";
 import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
+import { urlFor } from "@/sanity/lib/image";
+
+interface SanityImage {
+  asset?: { _ref?: string; _type?: string } | null;
+  hotspot?: { x: number; y: number } | null;
+  crop?: { top: number; bottom: number; left: number; right: number } | null;
+}
 
 interface CtaSectionProps {
   heading: string;
@@ -12,6 +20,7 @@ interface CtaSectionProps {
   buttonText: string;
   buttonUrl?: string | null;
   style?: string | null;
+  backgroundImage?: SanityImage | null;
 }
 
 export function CtaSection({
@@ -20,21 +29,36 @@ export function CtaSection({
   buttonText,
   buttonUrl,
   style,
+  backgroundImage,
 }: CtaSectionProps) {
   const cleanStyle = stegaClean(style) || "gradient";
+  const hasBgImage = cleanStyle === "bgImage" && backgroundImage?.asset;
 
   return (
     <section
       className={cn(
-        "relative isolate overflow-hidden py-12 md:py-24",
+        "relative isolate overflow-hidden py-16 md:py-28",
         cleanStyle === "gradient" &&
           "animated-gradient bg-linear-to-br from-primary-700 via-primary-600 to-pink-500 text-white",
         cleanStyle === "dark" && "bg-primary-700 text-white",
-        cleanStyle === "light" && "bg-muted text-neutral-800"
+        cleanStyle === "light" && "bg-muted text-neutral-800",
+        hasBgImage && "text-neutral-800"
       )}
     >
+      {/* Background image */}
+      {hasBgImage && (
+        <Image
+          src={urlFor(backgroundImage).width(1920).height(800).url()}
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
+      )}
+
       {/* Decorative blurred orb */}
-      {cleanStyle !== "light" && (
+      {cleanStyle !== "light" && !hasBgImage && (
         <div
           className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-pink-400/20 blur-3xl"
           aria-hidden="true"
@@ -45,7 +69,9 @@ export function CtaSection({
         <motion.h2
           className={cn(
             "font-heading text-3xl md:text-5xl",
-            cleanStyle === "light" ? "text-primary-600" : "text-white"
+            cleanStyle === "light" || hasBgImage
+              ? "text-neutral-800"
+              : "text-white"
           )}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -58,7 +84,9 @@ export function CtaSection({
           <motion.p
             className={cn(
               "mx-auto mt-4 max-w-xl text-lg",
-              cleanStyle === "light" ? "text-neutral-400" : "text-primary-100"
+              cleanStyle === "light" || hasBgImage
+                ? "text-neutral-500"
+                : "text-primary-100"
             )}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +110,9 @@ export function CtaSection({
                 "mt-8 inline-block rounded-full px-8 py-3.5 text-lg font-medium shadow-md transition-transform duration-200 hover:scale-105",
                 cleanStyle === "light"
                   ? "bg-pink-500 text-white hover:bg-pink-600"
-                  : "bg-white text-primary-600 hover:bg-primary-50"
+                  : hasBgImage
+                    ? "bg-neutral-800 text-white hover:bg-neutral-700"
+                    : "bg-white text-primary-600 hover:bg-primary-50"
               )}
             >
               {buttonText}

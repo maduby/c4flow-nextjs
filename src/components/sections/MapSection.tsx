@@ -106,7 +106,7 @@ export function MapSection({
                 className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 text-sm font-medium text-neutral-600 hover:border-neutral-200 hover:bg-neutral-50"
               >
                 <ExternalLink size={14} />
-                <span className="hidden sm:inline">View on Maps</span>
+                <span className="hidden sm:inline">Google Maps</span>
               </TrackedCtaLink>
             </div>
           </div>

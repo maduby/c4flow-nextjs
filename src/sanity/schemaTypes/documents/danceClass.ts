@@ -70,6 +70,35 @@ export const danceClass = defineType({
       description: "Detailed description shown on the class detail page.",
     }),
     defineField({
+      name: "tagline",
+      title: "Tagline / Pole Type",
+      type: "string",
+      group: "info",
+      description:
+        'Short label shown under the class card, e.g. "Static pole & dance choreography".',
+    }),
+    defineField({
+      name: "days",
+      title: "Days Available",
+      type: "string",
+      group: "info",
+      description: 'Which days this class runs, e.g. "Mon & Fri".',
+    }),
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "string",
+      group: "info",
+      options: {
+        list: [
+          { title: "Group", value: "group" },
+          { title: "Private", value: "private" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "group",
+    }),
+    defineField({
       name: "order",
       title: "Display Order",
       type: "number",

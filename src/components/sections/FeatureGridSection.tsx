@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
+import { stegaClean } from "next-sanity";
 import { motion } from "framer-motion";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -17,7 +18,10 @@ interface FeatureGridSectionProps {
   heading?: string | null;
   subtitle?: string | null;
   features?: Feature[] | null;
+  style?: string | null;
 }
+
+/* ── Cards-style constants ── */
 
 const CARD_CLASS = [
   "feature-card-1",
@@ -40,6 +44,8 @@ const ICON_CLASS = [
   "feature-icon-4",
 ];
 
+/* ── Shared animation ── */
+
 const containerVariants = {
   hidden: {},
   visible: {
@@ -60,9 +66,11 @@ export function FeatureGridSection({
   heading,
   subtitle,
   features,
+  style,
 }: FeatureGridSectionProps) {
   if (!features?.length) return null;
 
+  const variant = stegaClean(style) || "minimal";
   const count = features.length;
   const gridCols =
     count === 1
@@ -73,68 +81,108 @@ export function FeatureGridSection({
           ? "sm:grid-cols-2 lg:grid-cols-4"
           : `sm:grid-cols-2 lg:grid-cols-${Math.min(count, 3)}`;
 
-  return (
-    <section className="relative overflow-hidden py-12 md:py-24">
-      {/* Large ambient background glow */}
-      <div
-        className="feature-ambient-glow absolute left-1/2 top-1/2 -z-10 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2"
-        aria-hidden="true"
-      />
+  if (variant === "cards") {
+    return (
+      <section className="relative overflow-hidden py-12 md:py-24">
+        <div
+          className="feature-ambient-glow absolute left-1/2 top-1/2 -z-10 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2"
+          aria-hidden="true"
+        />
+        <Container>
+          {heading && (
+            <SectionHeading subtitle={subtitle}>{heading}</SectionHeading>
+          )}
+          <motion.div
+            className={`grid items-start gap-7 ${gridCols}`}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {features.map((feature, i) => {
+              const idx = i % 4;
+              return (
+                <motion.div
+                  key={feature._key}
+                  className={`feature-card group relative overflow-hidden p-8 shadow-md ${CARD_CLASS[idx]}`}
+                  variants={cardVariants}
+                >
+                  <div
+                    className={`absolute -left-6 -top-6 h-32 w-32 blur-[18px] transition-transform duration-700 group-hover:scale-110 ${BLOB_CLASS[idx]}`}
+                    aria-hidden="true"
+                  />
+                  <div className="relative z-10">
+                    {feature.icon?.asset && (
+                      <div
+                        className={`mb-6 inline-flex h-16 w-16 items-center justify-center shadow-lg ${ICON_CLASS[idx]}`}
+                      >
+                        <Image
+                          src={urlFor(feature.icon).width(64).height(64).url()}
+                          alt=""
+                          width={34}
+                          height={34}
+                          className="brightness-0 invert drop-shadow-md"
+                        />
+                      </div>
+                    )}
+                    <h3 className="mb-2 font-heading text-2xl text-primary-700">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-neutral-600">
+                      {feature.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </Container>
+      </section>
+    );
+  }
 
+  /* ── Minimal style (default) ── */
+  return (
+    <section className="py-12 md:py-24">
       <Container>
         {heading && (
           <SectionHeading subtitle={subtitle}>{heading}</SectionHeading>
         )}
 
         <motion.div
-          className={`grid items-start gap-7 ${gridCols}`}
+          className={`grid items-start gap-10 ${gridCols}`}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          {features.map((feature, i) => {
-            const idx = i % 4;
-
-            return (
-              <motion.div
-                key={feature._key}
-                className={`feature-card group relative overflow-hidden p-8 shadow-md ${CARD_CLASS[idx]}`}
-                variants={cardVariants}
-              >
-                {/* Decorative blob top-left */}
-                <div
-                  className={`absolute -left-6 -top-6 h-32 w-32 blur-[18px] transition-transform duration-700 group-hover:scale-110 ${BLOB_CLASS[idx]}`}
-                  aria-hidden="true"
-                />
-
-                {/* Content */}
-                <div className="relative z-10">
-                  {feature.icon?.asset && (
-                    <div
-                      className={`mb-6 inline-flex h-16 w-16 items-center justify-center shadow-lg ${ICON_CLASS[idx]}`}
-                    >
-                      <Image
-                        src={urlFor(feature.icon).width(64).height(64).url()}
-                        alt=""
-                        width={34}
-                        height={34}
-                        className="brightness-0 invert drop-shadow-md"
-                      />
-                    </div>
-                  )}
-
-                  <h3 className="mb-2 font-heading text-2xl text-primary-700">
-                    {feature.title}
-                  </h3>
-
-                  <p className="text-sm leading-relaxed text-neutral-600">
-                    {feature.description}
-                  </p>
+          {features.map((feature) => (
+            <motion.div
+              key={feature._key}
+              className="text-center"
+              variants={cardVariants}
+            >
+              {feature.icon?.asset && (
+                <div className="mb-4 flex justify-center">
+                  <Image
+                    src={urlFor(feature.icon).width(96).height(96).url()}
+                    alt=""
+                    width={56}
+                    height={56}
+                    className="h-14 w-14 object-contain"
+                  />
                 </div>
-              </motion.div>
-            );
-          })}
+              )}
+
+              <h3 className="mb-2 font-heading text-3xl text-neutral-800 lg:text-4xl">
+                {feature.title}
+              </h3>
+
+              <p className="mx-auto max-w-xs text-sm leading-relaxed text-neutral-500">
+                {feature.description}
+              </p>
+            </motion.div>
+          ))}
         </motion.div>
       </Container>
     </section>

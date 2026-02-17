@@ -87,15 +87,16 @@ function formatPrice(
   const original = slot.price || 0;
   if (!original) return null;
 
+  // Class's own sale price takes priority over the banner percentage
+  if (slot.salePrice && slot.salePrice < original) {
+    return { original, discounted: slot.salePrice };
+  }
+
   if (discount) {
     return {
       original,
       discounted: Math.floor(original * (1 - discount / 100)),
     };
-  }
-
-  if (slot.salePrice && slot.salePrice < original) {
-    return { original, discounted: slot.salePrice };
   }
 
   return { original, discounted: null };
@@ -235,7 +236,7 @@ export async function ScheduleSection({
               booking links
             </caption>
             <thead>
-              <tr className="bg-primary-600 text-white">
+              <tr className="bg-linear-to-r from-primary-600 via-purple-600 to-pink-500 text-white">
                 <th scope="col" className="px-6 py-3 text-sm font-medium">
                   Day
                 </th>

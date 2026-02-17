@@ -9,6 +9,10 @@ import { CtaSection } from "./CtaSection";
 import { ContactFormSection } from "./ContactFormSection";
 import { MapSection } from "./MapSection";
 import { TestimonialsSectionServer } from "./TestimonialsSectionServer";
+import { FaqSection } from "./FaqSection";
+import { PricingSection } from "./PricingSection";
+import { ClassDetailsSection } from "./ClassDetailsSection";
+import { ContactInfoSection } from "./ContactInfoSection";
 
 interface Section {
   _key: string;
@@ -38,6 +42,7 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 tagline={section.tagline as string | null}
                 body={section.body as string | null}
                 backgroundImage={section.backgroundImage as never}
+                sectionBackground={section.sectionBackground as never}
                 overlayLogo={section.overlayLogo as never}
                 ctaText={section.ctaText as string | null}
                 ctaUrl={section.ctaUrl as string | null}
@@ -51,6 +56,7 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 heading={section.heading as string | null}
                 subtitle={section.subtitle as string | null}
                 features={section.features as never}
+                style={section.style as string | null}
               />
             );
           case "classesSection":
@@ -85,6 +91,8 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 heading={section.heading as string | null}
                 content={section.content as never}
                 layout={section.layout as string | null}
+                image={section.image as never}
+                imagePosition={section.imagePosition as string | null}
               />
             );
           case "gallerySection":
@@ -105,6 +113,7 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 buttonText={section.buttonText as string}
                 buttonUrl={section.buttonUrl as string | null}
                 style={section.style as string | null}
+                backgroundImage={section.backgroundImage as never}
               />
             );
           case "contactFormSection":
@@ -122,6 +131,40 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 key={section._key}
                 heading={section.heading as string | null}
                 subtitle={section.subtitle as string | null}
+              />
+            );
+          case "faqSection":
+            return (
+              <FaqSection
+                key={section._key}
+                heading={section.heading as string | null}
+                faqs={section.faqs as never}
+              />
+            );
+          case "pricingSection":
+            return (
+              <PricingSection
+                key={section._key}
+                heading={section.heading as string}
+                subtitle={section.subtitle as string | null}
+                packages={section.packages as never}
+                footerNote={section.footerNote as string | null}
+              />
+            );
+          case "classDetailsSection":
+            return (
+              <ClassDetailsSection
+                key={section._key}
+                heading={section.heading as string | null}
+                subtitle={section.subtitle as string | null}
+              />
+            );
+          case "contactInfoSection":
+            return (
+              <ContactInfoSection
+                key={section._key}
+                studioHours={section.studioHours as string | null}
+                closedDay={section.closedDay as string | null}
               />
             );
           case "mapSection":

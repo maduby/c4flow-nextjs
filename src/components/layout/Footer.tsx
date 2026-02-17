@@ -31,7 +31,7 @@ export function Footer({
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-primary-700 text-white" role="contentinfo">
+    <footer className="bg-linear-to-b from-[#f5cdd5] via-[#f0c0cb] to-[#e8b0be] text-neutral-800" role="contentinfo">
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
@@ -47,24 +47,24 @@ export function Footer({
                   alt=""
                   width={48}
                   height={50}
-                  className="h-12 w-auto brightness-0 invert"
+                  className="h-12 w-auto"
                 />
               )}
-              <span className="font-heading text-3xl text-white">
+              <span className="font-heading text-3xl text-neutral-800">
                 {siteName}
               </span>
             </Link>
-            <p className="mt-2 text-sm text-primary-200">
+            <p className="mt-2 text-sm text-neutral-600">
               Pole & Exotic Dance Studio
             </p>
-            <p className="mt-1 text-sm italic text-primary-200">
+            <p className="mt-1 text-sm italic text-neutral-600">
               Move to Express
             </p>
           </div>
 
           {/* Quick links */}
           <div>
-            <h3 className="mb-3 font-body text-sm font-bold uppercase tracking-wider text-primary-200">
+            <h3 className="mb-3 font-body text-sm font-bold uppercase tracking-wider text-neutral-700">
               Navigation
             </h3>
             <ul className="space-y-2">
@@ -72,7 +72,7 @@ export function Footer({
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-primary-100 underline decoration-white/0 underline-offset-2 hover:text-white hover:decoration-white/30"
+                    className="text-sm text-neutral-600 underline decoration-neutral-400/0 underline-offset-2 hover:text-neutral-900 hover:decoration-neutral-400"
                   >
                     {link.label}
                   </Link>
@@ -84,7 +84,7 @@ export function Footer({
                     href={bookingUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-pink-200 underline decoration-white/0 underline-offset-2 hover:text-white hover:decoration-white/30"
+                    className="text-sm font-medium text-pink-700 underline decoration-pink-400/0 underline-offset-2 hover:text-pink-900 hover:decoration-pink-400"
                   >
                     Book a Class
                   </a>
@@ -95,7 +95,7 @@ export function Footer({
 
           {/* Contact */}
           <div>
-            <h3 className="mb-3 font-body text-sm font-bold uppercase tracking-wider text-primary-200">
+            <h3 className="mb-3 font-body text-sm font-bold uppercase tracking-wider text-neutral-700">
               Contact
             </h3>
             <ul className="space-y-2">
@@ -103,7 +103,7 @@ export function Footer({
                 <li>
                   <a
                     href={`mailto:${email}`}
-                    className="inline-flex items-center gap-2 text-sm text-primary-100 hover:text-white"
+                    className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900"
                   >
                     <Mail size={14} />
                     {email}
@@ -114,7 +114,7 @@ export function Footer({
                 <li>
                   <a
                     href={`tel:${phone}`}
-                    className="inline-flex items-center gap-2 text-sm text-primary-100 hover:text-white"
+                    className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900"
                   >
                     <Phone size={14} />
                     {phone}
@@ -127,7 +127,7 @@ export function Footer({
                     href={instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-primary-100 hover:text-white"
+                    className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900"
                   >
                     <Instagram size={14} />
                     @c_4_flow
@@ -139,7 +139,7 @@ export function Footer({
 
           {/* Location */}
           <div>
-            <h3 className="mb-3 font-body text-sm font-bold uppercase tracking-wider text-primary-200">
+            <h3 className="mb-3 font-body text-sm font-bold uppercase tracking-wider text-neutral-700">
               Location
             </h3>
             {address && (
@@ -147,7 +147,7 @@ export function Footer({
                 href={mapsUrl || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-start gap-2 text-sm text-primary-100 hover:text-white"
+                className="inline-flex items-start gap-2 text-sm text-neutral-600 hover:text-neutral-900"
               >
                 <MapPin size={14} className="mt-0.5 shrink-0" />
                 <span>
@@ -161,7 +161,7 @@ export function Footer({
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 border-t border-primary-600 pt-6 text-center text-xs text-primary-200">
+        <div className="mt-10 border-t border-pink-400/30 pt-6 text-center text-xs text-neutral-500">
           &copy; {currentYear} {siteName}. All rights reserved.
         </div>
       </div>

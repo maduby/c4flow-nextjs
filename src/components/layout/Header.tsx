@@ -62,7 +62,7 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
               priority
             />
           ) : null}
-          <span className="font-heading text-xl text-primary-600 md:text-2xl">
+          <span className="font-heading text-xl text-neutral-800 md:text-2xl">
             {siteName}
           </span>
         </Link>
@@ -74,7 +74,7 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
               key={link.href}
               href={link.href}
               onClick={() => trackNavClick(link.label)}
-              className="text-sm font-medium text-neutral-600 underline decoration-primary-400/0 underline-offset-4 hover:text-primary-500 hover:decoration-primary-400/50"
+              className="text-sm font-medium text-neutral-600 underline decoration-pink-400/0 underline-offset-4 hover:text-pink-600 hover:decoration-pink-400/50"
             >
               {link.label}
             </Link>
@@ -155,7 +155,7 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
                       closeMenu();
                       trackNavClick(`${link.label}_mobile`);
                     }}
-                    className="block rounded-lg px-3 py-2 text-base font-medium text-neutral-600 hover:bg-neutral-50 hover:text-primary-500"
+                    className="block rounded-lg px-3 py-2 text-base font-medium text-neutral-600 hover:bg-pink-50 hover:text-pink-600"
                   >
                     {link.label}
                   </Link>

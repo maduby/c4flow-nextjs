@@ -8,6 +8,19 @@ export const featureGrid = defineType({
   icon: ThListIcon,
   fields: [
     defineField({
+      name: "style",
+      title: "Display Style",
+      type: "string",
+      options: {
+        list: [
+          { title: "Minimal — icons & text, no card backgrounds", value: "minimal" },
+          { title: "Cards — gradient backgrounds with decorative blobs", value: "cards" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "minimal",
+    }),
+    defineField({
       name: "heading",
       title: "Section Heading",
       type: "string",

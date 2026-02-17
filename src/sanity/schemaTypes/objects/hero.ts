@@ -64,6 +64,15 @@ export const hero = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "sectionBackground",
+      title: "Section Background Image",
+      type: "image",
+      description:
+        'Optional full-width background behind the entire hero. Used in "Split" layout to add a coloured backdrop behind both text and image.',
+      options: { hotspot: true },
+      hidden: ({ parent }) => parent?.layout !== "split",
+    }),
+    defineField({
       name: "overlayLogo",
       title: "Overlay Logo",
       type: "image",

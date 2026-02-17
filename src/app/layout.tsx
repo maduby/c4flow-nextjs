@@ -43,7 +43,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "C-4 Flow | Pole & Exotic Dance Studio in Cape Town",
+    default: "C4 Flow | Pole & Exotic Dance Studio in Cape Town",
     template: "%s | C4 Flow",
   },
   description:
@@ -113,7 +113,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${mynerve.variable}`}
+      className={`${montserrat.variable} ${mynerve.variable} scroll-smooth`}
       style={
         announcement?.enabled && announcement?.text
           ? ({ "--banner-h": "36px" } as React.CSSProperties)

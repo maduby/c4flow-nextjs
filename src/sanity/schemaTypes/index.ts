@@ -22,6 +22,10 @@ import { ctaSection } from "./objects/ctaSection";
 import { contactFormSection } from "./objects/contactFormSection";
 import { mapSection } from "./objects/mapSection";
 import { testimonialsSection } from "./objects/testimonialsSection";
+import { faqSection } from "./objects/faqSection";
+import { pricingSection } from "./objects/pricingSection";
+import { classDetailsSection } from "./objects/classDetailsSection";
+import { contactInfoSection } from "./objects/contactInfoSection";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Documents
@@ -46,4 +50,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   contactFormSection,
   mapSection,
   testimonialsSection,
+  faqSection,
+  pricingSection,
+  classDetailsSection,
+  contactInfoSection,
 ];

@@ -95,6 +95,10 @@ export const ALL_CLASSES_QUERY = defineQuery(`
     name,
     "slug": slug.current,
     shortDescription,
+    description,
+    tagline,
+    days,
+    category,
     image{
       ...,
       "lqip": asset->metadata.lqip
