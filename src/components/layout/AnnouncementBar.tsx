@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { trackBannerClick, trackBannerDismiss } from "@/lib/analytics";
 
 const STORAGE_KEY = "c4flow-banner-dismissed";
@@ -15,21 +14,21 @@ interface AnnouncementBarProps {
 }
 
 export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
-  const [visible, setVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     try {
-      const dismissed = localStorage.getItem(STORAGE_KEY);
-      if (dismissed !== version) {
-        setVisible(true);
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored === version) {
+        setDismissed(true);
       }
     } catch {
-      setVisible(true);
+      /* localStorage unavailable — keep showing */
     }
   }, [version]);
 
   function dismiss() {
-    setVisible(false);
+    setDismissed(true);
     trackBannerDismiss();
     try {
       if (version) {
@@ -40,42 +39,36 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
     }
   }
 
+  if (dismissed) return null;
+
   const content = (
     <span className="text-sm font-medium text-white">{text}</span>
   );
 
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          role="status"
-          aria-label="Announcement"
-          className="relative flex items-center justify-center gap-2 bg-pink-500 px-4 py-2"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+    <div
+      role="status"
+      aria-label="Announcement"
+      className="relative flex items-center justify-center gap-2 bg-pink-500 px-4 py-2"
+    >
+      {link ? (
+        <a
+          href={link}
+          onClick={trackBannerClick}
+          className="underline decoration-white/0 underline-offset-2 hover:decoration-white/70"
         >
-          {link ? (
-            <a
-              href={link}
-              onClick={trackBannerClick}
-              className="underline decoration-white/0 underline-offset-2 hover:decoration-white/70"
-            >
-              {content}
-            </a>
-          ) : (
-            content
-          )}
-          <button
-            onClick={dismiss}
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-white/80 hover:bg-white/20 hover:text-white"
-            aria-label="Dismiss announcement"
-          >
-            <X size={16} />
-          </button>
-        </motion.div>
+          {content}
+        </a>
+      ) : (
+        content
       )}
-    </AnimatePresence>
+      <button
+        onClick={dismiss}
+        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-white/80 hover:bg-white/20 hover:text-white"
+        aria-label="Dismiss announcement"
+      >
+        <X size={16} />
+      </button>
+    </div>
   );
 }
