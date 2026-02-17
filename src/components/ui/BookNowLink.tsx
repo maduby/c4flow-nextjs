@@ -1,5 +1,6 @@
 "use client";
 
+import { ExternalLink } from "lucide-react";
 import { trackBookNow } from "@/lib/analytics";
 
 interface BookNowLinkProps {
@@ -9,6 +10,8 @@ interface BookNowLinkProps {
   source?: string;
   ariaLabel?: string;
   children?: React.ReactNode;
+  /** Hide the external-link icon (default: shown) */
+  hideIcon?: boolean;
 }
 
 export function BookNowLink({
@@ -18,6 +21,7 @@ export function BookNowLink({
   source,
   ariaLabel,
   children,
+  hideIcon,
 }: BookNowLinkProps) {
   return (
     <a
@@ -29,6 +33,13 @@ export function BookNowLink({
       aria-label={ariaLabel}
     >
       {children || "Book Now"}
+      {!hideIcon && (
+        <ExternalLink
+          size={14}
+          className="ml-1.5 inline-block -translate-y-px"
+          aria-hidden="true"
+        />
+      )}
       <span className="sr-only"> (opens in new tab)</span>
     </a>
   );
