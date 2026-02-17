@@ -126,6 +126,19 @@ export const WEEKLY_SCHEDULE_QUERY = defineQuery(`
   }
 `);
 
+// ===== Testimonials =====
+
+export const ALL_TESTIMONIALS_QUERY = defineQuery(`
+  *[_type == "testimonial"] | order(order asc, _createdAt desc){
+    _id,
+    quote,
+    name,
+    role,
+    photo,
+    rating
+  }
+`);
+
 // ===== Instructors =====
 
 export const ALL_INSTRUCTORS_QUERY = defineQuery(`

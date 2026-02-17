@@ -8,6 +8,7 @@ import { instructor } from "./documents/instructor";
 import { danceClass } from "./documents/danceClass";
 import { contactSubmission } from "./documents/contactSubmission";
 import { weeklySchedule } from "./documents/weeklySchedule";
+import { testimonial } from "./documents/testimonial";
 
 // Page builder objects
 import { hero } from "./objects/hero";
@@ -20,6 +21,7 @@ import { gallerySection } from "./objects/gallerySection";
 import { ctaSection } from "./objects/ctaSection";
 import { contactFormSection } from "./objects/contactFormSection";
 import { mapSection } from "./objects/mapSection";
+import { testimonialsSection } from "./objects/testimonialsSection";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Documents
@@ -30,6 +32,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   danceClass,
   contactSubmission,
   weeklySchedule,
+  testimonial,
 
   // Page builder objects
   hero,
@@ -42,4 +45,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   ctaSection,
   contactFormSection,
   mapSection,
+  testimonialsSection,
 ];

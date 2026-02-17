@@ -217,6 +217,15 @@ button {
   );
 }
 
+/* ===== Hide scrollbar for carousels ===== */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* ===== Feature Cards — slow gradient shimmer ===== */
 .feature-card {
   border: 2px solid rgba(179, 158, 243, 0.3);

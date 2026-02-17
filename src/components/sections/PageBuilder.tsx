@@ -8,6 +8,7 @@ import { GallerySection } from "./GallerySection";
 import { CtaSection } from "./CtaSection";
 import { ContactFormSection } from "./ContactFormSection";
 import { MapSection } from "./MapSection";
+import { TestimonialsSectionServer } from "./TestimonialsSectionServer";
 
 interface Section {
   _key: string;
@@ -113,6 +114,14 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 heading={section.heading as string | null}
                 subtitle={section.subtitle as string | null}
                 successMessage={section.successMessage as string | null}
+              />
+            );
+          case "testimonialsSection":
+            return (
+              <TestimonialsSectionServer
+                key={section._key}
+                heading={section.heading as string | null}
+                subtitle={section.subtitle as string | null}
               />
             );
           case "mapSection":

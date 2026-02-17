@@ -6,6 +6,7 @@ import {
   UsersIcon,
   CalendarIcon,
   ClockIcon,
+  CommentIcon,
   EnvelopeIcon,
 } from "@sanity/icons";
 
@@ -59,6 +60,10 @@ export const structure: StructureResolver = (S) =>
         .title("Instructors")
         .icon(UsersIcon)
         .child(S.documentTypeList("instructor").title("Instructors")),
+      S.listItem()
+        .title("Testimonials")
+        .icon(CommentIcon)
+        .child(S.documentTypeList("testimonial").title("Testimonials")),
 
       S.divider(),
 
@@ -82,6 +87,7 @@ export const structure: StructureResolver = (S) =>
             "page",
             "instructor",
             "danceClass",
+            "testimonial",
             "contactSubmission",
           ].includes(listItem.getId() as string)
       ),
