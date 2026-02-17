@@ -70,7 +70,7 @@ function CenteredHero({
     : siteLogoUrl;
 
   return (
-    <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden bg-primary-700 text-white">
+    <section className="relative flex min-h-svh items-center justify-center overflow-hidden bg-primary-700 text-white">
       {backgroundImage?.asset && (
         <>
           <Image
