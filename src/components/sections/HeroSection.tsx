@@ -2,6 +2,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { stegaClean } from "next-sanity";
 import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
+import { GradientHeroClient } from "@/components/ui/GradientHeroClient";
 
 interface HeroSectionProps {
   layout?: string | null;
@@ -40,7 +41,7 @@ export function HeroSection({
   }
 
   if (variant === "gradient") {
-    return <GradientHero {...{ headline, subtitle, body, ctaText, ctaUrl }} />;
+    return <GradientHeroClient {...{ headline, subtitle, body, ctaText, ctaUrl }} />;
   }
 
   return (
@@ -204,74 +205,4 @@ function SplitHero({
   );
 }
 
-/* ──────────────────────────────────────────────
-   Gradient: centered text with decorative blobs
-   Used on About "Our Mission" page
-   ────────────────────────────────────────────── */
-function GradientHero({
-  headline,
-  subtitle,
-  body,
-  ctaText,
-  ctaUrl,
-}: Pick<HeroSectionProps, "headline" | "subtitle" | "body" | "ctaText" | "ctaUrl">) {
-  return (
-    <section className="relative isolate overflow-hidden bg-white px-6 py-14 sm:py-20 lg:px-8 lg:py-28">
-      {/* Decorative blob — top-right */}
-      <div
-        aria-hidden="true"
-        className="absolute -top-10 right-1/2 -z-10 mr-10 hidden transform-gpu blur-3xl sm:block"
-      >
-        <div
-          style={{
-            clipPath:
-              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-          }}
-          className="aspect-1097/845 w-274 bg-linear-to-tr from-pink-300 to-primary-300 opacity-20"
-        />
-      </div>
-
-      {/* Decorative blob — top-left */}
-      <div
-        aria-hidden="true"
-        className="absolute -top-52 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl sm:ml-16 sm:-top-112 sm:translate-x-0"
-      >
-        <div
-          style={{
-            clipPath:
-              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-          }}
-          className="aspect-1097/845 w-274 bg-linear-to-tr from-pink-400 to-primary-400 opacity-15"
-        />
-      </div>
-
-      <div className="mx-auto max-w-2xl text-center">
-        <h1 className="font-heading text-5xl tracking-tight text-primary-600 sm:text-6xl lg:text-7xl">
-          {headline}
-        </h1>
-        {subtitle && (
-          <p className="mt-4 text-lg font-medium text-neutral-600 sm:text-xl">
-            {subtitle}
-          </p>
-        )}
-        {body && (
-          <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-neutral-400 sm:text-lg">
-            {body}
-          </p>
-        )}
-        {ctaText && ctaUrl && (
-          <div className="mt-10">
-            <TrackedCtaLink
-              href={ctaUrl}
-              source="hero_gradient"
-              className="rounded-full bg-pink-500 px-7 py-3 text-sm font-semibold text-white shadow-sm hover:bg-pink-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-500"
-            >
-              {ctaText}
-              <span className="sr-only"> (opens in new tab)</span>
-            </TrackedCtaLink>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
+/* GradientHero is now a client component: see GradientHeroClient.tsx */
