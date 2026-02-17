@@ -90,7 +90,7 @@ export const ALL_PAGE_SLUGS_QUERY = defineQuery(`
 // ===== Dance Classes =====
 
 export const ALL_CLASSES_QUERY = defineQuery(`
-  *[_type == "danceClass"] | order(order asc, name asc){
+  *[_type == "danceClass" && active != false] | order(order asc, name asc){
     _id,
     name,
     "slug": slug.current,
@@ -107,7 +107,7 @@ export const ALL_CLASSES_QUERY = defineQuery(`
 `);
 
 export const CLASS_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "danceClass" && slug.current == $slug][0]{
+  *[_type == "danceClass" && slug.current == $slug && active != false][0]{
     _id,
     name,
     "slug": slug.current,
@@ -128,7 +128,7 @@ export const CLASS_BY_SLUG_QUERY = defineQuery(`
 
 export const WEEKLY_SCHEDULE_QUERY = defineQuery(`
   *[_type == "weeklySchedule"][0]{
-    slots[]{
+    slots[danceClass->active != false]{
       _key,
       day,
       time,

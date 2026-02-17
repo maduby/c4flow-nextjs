@@ -13,6 +13,16 @@ export const danceClass = defineType({
   fields: [
     // ── Class Info ──
     defineField({
+      name: "active",
+      title: "Active",
+      type: "boolean",
+      group: "info",
+      description:
+        "Only active classes are shown on the website. Turn off to hide a class without deleting it.",
+      initialValue: true,
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "name",
       title: "Class Name",
       type: "string",
@@ -121,14 +131,25 @@ export const danceClass = defineType({
     },
   ],
   preview: {
-    select: { title: "name", price: "price", salePrice: "salePrice", media: "image" },
-    prepare({ title, price, salePrice, media }) {
+    select: {
+      title: "name",
+      price: "price",
+      salePrice: "salePrice",
+      media: "image",
+      active: "active",
+    },
+    prepare({ title, price, salePrice, media, active }) {
+      const status = active === false ? "🔴 " : "";
       const priceText = salePrice
         ? `R${salePrice} (was R${price})`
         : price
           ? `R${price}`
           : undefined;
-      return { title, subtitle: priceText, media };
+      return {
+        title: `${status}${title}`,
+        subtitle: priceText,
+        media,
+      };
     },
   },
 });
