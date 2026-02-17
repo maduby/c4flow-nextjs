@@ -87,6 +87,22 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ===== Link & Interactive Base Styles ===== */
+
+/* Prevent any default browser underline on links */
+a {
+  text-decoration: none;
+}
+
+/* Ensure all interactive hover/focus transitions are smooth */
+a,
+button {
+  transition-property: color, background-color, border-color, opacity,
+    text-decoration-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
 /* Focus styles for accessibility */
 :focus-visible {
   outline: 2px solid var(--color-primary-400);
