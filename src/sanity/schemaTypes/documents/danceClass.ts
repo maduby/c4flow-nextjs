@@ -79,10 +79,12 @@ export const danceClass = defineType({
     }),
     defineField({
       name: "days",
-      title: "Days Available",
+      title: "Days Available (auto-derived)",
       type: "string",
       group: "info",
-      description: 'Which days this class runs, e.g. "Mon & Fri".',
+      description:
+        "Automatically derived from the Weekly Schedule. Only used as a fallback if the class has no schedule slots.",
+      readOnly: true,
     }),
     defineField({
       name: "category",

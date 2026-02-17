@@ -115,9 +115,10 @@ export default async function RootLayout({
       lang="en"
       className={`${montserrat.variable} ${mynerve.variable} scroll-smooth`}
       style={
-        announcement?.enabled && announcement?.text
-          ? ({ "--banner-h": "36px" } as React.CSSProperties)
-          : undefined
+        {
+          "--header-h": "57px",
+          "--banner-h": announcement?.enabled && announcement?.text ? "36px" : "0px",
+        } as React.CSSProperties
       }
     >
       <head>

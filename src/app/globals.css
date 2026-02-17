@@ -67,11 +67,8 @@
   --breakpoint-2xl: 1920px;
 }
 
-/* ===== Sticky bar height tokens (used by hero calc) ===== */
-:root {
-  --header-h: 57px;
-  --banner-h: 0px;
-}
+/* ===== Sticky bar height tokens (used by hero calc) =====
+   Set via inline style on <html> in layout.tsx to avoid FOUC */
 
 /* ===== Base Styles ===== */
 
