@@ -116,12 +116,20 @@ export default async function RootLayout({
       className={`${montserrat.variable} ${mynerve.variable} scroll-smooth`}
       style={
         {
-          "--header-h": "57px",
+          "--header-h": "65px",
           "--banner-h": announcement?.enabled && announcement?.text ? "36px" : "0px",
         } as React.CSSProperties
       }
     >
       <head>
+        {/* Blocking script: hide dismissed banner before first paint to prevent CLS */}
+        {announcement?.enabled && announcement?.text && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(){try{var v=localStorage.getItem("c4flow-banner-dismissed");if(v===${JSON.stringify(announcement._updatedAt)}){document.documentElement.classList.add("banner-dismissed");document.documentElement.style.setProperty("--banner-h","0px")}}catch(e){}})()`,
+            }}
+          />
+        )}
         <JsonLd
           data={{
             "@context": "https://schema.org",

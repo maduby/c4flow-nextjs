@@ -30,12 +30,20 @@ export const ANNOUNCEMENT_BAR_QUERY = defineQuery(`
     text,
     link,
     _updatedAt,
-    discountEnabled,
+    showInSchedule,
+    scheduleText
+  }
+`);
+
+// ===== Discounts =====
+
+export const DISCOUNT_QUERY = defineQuery(`
+  *[_type == "discount"][0]{
+    enabled,
     discountPercent,
     discountScope,
     "discountClassIds": discountClasses[]->_id,
-    showInSchedule,
-    scheduleText
+    label
   }
 `);
 

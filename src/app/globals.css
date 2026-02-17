@@ -68,7 +68,12 @@
 }
 
 /* ===== Sticky bar height tokens (used by hero calc) =====
-   Set via inline style on <html> in layout.tsx to avoid FOUC */
+   Set via inline style on <html> in layout.tsx to avoid FOUC.
+   Blocking <script> adds .banner-dismissed before paint when
+   localStorage says the user already closed the banner. */
+.banner-dismissed [data-announcement] {
+  display: none !important;
+}
 
 /* ===== Base Styles ===== */
 

@@ -4,7 +4,7 @@ import { PortableText } from "@portabletext/react";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   ALL_CLASSES_QUERY,
-  ANNOUNCEMENT_BAR_QUERY,
+  DISCOUNT_QUERY,
   WEEKLY_SCHEDULE_QUERY,
 } from "@/sanity/lib/queries";
 import { Container } from "@/components/shared/Container";
@@ -31,25 +31,22 @@ export async function ClassDetailsSection({
   heading,
   subtitle,
 }: ClassDetailsSectionProps) {
-  const [{ data: classes }, { data: announcement }, { data: schedule }] =
+  const [{ data: classes }, { data: discountDoc }, { data: schedule }] =
     await Promise.all([
       sanityFetch({ query: ALL_CLASSES_QUERY }),
-      sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY }),
+      sanityFetch({ query: DISCOUNT_QUERY }),
       sanityFetch({ query: WEEKLY_SCHEDULE_QUERY }),
     ]);
 
   if (!classes?.length) return null;
 
-  // Discount logic (same as ClassesSection / ClassCard)
-  const promoActive =
-    announcement?.enabled &&
-    announcement?.discountEnabled &&
-    announcement?.discountPercent;
-  const discountPercent = promoActive ? announcement.discountPercent : null;
-  const discountScope = promoActive ? announcement.discountScope : null;
+  // Discount logic from the dedicated Discounts singleton
+  const promoActive = discountDoc?.enabled && discountDoc?.discountPercent;
+  const discountPercent = promoActive ? discountDoc.discountPercent : null;
+  const discountScope = promoActive ? discountDoc.discountScope : null;
   const discountClassIds: string[] =
-    promoActive && announcement.discountClassIds
-      ? (announcement.discountClassIds as string[])
+    promoActive && discountDoc.discountClassIds
+      ? (discountDoc.discountClassIds as string[])
       : [];
 
   function getDiscountForClass(classId: string): number | null {

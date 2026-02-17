@@ -2,6 +2,7 @@ import type { StructureResolver } from "sanity/structure";
 import {
   CogIcon,
   BellIcon,
+  TagIcon,
   DocumentIcon,
   UsersIcon,
   CalendarIcon,
@@ -10,7 +11,7 @@ import {
   EnvelopeIcon,
 } from "@sanity/icons";
 
-const SINGLETONS = ["siteSettings", "announcementBar", "weeklySchedule"];
+const SINGLETONS = ["siteSettings", "announcementBar", "discount", "weeklySchedule"];
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -30,6 +31,14 @@ export const structure: StructureResolver = (S) =>
           S.document()
             .schemaType("announcementBar")
             .documentId("announcementBar")
+        ),
+      S.listItem()
+        .title("Discounts")
+        .icon(TagIcon)
+        .child(
+          S.document()
+            .schemaType("discount")
+            .documentId("discount")
         ),
 
       S.divider(),

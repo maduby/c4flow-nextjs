@@ -15,12 +15,20 @@ interface AnnouncementBarProps {
 }
 
 export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
-  const [dismissed, setDismissed] = useState(false);
+  /* The blocking <script> in layout.tsx already hides the banner via CSS
+     and sets --banner-h: 0px before first paint. We sync React state here
+     so the component returns null on the next render (no DOM waste). */
+  const [dismissed, setDismissed] = useState(() => {
+    if (typeof document !== "undefined") {
+      return document.documentElement.classList.contains("banner-dismissed");
+    }
+    return false;
+  });
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
   const bannerRef = useRef<HTMLDivElement>(null);
 
-  /* ── localStorage check ─────────────────────────── */
+  /* ── localStorage check (fallback — blocking script handles the fast path) ── */
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -33,19 +41,11 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
     }
   }, [version]);
 
-  /* ── Measure header + banner heights (pixel-perfect sticky alignment) ── */
+  /* ── Measure actual banner height (only fine-tune, don't touch --header-h) ── */
   useEffect(() => {
     if (dismissed) return;
 
-    const header = document.querySelector("header");
-
-    function sync() {
-      if (header) {
-        document.documentElement.style.setProperty(
-          "--header-h",
-          `${header.offsetHeight}px`,
-        );
-      }
+    function syncBanner() {
       if (bannerRef.current) {
         document.documentElement.style.setProperty(
           "--banner-h",
@@ -54,10 +54,9 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
       }
     }
 
-    sync();
+    syncBanner();
 
-    const ro = new ResizeObserver(sync);
-    if (header) ro.observe(header);
+    const ro = new ResizeObserver(syncBanner);
     if (bannerRef.current) ro.observe(bannerRef.current);
     return () => ro.disconnect();
   }, [dismissed]);

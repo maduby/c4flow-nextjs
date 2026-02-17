@@ -2,6 +2,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import {
   WEEKLY_SCHEDULE_QUERY,
   ANNOUNCEMENT_BAR_QUERY,
+  DISCOUNT_QUERY,
 } from "@/sanity/lib/queries";
 import { Clock } from "lucide-react";
 import { Container } from "@/components/shared/Container";
@@ -48,26 +49,20 @@ const DAY_ORDER = [
   "Sunday",
 ];
 
-/* ── Discount helper (same logic as ClassesSection) ─────────── */
+/* ── Discount helper (reads from dedicated Discounts document) ── */
 
 function getDiscountForClass(
   classId: string | null,
-  announcement: {
+  discountDoc: {
     enabled?: boolean | null;
-    discountEnabled?: boolean | null;
     discountPercent?: number | null;
     discountScope?: string | null;
     discountClassIds?: string[] | null;
   } | null,
 ): number | null {
-  if (
-    !announcement?.enabled ||
-    !announcement?.discountEnabled ||
-    !announcement?.discountPercent
-  )
-    return null;
+  if (!discountDoc?.enabled || !discountDoc?.discountPercent) return null;
 
-  const { discountPercent, discountScope, discountClassIds } = announcement;
+  const { discountPercent, discountScope, discountClassIds } = discountDoc;
 
   if (discountScope === "all") return discountPercent;
   if (
@@ -106,25 +101,26 @@ export async function ScheduleSection({
   heading,
   subtitle,
 }: ScheduleSectionProps) {
-  const [{ data: schedule }, { data: announcement }] = await Promise.all([
-    sanityFetch({ query: WEEKLY_SCHEDULE_QUERY }),
-    sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY }),
-  ]);
+  const [{ data: schedule }, { data: announcement }, { data: discountDoc }] =
+    await Promise.all([
+      sanityFetch({ query: WEEKLY_SCHEDULE_QUERY }),
+      sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY }),
+      sanityFetch({ query: DISCOUNT_QUERY }),
+    ]);
 
   const slots: Slot[] = (schedule?.slots as Slot[]) || [];
   const notices: Notice[] = (schedule?.notices as Notice[]) || [];
 
   if (!slots.length) return null;
 
-  /* ── Inject banner promo as a synthetic notice ───────────── */
+  /* ── Inject announcement as a synthetic notice if enabled ── */
   const allNotices = [...notices];
 
-  const promoActive =
+  if (
     announcement?.enabled &&
-    announcement?.discountEnabled &&
-    announcement?.discountPercent;
-
-  if (promoActive && announcement?.showInSchedule && announcement?.text) {
+    announcement?.showInSchedule &&
+    announcement?.text
+  ) {
     allNotices.unshift({
       _key: "__banner-promo__",
       style: "celebration",
@@ -175,7 +171,7 @@ export async function ScheduleSection({
                 {scheduleByDay.get(day)!.map((slot) => {
                   const discount = getDiscountForClass(
                     slot.classId,
-                    announcement,
+                    discountDoc,
                   );
                   const pricing = formatPrice(slot, discount);
 
@@ -259,7 +255,7 @@ export async function ScheduleSection({
                 scheduleByDay.get(day)!.map((slot, i) => {
                   const discount = getDiscountForClass(
                     slot.classId,
-                    announcement,
+                    discountDoc,
                   );
                   const pricing = formatPrice(slot, discount);
 

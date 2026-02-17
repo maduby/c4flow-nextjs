@@ -7,6 +7,7 @@ import { page } from "./documents/page";
 import { instructor } from "./documents/instructor";
 import { danceClass } from "./documents/danceClass";
 import { contactSubmission } from "./documents/contactSubmission";
+import { discount } from "./documents/discount";
 import { weeklySchedule } from "./documents/weeklySchedule";
 import { testimonial } from "./documents/testimonial";
 
@@ -31,6 +32,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   // Documents
   siteSettings,
   announcementBar,
+  discount,
   page,
   instructor,
   danceClass,
