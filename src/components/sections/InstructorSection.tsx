@@ -37,10 +37,11 @@ export function InstructorSection({
       <Container className="relative z-10">
         <SectionHeading>{heading || "Meet Your Instructor"}</SectionHeading>
 
-        <div className="grid items-stretch gap-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-8 lg:gap-10">
-          {/* Photo — stretches to match bio height */}
+        <div className="grid gap-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:items-start md:gap-8 lg:items-stretch lg:gap-10">
+          {/* Photo — standard image on mobile/tablet, fill on desktop */}
           {instructor.photo?.asset && (
-            <div className="relative min-h-[360px] overflow-hidden rounded-2xl shadow-lg md:max-w-sm">
+              <div className="overflow-hidden rounded-2xl shadow-lg sm:max-w-md md:max-w-none lg:relative lg:min-h-full">
+              {/* Mobile / tablet: standard responsive image */}
               <Image
                 src={urlFor(instructor.photo)
                   .width(500)
@@ -48,9 +49,10 @@ export function InstructorSection({
                   .quality(85)
                   .url()}
                 alt={instructor.name || "Instructor"}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 320px"
+                width={500}
+                height={670}
+                className="h-auto w-full object-cover object-top md:object-center lg:absolute lg:inset-0 lg:h-full lg:w-full"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 384px, 320px"
                 {...(instructor.photo.lqip && {
                   placeholder: "blur" as const,
                   blurDataURL: instructor.photo.lqip,
