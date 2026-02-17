@@ -109,7 +109,7 @@ export function ScheduleNotices({ notices }: ScheduleNoticesProps) {
   return (
     <AnimatePresence>
       <motion.div
-        className="mx-auto mb-10 max-w-3xl space-y-3"
+        className="mx-auto mb-6 max-w-3xl space-y-3 md:mb-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"

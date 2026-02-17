@@ -88,7 +88,7 @@ export function FeatureGridSection({
           : `sm:grid-cols-2 lg:grid-cols-${Math.min(count, 3)}`;
 
   return (
-    <section className="relative overflow-hidden py-20 md:py-28">
+    <section className="relative overflow-hidden py-12 md:py-24">
       {/* Large ambient background glow */}
       <div
         className="absolute left-1/2 top-1/2 -z-10 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2"

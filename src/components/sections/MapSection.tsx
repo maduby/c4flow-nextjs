@@ -21,7 +21,7 @@ export function MapSection({
   logoUrl,
 }: MapSectionProps) {
   return (
-    <section className="bg-muted py-20 md:py-28">
+    <section className="bg-muted py-12 md:py-24">
       <Container>
         <SectionHeading>{heading || "Find Us"}</SectionHeading>
 

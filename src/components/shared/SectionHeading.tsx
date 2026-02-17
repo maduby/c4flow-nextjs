@@ -21,7 +21,7 @@ export function SectionHeading({
   return (
     <motion.div
       className={cn(
-        "mb-12",
+        "mb-8 md:mb-12",
         align === "center" && "text-center",
         className
       )}

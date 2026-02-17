@@ -70,7 +70,7 @@ export function ContactFormSection({
   }
 
   return (
-    <section className="relative overflow-hidden py-20 md:py-28">
+    <section className="relative overflow-hidden py-12 md:py-24">
       {/* Decorative orb */}
       <div
         className="gradient-orb absolute -right-32 top-0 h-80 w-80"

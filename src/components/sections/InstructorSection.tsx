@@ -27,7 +27,7 @@ export function InstructorSection({
   if (!instructor) return null;
 
   return (
-    <section className="relative overflow-hidden py-20 md:py-28">
+    <section className="relative overflow-hidden py-12 md:py-24">
       {/* Decorative gradient orb behind instructor photo */}
       <div
         className="gradient-orb absolute -left-40 top-1/2 h-[500px] w-[500px] -translate-y-1/2"

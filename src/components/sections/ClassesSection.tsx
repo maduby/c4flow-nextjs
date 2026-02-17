@@ -62,7 +62,7 @@ export async function ClassesSection({
   }
 
   return (
-    <section className="relative overflow-hidden bg-muted py-20 md:py-28">
+    <section className="relative overflow-hidden bg-muted py-12 md:py-24">
       <Container>
         <SectionHeading subtitle={subtitle}>
           {heading || "Our Classes"}

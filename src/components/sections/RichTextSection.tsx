@@ -20,7 +20,7 @@ export function RichTextSection({
   const cleanLayout = stegaClean(layout) || "centered";
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-10 md:py-20">
       <Container>
         {heading && <SectionHeading>{heading}</SectionHeading>}
         <div

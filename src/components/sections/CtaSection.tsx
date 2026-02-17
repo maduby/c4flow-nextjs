@@ -26,7 +26,7 @@ export function CtaSection({
   return (
     <section
       className={cn(
-        "relative isolate overflow-hidden py-20 md:py-28",
+        "relative isolate overflow-hidden py-12 md:py-24",
         cleanStyle === "gradient" &&
           "animated-gradient bg-linear-to-br from-primary-700 via-primary-600 to-pink-500 text-white",
         cleanStyle === "dark" && "bg-primary-700 text-white",

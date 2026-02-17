@@ -153,7 +153,7 @@ function SplitHero({
             <polygon points="0,0 90,0 50,100 0,100" />
           </svg>
 
-          <div className="relative px-6 py-24 sm:py-32 lg:px-12 lg:py-40 lg:pr-0">
+          <div className="relative px-6 py-14 sm:py-20 lg:px-12 lg:py-32 lg:pr-0">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
               <h1 className="font-heading text-5xl tracking-tight text-primary-600 sm:text-6xl lg:text-7xl">
                 {headline}
@@ -186,7 +186,7 @@ function SplitHero({
       </div>
 
       {/* Image — stacked on mobile, right half on desktop */}
-      <div className="relative min-h-[280px] sm:min-h-[360px] lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:min-h-0">
+      <div className="relative min-h-[240px] sm:min-h-[320px] lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:min-h-0">
         {backgroundImage?.asset ? (
           <Image
             src={urlFor(backgroundImage).width(1200).height(900).quality(85).url()}
@@ -216,7 +216,7 @@ function GradientHero({
   ctaUrl,
 }: Pick<HeroSectionProps, "headline" | "subtitle" | "body" | "ctaText" | "ctaUrl">) {
   return (
-    <section className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <section className="relative isolate overflow-hidden bg-white px-6 py-14 sm:py-20 lg:px-8 lg:py-28">
       {/* Decorative blob — top-right */}
       <div
         aria-hidden="true"
