@@ -3,6 +3,7 @@ import { ALL_CLASSES_QUERY } from "@/sanity/lib/queries";
 import { Clock } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { BookNowLink } from "@/components/ui/BookNowLink";
 
 interface ScheduleSectionProps {
   heading?: string | null;
@@ -50,7 +51,7 @@ export async function ScheduleSection({
   if (!activeDays.length) return null;
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-20 md:py-28">
       <Container>
         <SectionHeading subtitle={subtitle}>
           {heading || "Weekly Schedule"}
@@ -83,16 +84,15 @@ export async function ScheduleSection({
                       </p>
                     </div>
                     {entry.bookingUrl && (
-                      <a
+                      <BookNowLink
                         href={entry.bookingUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        label={entry.className}
+                        source="schedule_mobile"
+                        ariaLabel={`Book ${entry.className} on ${day}`}
                         className="shrink-0 rounded-full bg-pink-500 px-4 py-1.5 text-xs font-medium text-white hover:bg-pink-600"
-                        aria-label={`Book ${entry.className} on ${day}`}
                       >
                         Book
-                        <span className="sr-only"> (opens in new tab)</span>
-                      </a>
+                      </BookNowLink>
                     )}
                   </div>
                 ))}
@@ -140,16 +140,15 @@ export async function ScheduleSection({
                     <td className="px-6 py-4 text-neutral-600">{entry.time}</td>
                     <td className="px-6 py-4 text-right">
                       {entry.bookingUrl && (
-                        <a
+                        <BookNowLink
                           href={entry.bookingUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          label={entry.className}
+                          source="schedule_table"
+                          ariaLabel={`Book ${entry.className} on ${day}`}
                           className="text-sm font-medium text-pink-500 hover:text-pink-600"
-                          aria-label={`Book ${entry.className} on ${day}`}
                         >
                           Book
-                          <span className="sr-only"> (opens in new tab)</span>
-                        </a>
+                        </BookNowLink>
                       )}
                     </td>
                   </tr>

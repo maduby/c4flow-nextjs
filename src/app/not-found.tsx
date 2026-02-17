@@ -1,5 +1,11 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/shared/Container";
+
+export const metadata: Metadata = {
+  title: "Page Not Found",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (

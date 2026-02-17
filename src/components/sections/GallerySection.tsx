@@ -34,7 +34,7 @@ export function GallerySection({
     }));
 
   return (
-    <section className="bg-muted py-16 md:py-24">
+    <section className="relative overflow-hidden bg-muted py-20 md:py-28">
       <Container>
         <SectionHeading subtitle={subtitle}>
           {heading || "Gallery"}

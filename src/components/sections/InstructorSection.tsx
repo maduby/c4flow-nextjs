@@ -4,6 +4,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PortableText } from "@portabletext/react";
+import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
 
 interface InstructorSectionProps {
   heading?: string | null;
@@ -26,14 +27,20 @@ export function InstructorSection({
   if (!instructor) return null;
 
   return (
-    <section className="py-16 md:py-24">
-      <Container>
+    <section className="relative overflow-hidden py-20 md:py-28">
+      {/* Decorative gradient orb behind instructor photo */}
+      <div
+        className="gradient-orb absolute -left-40 top-1/2 h-[500px] w-[500px] -translate-y-1/2"
+        aria-hidden="true"
+      />
+
+      <Container className="relative z-10">
         <SectionHeading>{heading || "Meet Your Instructor"}</SectionHeading>
 
         <div className="mx-auto grid max-w-4xl items-center gap-10 md:grid-cols-2">
           {/* Photo */}
           {instructor.photo?.asset && (
-            <div className="relative aspect-3/4 overflow-hidden rounded-2xl">
+            <div className="relative aspect-3/4 overflow-hidden rounded-2xl shadow-lg">
               <Image
                 src={urlFor(instructor.photo)
                   .width(600)
@@ -73,14 +80,13 @@ export function InstructorSection({
 
             <div className="mt-6 flex gap-3">
               {instructor.bookingUrl && (
-                <a
+                <TrackedCtaLink
                   href={instructor.bookingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  source="instructor_section"
                   className="rounded-full bg-pink-500 px-6 py-2.5 text-sm font-medium text-white hover:bg-pink-600"
                 >
                   Book a Session
-                </a>
+                </TrackedCtaLink>
               )}
               {instructor.instagramUrl && (
                 <a

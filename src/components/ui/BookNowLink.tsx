@@ -7,6 +7,8 @@ interface BookNowLinkProps {
   className?: string;
   label?: string;
   source?: string;
+  ariaLabel?: string;
+  children?: React.ReactNode;
 }
 
 export function BookNowLink({
@@ -14,6 +16,8 @@ export function BookNowLink({
   className,
   label,
   source,
+  ariaLabel,
+  children,
 }: BookNowLinkProps) {
   return (
     <a
@@ -22,8 +26,9 @@ export function BookNowLink({
       rel="noopener noreferrer"
       onClick={() => trackBookNow(label, source)}
       className={className}
+      aria-label={ariaLabel}
     >
-      Book Now
+      {children || "Book Now"}
       <span className="sr-only"> (opens in new tab)</span>
     </a>
   );

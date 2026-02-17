@@ -2,6 +2,7 @@ import Image from "next/image";
 import { MapPin, Navigation, ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
 
 interface MapSectionProps {
   heading?: string | null;
@@ -20,7 +21,7 @@ export function MapSection({
   logoUrl,
 }: MapSectionProps) {
   return (
-    <section className="bg-muted py-16 md:py-24">
+    <section className="bg-muted py-20 md:py-28">
       <Container>
         <SectionHeading>{heading || "Find Us"}</SectionHeading>
 
@@ -90,26 +91,23 @@ export function MapSection({
               </div>
             </div>
             <div className="flex shrink-0 gap-2">
-              <a
+              <TrackedCtaLink
                 href={MAPS_DIRECTIONS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                source="map_navigate"
                 className="inline-flex items-center gap-2 rounded-full bg-pink-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-pink-600"
               >
                 <Navigation size={14} />
                 Navigate There
                 <span className="sr-only"> (opens Google Maps)</span>
-              </a>
-              <a
+              </TrackedCtaLink>
+              <TrackedCtaLink
                 href={MAPS_PLACE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                source="map_view"
                 className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 text-sm font-medium text-neutral-600 hover:border-neutral-200 hover:bg-neutral-50"
-                aria-label="View on Google Maps (opens in new tab)"
               >
                 <ExternalLink size={14} />
                 <span className="hidden sm:inline">View on Maps</span>
-              </a>
+              </TrackedCtaLink>
             </div>
           </div>
         </div>

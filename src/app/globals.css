@@ -133,3 +133,92 @@ button {
   font-weight: 500;
   z-index: 9999;
 }
+
+/* ===== Glass & Gradient Utilities ===== */
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.glass-card-strong {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Slow animated gradient background */
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 12s ease infinite;
+}
+
+.animated-gradient-slow {
+  background-size: 200% 200%;
+  animation: gradient-shift 20s ease infinite;
+}
+
+/* Subtle floating animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Glow effect for icon badges */
+.icon-glow {
+  box-shadow: 0 0 20px rgba(103, 61, 230, 0.15),
+    0 0 40px rgba(252, 81, 133, 0.08);
+}
+
+/* Decorative gradient orb */
+.gradient-orb {
+  background: radial-gradient(
+    circle,
+    rgba(103, 61, 230, 0.12) 0%,
+    rgba(252, 81, 133, 0.08) 50%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* Section divider — subtle gradient line */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-primary-200) 30%,
+    var(--color-pink-200) 70%,
+    transparent 100%
+  );
+}
+
+/* ===== Feature Cards — bold organic style ===== */
+/* Border + hover handled by Framer Motion; base border stays in CSS */
+.feature-card {
+  border: 2px solid rgba(179, 158, 243, 0.35);
+}

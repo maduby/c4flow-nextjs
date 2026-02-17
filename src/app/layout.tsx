@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Montserrat, Mynerve } from "next/font/google";
 import { SanityLive } from "@/sanity/lib/live";
 import { VisualEditing } from "next-sanity/visual-editing";
@@ -31,9 +31,18 @@ const mynerve = Mynerve({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#2d1f3d" },
+    { media: "(prefers-color-scheme: dark)", color: "#1F1346" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: {
-    default: "C-4 Flow | Pole & Exotic Dance Studio",
+    default: "C-4 Flow | Pole & Exotic Dance Studio in Cape Town",
     template: "%s | C4 Flow",
   },
   description:
@@ -47,7 +56,21 @@ export const metadata: Metadata = {
     "exotic dance studio Cape Town",
     "pole fitness Cape Town",
     "dance classes Woodstock",
+    "private pole dance lessons Cape Town",
+    "pole dancing beginners Cape Town",
+    "Woodstock Exchange dance studio",
   ],
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/site.webmanifest",
   openGraph: {
     type: "website",
     locale: "en_ZA",
@@ -59,6 +82,16 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || undefined,
   },
 };
 
@@ -103,13 +136,53 @@ export default async function RootLayout({
               latitude: -33.926702,
               longitude: 18.4434095,
             },
+            openingHoursSpecification: [
+              {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                opens: "09:00",
+                closes: "21:00",
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: "Saturday",
+                opens: "09:00",
+                closes: "14:00",
+              },
+            ],
+            priceRange: "R150 - R600",
+            currenciesAccepted: "ZAR",
+            paymentAccepted: "Cash, Credit Card, EFT",
             sameAs: [
               settings?.instagramUrl,
               settings?.instructorInstagramUrl,
             ].filter(Boolean),
             ...(logoUrl && {
               image: logoUrl,
+              logo: logoUrl,
             }),
+            hasOfferCatalog: {
+              "@type": "OfferCatalog",
+              name: "Dance Classes",
+              itemListElement: [
+                {
+                  "@type": "Offer",
+                  itemOffered: {
+                    "@type": "Service",
+                    name: "Group Pole Dance Classes",
+                    description: "Group pole dance classes for all levels",
+                  },
+                },
+                {
+                  "@type": "Offer",
+                  itemOffered: {
+                    "@type": "Service",
+                    name: "Private Pole Dance Lessons",
+                    description: "One-on-one pole dance instruction",
+                  },
+                },
+              ],
+            },
           }}
         />
       </head>

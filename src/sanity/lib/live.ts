@@ -6,4 +6,5 @@ export const { sanityFetch, SanityLive } = defineLive({
     apiVersion: "v2024-08-01",
   }),
   serverToken: process.env.SANITY_API_READ_TOKEN,
+  browserToken: false,
 });
