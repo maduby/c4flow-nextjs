@@ -13,7 +13,7 @@ interface DanceClass {
   name: string | null;
   slug: string | null;
   shortDescription: string | null;
-  image: { asset?: { _ref: string }; alt?: string } | null;
+  image: { asset?: { _ref: string }; alt?: string; lqip?: string | null } | null;
   price: number | null;
   salePrice: number | null;
   duration: number | null;
@@ -64,6 +64,11 @@ export function ClassCard({ danceClass, bannerDiscount }: ClassCardProps) {
             alt={name || "Dance class"}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            {...(image.lqip && {
+              placeholder: "blur" as const,
+              blurDataURL: image.lqip,
+            })}
           />
           {/* Price badge */}
           <div className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-sm font-bold backdrop-blur-sm">

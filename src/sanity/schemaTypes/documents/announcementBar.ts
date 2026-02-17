@@ -11,6 +11,7 @@ export const announcementBar = defineType({
   groups: [
     { name: "banner", title: "Banner", default: true },
     { name: "promotion", title: "Promotion / Discount" },
+    { name: "schedule", title: "Schedule Integration" },
   ],
   fields: [
     // ── Banner ──
@@ -99,6 +100,27 @@ export const announcementBar = defineType({
       of: [{ type: "reference", to: [{ type: "danceClass" }] }],
       hidden: ({ parent }) =>
         !parent?.discountEnabled || parent?.discountScope !== "specific",
+    }),
+
+    // ── Schedule Integration ──
+    defineField({
+      name: "showInSchedule",
+      title: "Also Show in Weekly Schedule",
+      type: "boolean",
+      group: "schedule",
+      description:
+        "When ON, this promotion also appears as a notice card above the weekly schedule — giving it more visibility with room for extra detail.",
+      initialValue: true,
+    }),
+    defineField({
+      name: "scheduleText",
+      title: "Schedule Notice Text",
+      type: "text",
+      group: "schedule",
+      rows: 3,
+      description:
+        'A longer version of the banner message shown in the schedule section. Example: "Bring your partner or galentine and enjoy discounted rates all weekend."',
+      hidden: ({ parent }) => !parent?.showInSchedule,
     }),
   ],
   preview: {

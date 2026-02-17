@@ -33,7 +33,9 @@ export const ANNOUNCEMENT_BAR_QUERY = defineQuery(`
     discountEnabled,
     discountPercent,
     discountScope,
-    "discountClassIds": discountClasses[]->_id
+    "discountClassIds": discountClasses[]->_id,
+    showInSchedule,
+    scheduleText
   }
 `);
 
@@ -49,13 +51,28 @@ export const PAGE_BY_SLUG_QUERY = defineQuery(`
     ogImage,
     sections[]{
       ...,
+      backgroundImage{
+        ...,
+        "lqip": asset->metadata.lqip
+      },
+      overlayLogo{
+        ...,
+        "lqip": asset->metadata.lqip
+      },
+      images[]{
+        ...,
+        "lqip": asset->metadata.lqip
+      },
       _type == "instructorSection" => {
         ...,
         instructor->{
           name,
           title,
           experience,
-          photo,
+          photo{
+            ...,
+            "lqip": asset->metadata.lqip
+          },
           bio,
           shortBio,
           instagramUrl,
@@ -78,7 +95,10 @@ export const ALL_CLASSES_QUERY = defineQuery(`
     name,
     "slug": slug.current,
     shortDescription,
-    image,
+    image{
+      ...,
+      "lqip": asset->metadata.lqip
+    },
     price,
     salePrice,
     duration,
@@ -93,7 +113,10 @@ export const CLASS_BY_SLUG_QUERY = defineQuery(`
     "slug": slug.current,
     description,
     shortDescription,
-    image,
+    image{
+      ...,
+      "lqip": asset->metadata.lqip
+    },
     price,
     salePrice,
     duration,
@@ -110,6 +133,9 @@ export const WEEKLY_SCHEDULE_QUERY = defineQuery(`
       day,
       time,
       "className": danceClass->name,
+      "classId": danceClass->_id,
+      "price": danceClass->price,
+      "salePrice": danceClass->salePrice,
       "bookingUrl": danceClass->bookingUrl
     },
     "notices": notices[active == true]{
@@ -134,7 +160,10 @@ export const ALL_TESTIMONIALS_QUERY = defineQuery(`
     quote,
     name,
     role,
-    photo,
+    photo{
+      ...,
+      "lqip": asset->metadata.lqip
+    },
     rating
   }
 `);
@@ -147,7 +176,10 @@ export const ALL_INSTRUCTORS_QUERY = defineQuery(`
     name,
     title,
     experience,
-    photo,
+    photo{
+      ...,
+      "lqip": asset->metadata.lqip
+    },
     bio,
     shortBio,
     instagramUrl,

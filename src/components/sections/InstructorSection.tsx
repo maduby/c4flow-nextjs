@@ -12,7 +12,7 @@ interface InstructorSectionProps {
     name: string | null;
     title: string | null;
     experience: string | null;
-    photo: { asset?: { _ref: string } } | null;
+    photo: { asset?: { _ref: string }; lqip?: string | null } | null;
     bio: Array<Record<string, unknown>> | null;
     shortBio: string | null;
     instagramUrl: string | null;
@@ -50,6 +50,11 @@ export function InstructorSection({
                 alt={instructor.name || "Instructor"}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                {...(instructor.photo.lqip && {
+                  placeholder: "blur" as const,
+                  blurDataURL: instructor.photo.lqip,
+                })}
               />
             </div>
           )}

@@ -13,7 +13,7 @@ interface Testimonial {
   quote: string | null;
   name: string | null;
   role: string | null;
-  photo: { asset?: { _ref: string } } | null;
+  photo: { asset?: { _ref: string }; lqip?: string | null } | null;
   rating: number | null;
 }
 
@@ -244,6 +244,10 @@ function TestimonialCard({
               width={40}
               height={40}
               className="h-10 w-10 rounded-full object-cover ring-2 ring-white"
+              {...(photo?.lqip && {
+                placeholder: "blur" as const,
+                blurDataURL: photo.lqip,
+              })}
             />
           ) : (
             <div

@@ -8,6 +8,7 @@ interface GalleryImage {
   asset?: { _ref: string };
   alt?: string;
   caption?: string;
+  lqip?: string | null;
 }
 
 interface GallerySectionProps {
@@ -31,6 +32,7 @@ export function GallerySection({
       fullUrl: urlFor(img).width(1600).quality(90).url(),
       alt: img.alt || "Gallery image",
       caption: img.caption || null,
+      lqip: img.lqip || null,
     }));
 
   return (

@@ -13,9 +13,11 @@ interface HeroSectionProps {
   backgroundImage?: {
     asset?: { _ref: string };
     alt?: string;
+    lqip?: string | null;
   } | null;
   overlayLogo?: {
     asset?: { _ref: string };
+    lqip?: string | null;
   } | null;
   ctaText?: string | null;
   ctaUrl?: string | null;
@@ -70,7 +72,7 @@ function CenteredHero({
     : siteLogoUrl;
 
   return (
-    <section className="hero-full-bleed relative flex h-svh items-center justify-center overflow-hidden bg-primary-700 text-white">
+    <section className="relative flex h-[calc(100svh_-_var(--header-h)_-_var(--banner-h))] items-center justify-center overflow-hidden bg-primary-700 text-white">
       {backgroundImage?.asset && (
         <>
           <Image
@@ -79,6 +81,10 @@ function CenteredHero({
             fill
             priority
             className="object-cover"
+            {...(backgroundImage.lqip && {
+              placeholder: "blur" as const,
+              blurDataURL: backgroundImage.lqip,
+            })}
           />
           <div className="absolute inset-0 bg-primary-700/65" aria-hidden="true" />
         </>
@@ -109,9 +115,9 @@ function CenteredHero({
           </p>
         )}
         {tagline && (
-          <p className="mt-2 text-lg italic text-primary-100 drop-shadow-sm md:text-xl">
+          <h3 className="mt-4 text-base text-primary-100 drop-shadow-sm md:text-xl px-3 py-1 rounded-full bg-linear-to-r from-primary-500 to-primary-700 font-bold">
             {tagline}
-          </p>
+          </h3>
         )}
         {ctaText && ctaUrl && (
           <TrackedCtaLink
@@ -196,6 +202,10 @@ function SplitHero({
             priority
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"
+            {...(backgroundImage.lqip && {
+              placeholder: "blur" as const,
+              blurDataURL: backgroundImage.lqip,
+            })}
           />
         ) : (
           <div className="absolute inset-0 bg-linear-to-br from-primary-100 via-pink-100 to-primary-50" />

@@ -1,8 +1,12 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
+import { presentationTool } from "sanity/presentation";
 import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
+
+const PREVIEW_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export default defineConfig({
   name: "c4flow",
@@ -10,7 +14,17 @@ export default defineConfig({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ik9ho36m",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
 
-  plugins: [structureTool({ structure }), visionTool()],
+  plugins: [
+    structureTool({ structure }),
+    presentationTool({
+      previewUrl: {
+        draftMode: {
+          enable: "/api/draft-mode/enable",
+        },
+      },
+    }),
+    visionTool(),
+  ],
 
   schema: {
     types: schemaTypes,
