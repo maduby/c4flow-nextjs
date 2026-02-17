@@ -67,8 +67,8 @@ export function TestimonialsSection({
         <SectionHeading subtitle={subtitle}>
           {heading || "What Our Students Say"}
         </SectionHeading>
-        <TestimonialCarousel testimonials={testimonials} />
       </Container>
+      <TestimonialCarousel testimonials={testimonials} />
     </section>
   );
 }
@@ -114,11 +114,11 @@ function TestimonialCarousel({
 
   return (
     <div className="relative">
-      {/* Navigation buttons */}
+      {/* Navigation buttons — positioned within content area */}
       {canScrollLeft && (
         <button
           onClick={() => scroll("left")}
-          className="absolute -left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-2.5 shadow-md ring-1 ring-black/5 transition-colors hover:bg-neutral-50 md:-left-5"
+          className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-2.5 shadow-md ring-1 ring-black/5 transition-colors hover:bg-neutral-50 md:left-4 lg:left-8"
           aria-label="Previous testimonial"
         >
           <ChevronLeft size={20} className="text-neutral-600" />
@@ -127,17 +127,17 @@ function TestimonialCarousel({
       {canScrollRight && (
         <button
           onClick={() => scroll("right")}
-          className="absolute -right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-2.5 shadow-md ring-1 ring-black/5 transition-colors hover:bg-neutral-50 md:-right-5"
+          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-2.5 shadow-md ring-1 ring-black/5 transition-colors hover:bg-neutral-50 md:right-4 lg:right-8"
           aria-label="Next testimonial"
         >
           <ChevronRight size={20} className="text-neutral-600" />
         </button>
       )}
 
-      {/* Scroll container */}
+      {/* Scroll container — full-bleed with content-aligned padding */}
       <div
         ref={scrollRef}
-        className="scrollbar-hide -mx-4 flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-4"
+        className="scrollbar-hide flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-4 md:px-6 lg:px-[max(2rem,calc((100vw-80rem)/2+1.5rem))]"
         role="list"
         aria-label="Testimonials"
       >
