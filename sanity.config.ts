@@ -25,7 +25,7 @@ export default defineConfig({
         },
       },
     }),
-    visionTool(),
+    ...(process.env.NODE_ENV === "development" ? [visionTool()] : []),
   ],
 
   schema: {
