@@ -68,7 +68,7 @@ export async function ClassDetailsSection({
   }
 
   return (
-    <section id="class-details" className="scroll-mt-24 py-12 md:py-24">
+    <section id="class-details" className="scroll-mt-24 py-8 md:py-24">
       <Container>
         <SectionHeading subtitle={subtitle}>
           {heading || "More About Our Classes..."}

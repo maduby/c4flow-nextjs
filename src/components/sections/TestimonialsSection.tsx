@@ -62,7 +62,7 @@ export function TestimonialsSection({
   if (!testimonials?.length) return null;
 
   return (
-    <section className="py-12 md:py-24">
+    <section className="py-8 md:py-24">
       <Container>
         <SectionHeading subtitle={subtitle}>
           {heading || "What Our Students Say"}

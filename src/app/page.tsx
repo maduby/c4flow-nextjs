@@ -6,15 +6,16 @@ import { PageBuilder } from "@/components/sections/PageBuilder";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data: page } = await sanityFetch({
-    query: PAGE_BY_SLUG_QUERY,
-    params: { slug: "home" },
-    stega: false,
-  });
+  const [{ data: page }, { data: settings }] = await Promise.all([
+    sanityFetch({ query: PAGE_BY_SLUG_QUERY, params: { slug: "home" }, stega: false }),
+    sanityFetch({ query: SITE_SETTINGS_QUERY, stega: false }),
+  ]);
 
   const ogImage = page?.ogImage?.asset
     ? urlFor(page.ogImage).width(1200).height(630).url()
-    : undefined;
+    : settings?.defaultOgImage?.asset
+      ? urlFor(settings.defaultOgImage).width(1200).height(630).url()
+      : undefined;
 
   return {
     alternates: {

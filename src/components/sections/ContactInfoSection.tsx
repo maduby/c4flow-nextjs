@@ -83,7 +83,7 @@ export async function ContactInfoSection({
   ];
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="py-8 md:py-20">
       <Container>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((card) => {

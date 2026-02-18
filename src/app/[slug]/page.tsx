@@ -29,17 +29,18 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const { data: page } = await sanityFetch({
-    query: PAGE_BY_SLUG_QUERY,
-    params: { slug },
-    stega: false,
-  });
+  const [{ data: page }, { data: settings }] = await Promise.all([
+    sanityFetch({ query: PAGE_BY_SLUG_QUERY, params: { slug }, stega: false }),
+    sanityFetch({ query: SITE_SETTINGS_QUERY, stega: false }),
+  ]);
 
   if (!page) return {};
 
   const ogImage = page.ogImage?.asset
     ? urlFor(page.ogImage).width(1200).height(630).url()
-    : undefined;
+    : settings?.defaultOgImage?.asset
+      ? urlFor(settings.defaultOgImage).width(1200).height(630).url()
+      : undefined;
 
   return {
     title: page.seoTitle || page.title,

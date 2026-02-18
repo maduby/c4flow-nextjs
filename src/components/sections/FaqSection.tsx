@@ -22,7 +22,7 @@ export function FaqSection({ heading, faqs }: FaqSectionProps) {
   if (!faqs?.length) return null;
 
   return (
-    <section id="faqs" className="py-12 md:py-24">
+    <section id="faqs" className="py-8 md:py-24">
       <Container>
         <SectionHeading>
           {heading || "Frequently Asked Questions"}

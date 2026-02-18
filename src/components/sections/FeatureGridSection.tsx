@@ -83,7 +83,7 @@ export function FeatureGridSection({
 
   if (variant === "cards") {
     return (
-      <section className="relative overflow-hidden py-12 md:py-24">
+      <section className="relative overflow-hidden py-8 md:py-24">
         <div
           className="feature-ambient-glow absolute left-1/2 top-1/2 -z-10 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2"
           aria-hidden="true"
@@ -143,7 +143,7 @@ export function FeatureGridSection({
 
   /* ── Minimal style (default) ── */
   return (
-    <section className="py-12 md:py-24">
+    <section className="py-8 md:py-24">
       <Container>
         {heading && (
           <SectionHeading subtitle={subtitle}>{heading}</SectionHeading>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { Instagram, Mail, Phone, MapPin, Navigation, ExternalLink } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 
 interface FooterProps {
@@ -143,19 +143,45 @@ export function Footer({
               Location
             </h3>
             {address && (
-              <a
-                href={mapsUrl || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-start gap-2 text-sm text-neutral-600 hover:text-neutral-900"
-              >
-                <MapPin size={14} className="mt-0.5 shrink-0" />
-                <span>
-                  {address.building && <>{address.building}<br /></>}
-                  {address.street && <>{address.street}<br /></>}
-                  {address.city}
-                </span>
-              </a>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href={mapsUrl || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-start gap-2 text-sm text-neutral-600 hover:text-neutral-900"
+                  >
+                    <MapPin size={14} className="mt-0.5 shrink-0" />
+                    <span>
+                      {address.building && <>{address.building}<br /></>}
+                      {address.street && <>{address.street}<br /></>}
+                      {address.city}
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.google.com/maps/dir/?api=1&destination=Woodstock+Exchange,+66+Albert+Road,+Cape+Town,+8001"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900"
+                  >
+                    <Navigation size={14} />
+                    Navigate Here
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.google.com/maps/place/Woodstock+Exchange/@-33.926702,18.4434095,17z/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900"
+                  >
+                    <ExternalLink size={14} />
+                    View on Google Maps
+                  </a>
+                </li>
+              </ul>
             )}
           </div>
         </div>
