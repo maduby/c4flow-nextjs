@@ -8,6 +8,7 @@ import { instructor } from "./documents/instructor";
 import { danceClass } from "./documents/danceClass";
 import { contactSubmission } from "./documents/contactSubmission";
 import { discount } from "./documents/discount";
+import { pricingBundle } from "./documents/pricingBundle";
 import { weeklySchedule } from "./documents/weeklySchedule";
 import { testimonial } from "./documents/testimonial";
 
@@ -37,6 +38,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   instructor,
   danceClass,
   contactSubmission,
+  pricingBundle,
   weeklySchedule,
   testimonial,
 

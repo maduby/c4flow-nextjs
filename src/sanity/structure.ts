@@ -9,6 +9,7 @@ import {
   ClockIcon,
   CommentIcon,
   EnvelopeIcon,
+  CreditCardIcon,
 } from "@sanity/icons";
 
 const SINGLETONS = ["siteSettings", "announcementBar", "discount", "weeklySchedule"];
@@ -57,6 +58,10 @@ export const structure: StructureResolver = (S) =>
         .icon(CalendarIcon)
         .child(S.documentTypeList("danceClass").title("Dance Classes")),
       S.listItem()
+        .title("Pricing Bundles")
+        .icon(CreditCardIcon)
+        .child(S.documentTypeList("pricingBundle").title("Pricing Bundles")),
+      S.listItem()
         .title("Weekly Schedule")
         .icon(ClockIcon)
         .child(
@@ -96,6 +101,7 @@ export const structure: StructureResolver = (S) =>
             "page",
             "instructor",
             "danceClass",
+            "pricingBundle",
             "testimonial",
             "contactSubmission",
           ].includes(listItem.getId() as string)

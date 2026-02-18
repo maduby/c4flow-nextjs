@@ -43,7 +43,24 @@ export const DISCOUNT_QUERY = defineQuery(`
     discountPercent,
     discountScope,
     "discountClassIds": discountClasses[]->_id,
-    label
+    label,
+    applyToGroupBundles,
+    applyToPrivateBundles
+  }
+`);
+
+// ===== Pricing Bundles =====
+
+export const BUNDLES_BY_CATEGORY_QUERY = defineQuery(`
+  *[_type == "pricingBundle" && category == $category] | order(order asc, name asc){
+    _id,
+    name,
+    tagline,
+    price,
+    salePrice,
+    note,
+    highlighted,
+    category
   }
 `);
 

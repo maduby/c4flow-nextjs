@@ -147,7 +147,7 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 key={section._key}
                 heading={section.heading as string}
                 subtitle={section.subtitle as string | null}
-                packages={section.packages as never}
+                bundleCategory={section.bundleCategory as string}
                 footerNote={section.footerNote as string | null}
               />
             );

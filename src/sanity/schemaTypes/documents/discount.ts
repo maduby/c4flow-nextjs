@@ -7,7 +7,7 @@ export const discount = defineType({
   type: "document",
   icon: TagIcon,
   description:
-    "Set up price discounts for dance classes. Discounts are independent of the announcement banner — you can run a discount with or without a banner, and vice versa.",
+    "Set up price discounts for classes and packages. Discounts are independent of the announcement banner — you can run a discount with or without a banner, and vice versa.",
   fields: [
     defineField({
       name: "enabled",
@@ -60,6 +60,24 @@ export const discount = defineType({
         !parent?.enabled || parent?.discountScope !== "specific",
     }),
     defineField({
+      name: "applyToGroupBundles",
+      title: "Apply to Group Class Packages",
+      type: "boolean",
+      description:
+        "When enabled, the discount percentage also applies to group class bundle prices.",
+      initialValue: false,
+      hidden: ({ parent }) => !parent?.enabled,
+    }),
+    defineField({
+      name: "applyToPrivateBundles",
+      title: "Apply to Private Class Packages",
+      type: "boolean",
+      description:
+        "When enabled, the discount percentage also applies to private class bundle prices.",
+      initialValue: false,
+      hidden: ({ parent }) => !parent?.enabled,
+    }),
+    defineField({
       name: "label",
       title: "Badge Label (optional)",
       type: "string",
@@ -73,17 +91,29 @@ export const discount = defineType({
       enabled: "enabled",
       discountPercent: "discountPercent",
       discountScope: "discountScope",
+      applyToGroupBundles: "applyToGroupBundles",
+      applyToPrivateBundles: "applyToPrivateBundles",
       label: "label",
     },
-    prepare({ enabled, discountPercent, discountScope, label }) {
+    prepare({
+      enabled,
+      discountPercent,
+      discountScope,
+      applyToGroupBundles,
+      applyToPrivateBundles,
+      label,
+    }) {
       const status = enabled ? "✅ Active" : "❌ Inactive";
-      const detail =
-        enabled && discountPercent
-          ? ` · ${discountPercent}% OFF ${discountScope === "all" ? "all classes" : "selected classes"}`
-          : "";
+      if (!enabled || !discountPercent) {
+        return { title: label || "Discounts", subtitle: status };
+      }
+      const targets: string[] = [];
+      targets.push(discountScope === "all" ? "all classes" : "selected classes");
+      if (applyToGroupBundles) targets.push("group packages");
+      if (applyToPrivateBundles) targets.push("private packages");
       return {
         title: label || "Discounts",
-        subtitle: `${status}${detail}`,
+        subtitle: `${status} · ${discountPercent}% OFF ${targets.join(", ")}`,
       };
     },
   },

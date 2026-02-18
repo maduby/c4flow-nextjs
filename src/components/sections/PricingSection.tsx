@@ -1,46 +1,17 @@
-"use client";
-
 import Link from "next/link";
+import { sanityFetch } from "@/sanity/lib/live";
+import { BUNDLES_BY_CATEGORY_QUERY, DISCOUNT_QUERY } from "@/sanity/lib/queries";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { formatCurrency } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-
-interface PricingPackage {
-  _key: string;
-  name: string;
-  tagline?: string | null;
-  price: number;
-  note?: string | null;
-  highlighted?: boolean | null;
-}
+import { PricingCards } from "@/components/ui/PricingCards";
 
 interface PricingSectionProps {
   heading: string;
   subtitle?: string | null;
-  packages?: PricingPackage[] | null;
+  bundleCategory: string;
   footerNote?: string | null;
 }
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: "easeOut" as const },
-  },
-};
-
-/**
- * Turns "Contact Us" (case-insensitive) inside a plain string
- * into a Next.js Link pointing to /contact.
- */
 function FooterNote({ text }: { text: string }) {
   const parts = text.split(/(Contact Us)/i);
   return (
@@ -62,76 +33,70 @@ function FooterNote({ text }: { text: string }) {
   );
 }
 
-export function PricingSection({
+export async function PricingSection({
   heading,
   subtitle,
-  packages,
+  bundleCategory,
   footerNote,
 }: PricingSectionProps) {
-  if (!packages?.length) return null;
+  const [{ data: bundles }, { data: discountDoc }] = await Promise.all([
+    sanityFetch({
+      query: BUNDLES_BY_CATEGORY_QUERY,
+      params: { category: bundleCategory },
+      stega: false,
+    }),
+    sanityFetch({ query: DISCOUNT_QUERY, stega: false }),
+  ]);
 
-  const count = packages.length;
+  if (!bundles?.length) return null;
+
+  const discountActive = discountDoc?.enabled && discountDoc?.discountPercent;
+  const discountApplies =
+    discountActive &&
+    ((bundleCategory === "group" && discountDoc.applyToGroupBundles) ||
+      (bundleCategory === "private" && discountDoc.applyToPrivateBundles));
+  const discountPercent = discountApplies ? discountDoc.discountPercent : null;
+
+  const enrichedBundles = bundles.map(
+    (b: {
+      _id: string;
+      name: string;
+      tagline?: string | null;
+      price: number;
+      salePrice?: number | null;
+      note?: string | null;
+      highlighted?: boolean | null;
+    }) => {
+      const original = b.price;
+      const manualSale =
+        b.salePrice && b.salePrice < original ? b.salePrice : null;
+      const globalDiscount = discountPercent
+        ? Math.floor(original * (1 - discountPercent / 100))
+        : null;
+
+      let effectivePrice: number | null = null;
+      if (manualSale && globalDiscount) {
+        effectivePrice = Math.min(manualSale, globalDiscount);
+      } else {
+        effectivePrice = manualSale || globalDiscount;
+      }
+
+      const hasDiscount = effectivePrice !== null && effectivePrice < original;
+
+      return {
+        ...b,
+        originalPrice: original,
+        effectivePrice: hasDiscount ? effectivePrice : null,
+        hasDiscount,
+      };
+    }
+  );
 
   return (
     <section className="py-8 md:py-24">
       <Container>
         <SectionHeading subtitle={subtitle}>{heading}</SectionHeading>
-
-        <motion.div
-          className={cn(
-            "mx-auto grid max-w-5xl gap-5",
-            count <= 4
-              ? "sm:grid-cols-2 lg:grid-cols-4"
-              : "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
-          )}
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-        >
-          {packages.map((pkg) => (
-            <motion.div
-              key={pkg._key}
-              variants={cardVariants}
-              className={cn(
-                "flex flex-col items-center justify-between rounded-2xl border px-5 py-7 text-center",
-                pkg.highlighted
-                  ? "border-pink-200 bg-pink-50"
-                  : "border-border/60 bg-white"
-              )}
-            >
-              <div>
-                <h3
-                  className={cn(
-                    "font-heading text-lg",
-                    pkg.highlighted ? "text-pink-600" : "text-primary-600"
-                  )}
-                >
-                  {pkg.name}
-                </h3>
-                {pkg.tagline && (
-                  <p className="mx-auto mt-1.5 max-w-[18ch] text-xs leading-snug text-neutral-400">
-                    {pkg.tagline}
-                  </p>
-                )}
-              </div>
-
-              <p
-                className={cn(
-                  "my-4 font-heading text-3xl lg:text-4xl",
-                  pkg.highlighted ? "text-pink-500" : "text-primary-600"
-                )}
-              >
-                {formatCurrency(pkg.price)}
-              </p>
-
-              {pkg.note && (
-                <p className="text-xs text-neutral-400">{pkg.note}</p>
-              )}
-            </motion.div>
-          ))}
-        </motion.div>
-
+        <PricingCards bundles={enrichedBundles} />
         {footerNote && <FooterNote text={footerNote} />}
       </Container>
     </section>
