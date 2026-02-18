@@ -118,7 +118,7 @@ export async function ClassDetailsSection({
                   key={cls._id}
                   id={cls._id}
                   className={cn(
-                    "scroll-mt-24 grid items-center gap-8 pb-12 md:grid-cols-2 md:gap-12 md:pb-16",
+                    "scroll-mt-24 grid items-start gap-8 pb-12 md:grid-cols-2 md:gap-12 md:pb-16",
                     !imageLeft && "md:[&>*:first-child]:order-2"
                   )}
                 >
