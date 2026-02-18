@@ -49,9 +49,12 @@ export async function generateMetadata({
       canonical: `/${slug}`,
     },
     openGraph: {
+      type: "website",
+      locale: "en_ZA",
+      siteName: "C4 Flow",
       title: page.seoTitle || page.title || undefined,
       description: page.seoDescription || undefined,
-      ...(ogImage && { images: [{ url: ogImage, width: 1200, height: 630 }] }),
+      ...(ogImage && { images: [{ url: ogImage, width: 1200, height: 630, type: "image/jpeg" }] }),
     },
   };
 }

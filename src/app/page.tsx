@@ -22,13 +22,16 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: "/",
     },
     openGraph: {
+      type: "website",
+      locale: "en_ZA",
+      siteName: "C4 Flow",
       title: page?.seoTitle || "C-4 Flow | Pole & Exotic Dance Studio",
       description:
         page?.seoDescription ||
         "Pole & Exotic Dance Studio in Woodstock, Cape Town. Group and private classes for all levels.",
       url: "/",
       ...(ogImage && {
-        images: [{ url: ogImage, width: 1200, height: 630 }],
+        images: [{ url: ogImage, width: 1200, height: 630, type: "image/jpeg" }],
       }),
     },
   };

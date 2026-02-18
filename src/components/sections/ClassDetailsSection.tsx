@@ -74,7 +74,7 @@ export async function ClassDetailsSection({
           {heading || "More About Our Classes..."}
         </SectionHeading>
 
-        <div className="mx-auto max-w-5xl space-y-16">
+        <div className="mx-auto max-w-5xl divide-y divide-border/60 [&>*:last-child]:pb-0 [&>*+*]:pt-12 md:[&>*+*]:pt-16">
           {classes.map(
             (
               cls: {
@@ -118,7 +118,7 @@ export async function ClassDetailsSection({
                   key={cls._id}
                   id={cls._id}
                   className={cn(
-                    "scroll-mt-24 grid items-center gap-8 md:grid-cols-2 md:gap-12",
+                    "scroll-mt-24 grid items-center gap-8 pb-12 md:grid-cols-2 md:gap-12 md:pb-16",
                     !imageLeft && "md:[&>*:first-child]:order-2"
                   )}
                 >
