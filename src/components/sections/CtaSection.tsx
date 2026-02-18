@@ -7,11 +7,18 @@ import { stegaClean } from "next-sanity";
 import { motion } from "framer-motion";
 import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
 import { urlFor } from "@/sanity/lib/image";
+import Link from "next/link";
 
 interface SanityImage {
   asset?: { _ref?: string; _type?: string } | null;
   hotspot?: { x: number; y: number } | null;
   crop?: { top: number; bottom: number; left: number; right: number } | null;
+}
+
+interface SecondaryLink {
+  _key?: string;
+  label: string;
+  url: string;
 }
 
 interface CtaSectionProps {
@@ -21,6 +28,7 @@ interface CtaSectionProps {
   buttonUrl?: string | null;
   style?: string | null;
   backgroundImage?: SanityImage | null;
+  secondaryLinks?: SecondaryLink[] | null;
 }
 
 export function CtaSection({
@@ -30,6 +38,7 @@ export function CtaSection({
   buttonUrl,
   style,
   backgroundImage,
+  secondaryLinks,
 }: CtaSectionProps) {
   const cleanStyle = stegaClean(style) || "gradient";
   const hasBgImage = cleanStyle === "bgImage" && backgroundImage?.asset;
@@ -117,6 +126,44 @@ export function CtaSection({
             >
               {buttonText}
             </TrackedCtaLink>
+          </motion.div>
+        )}
+        {secondaryLinks && secondaryLinks.length > 0 && (
+          <motion.div
+            className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+          >
+            {secondaryLinks.map((link, i) => {
+              const isExternal = link.url.startsWith("http");
+              const linkClass = cn(
+                "text-sm font-medium underline underline-offset-4 transition-colors",
+                cleanStyle === "light" || hasBgImage
+                  ? "text-neutral-500 hover:text-neutral-800"
+                  : "text-primary-100 hover:text-white"
+              );
+              return isExternal ? (
+                <a
+                  key={link._key || i}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkClass}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link._key || i}
+                  href={link.url}
+                  className={linkClass}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </motion.div>
         )}
       </Container>

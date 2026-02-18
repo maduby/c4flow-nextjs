@@ -48,6 +48,29 @@ export const ctaSection = defineType({
       initialValue: "gradient",
     }),
     defineField({
+      name: "secondaryLinks",
+      title: "Secondary Links",
+      type: "array",
+      description: "Optional text links shown below the main button (e.g. FAQs, Contact Us).",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "label", title: "Label", type: "string", validation: (rule) => rule.required() }),
+            defineField({
+              name: "url",
+              title: "URL",
+              type: "url",
+              validation: (rule) => rule.required().uri({ allowRelative: true, scheme: ["http", "https"] }),
+            }),
+          ],
+          preview: {
+            select: { title: "label", subtitle: "url" },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: "backgroundImage",
       title: "Background Image",
       type: "image",

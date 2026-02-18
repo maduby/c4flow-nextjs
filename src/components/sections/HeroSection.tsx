@@ -121,7 +121,7 @@ function CenteredHero({
           </p>
         )}
         {tagline && (
-          <h3 className="mt-4 text-base text-white drop-shadow-sm md:text-xl px-4 py-1.5 rounded-full bg-linear-to-r from-pink-500 to-pink-600 font-bold">
+          <h3 className="mt-4 text-lg tracking-wide text-pink-200 drop-shadow-sm md:text-xl font-medium italic">
             {tagline}
           </h3>
         )}

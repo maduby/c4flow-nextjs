@@ -114,6 +114,7 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 buttonUrl={section.buttonUrl as string | null}
                 style={section.style as string | null}
                 backgroundImage={section.backgroundImage as never}
+                secondaryLinks={section.secondaryLinks as never}
               />
             );
           case "contactFormSection":
