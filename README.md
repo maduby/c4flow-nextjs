@@ -22,10 +22,96 @@ Built with **Next.js 16**, **Sanity CMS**, **Tailwind CSS v4**, and deployed to 
 
 ## Prerequisites
 
-- **Node.js 22** — managed via [nvm](https://github.com/nvm-sh/nvm)
+- **Node.js 22** — managed via nvm (see setup below)
 - **npm** (comes with Node)
 - **Git** with SSH access to the GitHub repo
+- **Cursor** (recommended) or **VS Code** as your editor
 - The `.env.local` secrets file (ask Marc for this)
+
+---
+
+## Setting Up Your Machine (Windows)
+
+If this is a fresh Windows laptop, follow these steps first. If you already have Git, nvm, and Node working, skip to [Getting Started](#getting-started-step-by-step).
+
+### Install Git
+
+1. Download Git for Windows from [git-scm.com/downloads/win](https://git-scm.com/downloads/win)
+2. Run the installer — accept all defaults
+3. Open a terminal (see below) and verify: `git --version`
+
+### Install nvm for Windows
+
+The standard `nvm` is for Mac/Linux. On Windows, use **nvm-windows** instead:
+
+1. Go to [github.com/coreybutler/nvm-windows/releases](https://github.com/coreybutler/nvm-windows/releases)
+2. Download `nvm-setup.exe` from the latest release
+3. Run the installer — accept all defaults
+4. **Close and reopen your terminal** after installing
+5. Verify it worked:
+
+```bash
+nvm version
+# Should print a version number like 1.2.2
+```
+
+### Install Node.js via nvm
+
+```bash
+nvm install 22.17.0
+nvm use 22.17.0
+```
+
+Verify:
+
+```bash
+node -v
+# Should print v22.17.0
+
+npm -v
+# Should print a version number
+```
+
+> **Important:** Every time you open a new terminal, you may need to run `nvm use 22.17.0` again. To make it the default, run: `nvm alias default 22.17.0` (Mac/Linux) or `nvm use 22.17.0` sets it permanently on Windows.
+
+### Set up your editor
+
+We recommend **Cursor** ([cursor.com](https://www.cursor.com/)) — it's VS Code with AI built in. If you prefer plain VS Code, that works too.
+
+Useful extensions to install:
+
+- **ESLint** — shows code errors inline
+- **Tailwind CSS IntelliSense** — autocomplete for CSS classes
+- **Prettier** — auto-formats your code on save
+
+### Set up SSH for GitHub
+
+You need an SSH key to push/pull code. Open your terminal and run:
+
+```bash
+ssh-keygen -t ed25519 -C "your-email@example.com"
+```
+
+Press Enter for all the prompts (default file location, no passphrase is fine).
+
+Then copy your public key:
+
+```bash
+# Windows (PowerShell)
+cat ~/.ssh/id_ed25519.pub | clip
+
+# Mac
+cat ~/.ssh/id_ed25519.pub | pbcopy
+```
+
+Go to [github.com/settings/keys](https://github.com/settings/keys), click **New SSH key**, paste it, and save.
+
+Test the connection:
+
+```bash
+ssh -T git@github.com
+# Should say "Hi username! You've successfully authenticated"
+```
 
 ---
 
@@ -34,19 +120,27 @@ Built with **Next.js 16**, **Sanity CMS**, **Tailwind CSS v4**, and deployed to 
 ### 1. Clone the repo
 
 ```bash
-git clone git@github.com-maduby:maduby/c4flow-nextjs.git
+git clone git@github.com:maduby/c4flow-nextjs.git
 cd c4flow-nextjs
 ```
 
-> If you get a permission error, your SSH key hasn't been added to GitHub yet. Ask Marc for help.
+> If you get a permission error, your SSH key isn't set up or you haven't been added as a collaborator. Ask Marc for help.
 
 ### 2. Switch to the correct Node version
 
 The project requires Node 22. There's an `.nvmrc` file that pins the exact version.
 
+**Mac/Linux:**
+
 ```bash
 nvm install
 nvm use
+```
+
+**Windows:**
+
+```bash
+nvm use 22.17.0
 ```
 
 Verify it worked:
@@ -321,9 +415,29 @@ Both Vercel and Hostinger have their own copies of the environment variables. If
 
 ## Troubleshooting
 
+### `nvm` not recognized (Windows)
+
+- Make sure you installed **nvm-windows** (not regular nvm)
+- Close and reopen your terminal after installing
+- If using Cursor/VS Code, restart the editor entirely
+
+### `node -v` shows the wrong version
+
+```bash
+nvm use 22.17.0
+```
+
+If that version isn't installed yet: `nvm install 22.17.0`
+
 ### "Module not found" or dependency errors
 
 ```bash
+# Windows
+rd /s /q node_modules .next
+npm install
+npm run dev
+
+# Mac/Linux
 rm -rf node_modules .next
 npm install
 npm run dev
@@ -332,14 +446,23 @@ npm run dev
 ### Content not updating after editing in Studio
 
 - Make sure you clicked **Publish** in Studio (drafts don't show on the live site)
-- Hard refresh the browser (`Cmd + Shift + R`)
+- Hard refresh the browser (`Ctrl + Shift + R` on Windows, `Cmd + Shift + R` on Mac)
 - If on Hostinger, it may take a few minutes due to CDN caching
 
 ### Sanity Studio won't load at /admin
 
 - Check that `.env.local` has the correct `NEXT_PUBLIC_SANITY_PROJECT_ID`
 - Make sure you're logged into Sanity with an account that has project access
-- Try clearing the Next.js cache: `rm -rf .next && npm run dev`
+- Try clearing the Next.js cache and restarting:
+
+```bash
+# Windows
+rd /s /q .next
+npm run dev
+
+# Mac/Linux
+rm -rf .next && npm run dev
+```
 
 ### Build fails locally
 
@@ -351,6 +474,11 @@ Read the error output. Common causes:
 - TypeScript errors (missing types, wrong props)
 - Missing environment variables in `.env.local`
 - Sanity schema changes that don't match existing queries
+
+### Permission denied when pushing to GitHub
+
+- Your SSH key isn't set up — follow the [SSH setup steps](#set-up-ssh-for-github) above
+- Or you haven't been added as a collaborator on the repo — ask Marc
 
 ---
 
