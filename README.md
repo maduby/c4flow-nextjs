@@ -347,85 +347,33 @@ main (protected, deploys to live)
 
 ### The workflow (step by step)
 
-1. **Create a branch** for your task
-2. **Do your work** — make changes, commit often
-3. **Push your branch** to GitHub
-4. **Open a Pull Request** — this asks Marc to review your code
-5. **Marc reviews and merges** — this deploys to the live site
+Here's the full cycle for every task you work on:
 
-### Using Git in Cursor / VS Code (GUI method)
-
-If you prefer clicking over typing commands, Cursor and VS Code have Git built in.
-
-#### Create a new branch
-
-1. Look at the **bottom-left corner** of your editor — you'll see the current branch name (e.g. `main`)
-2. **Click on it** — a dropdown appears at the top
-3. Click **"Create new branch..."**
-4. Type a name like `fix/update-class-description` and press Enter
-5. You're now on your new branch
-
-> **Branch naming:** Use prefixes like `fix/`, `feat/`, or `style/` followed by a short description with dashes. Examples: `fix/mobile-nav-bug`, `feat/add-faq-page`, `style/footer-spacing`.
-
-#### Make commits
-
-1. Make your code changes
-2. Open the **Source Control panel** — click the Git icon in the left sidebar (or press `Ctrl+Shift+G`)
-3. You'll see your changed files listed
-4. Click the **+** button next to each file to stage it (or click **+** next to "Changes" to stage all)
-5. Type a commit message in the text box at the top (e.g. `fix: update class description text`)
-6. Click the **checkmark button** (or press `Ctrl+Enter`) to commit
-
-#### Push your branch
-
-1. After committing, click the **...** menu in the Source Control panel
-2. Click **"Push"**
-3. If it's your first push on this branch, it will ask to publish — click **OK**
-
-#### Open a Pull Request
-
-After pushing, go to the GitHub repo in your browser:
-
-1. Go to [github.com/maduby/c4flow-nextjs](https://github.com/maduby/c4flow-nextjs)
-2. You'll see a yellow banner: **"your-branch had recent pushes — Compare & pull request"**
-3. Click that button
-4. Add a title describing what you did
-5. In the description, explain what changed and why
-6. Click **"Create pull request"**
-7. Let Marc know it's ready for review
-
-### Using Git from the terminal
-
-If you prefer the command line, here's the same flow:
-
-```bash
-# 1. Make sure you're starting from the latest main
-git checkout main
-git pull
-
-# 2. Create a new branch
-git checkout -b fix/update-class-description
-
-# 3. Do your work, then stage and commit
-git add .
-git commit -m "fix: update class description text"
-
-# 4. Push your branch to GitHub
-git push -u origin fix/update-class-description
-
-# 5. Open a Pull Request
-#    Go to github.com/maduby/c4flow-nextjs and click
-#    "Compare & pull request"
+```
+1. Start from main       → make sure you have the latest code
+2. Create a branch       → your own workspace for this task
+3. Do your work          → make changes, commit often
+4. Push your branch      → upload it to GitHub
+5. Open a Pull Request   → ask Marc to review your code
+6. Marc reviews          → he may leave comments or request changes
+7. You fix any feedback  → commit and push again (the PR updates automatically)
+8. Marc merges           → your code goes live!
+9. Clean up              → switch back to main, pull, delete old branch
 ```
 
-### After your PR is merged
+> **Important:** You cannot merge to `main` yourself. Only Marc can merge Pull Requests. This protects the live site from accidental changes.
 
-Once Marc merges your PR, switch back to `main` and pull the latest:
+---
+
+### Step 1: Start from the latest main
+
+Before starting any new work, always make sure you have the latest code.
 
 **In Cursor / VS Code:**
-1. Click the branch name in the bottom-left
-2. Select `main`
-3. Open Source Control panel → click **...** → **Pull**
+1. Click the branch name in the **bottom-left corner** of the editor
+2. Select **`main`** from the list
+3. Open the **Source Control panel** (Git icon in left sidebar, or `Ctrl+Shift+G`)
+4. Click the **...** menu → **Pull**
 
 **In terminal:**
 
@@ -434,7 +382,154 @@ git checkout main
 git pull
 ```
 
-> **Never** continue working on a merged branch. Always start a new branch from `main` for your next task.
+---
+
+### Step 2: Create a new branch
+
+**In Cursor / VS Code:**
+1. Click the branch name in the **bottom-left corner** (it should say `main`)
+2. Click **"Create new branch..."** in the dropdown
+3. Type a name like `fix/update-class-description` and press Enter
+4. You're now on your new branch — you'll see the name changed in the bottom-left
+
+**In terminal:**
+
+```bash
+git checkout -b fix/update-class-description
+```
+
+> **Branch naming:** Always use a prefix followed by a short dash-separated description:
+>
+> | Prefix    | When to use            | Example                      |
+> | --------- | ---------------------- | ---------------------------- |
+> | `fix/`    | Bug fix                | `fix/mobile-nav-bug`         |
+> | `feat/`   | New feature or section | `feat/add-faq-page`          |
+> | `style/`  | Visual/CSS changes     | `style/footer-spacing`       |
+> | `content/`| Content updates        | `content/update-class-times` |
+
+---
+
+### Step 3: Do your work and make commits
+
+Make your code changes, then commit them. Commit often — small commits are easier to review.
+
+**In Cursor / VS Code:**
+1. Make your code changes and save
+2. Open the **Source Control panel** (`Ctrl+Shift+G`)
+3. You'll see changed files listed under "Changes"
+4. Click the **+** button next to each file to stage it (or click **+** next to "Changes" to stage all)
+5. Type a short commit message in the text box (e.g. `fix: update class description text`)
+6. Click the **checkmark button** (or press `Ctrl+Enter`) to commit
+7. Repeat as you keep working — you can make multiple commits on the same branch
+
+**In terminal:**
+
+```bash
+git add .
+git commit -m "fix: update class description text"
+```
+
+---
+
+### Step 4: Push your branch to GitHub
+
+**In Cursor / VS Code:**
+1. In the Source Control panel, click the **...** menu
+2. Click **"Push"**
+3. If it's your first push on this branch, it will ask to "publish" — click **OK**
+
+**In terminal:**
+
+```bash
+git push -u origin fix/update-class-description
+```
+
+> Every time you make more commits, just push again. The branch on GitHub updates automatically.
+
+---
+
+### Step 5: Open a Pull Request on GitHub
+
+This is how you ask Marc to review your work.
+
+1. Go to [github.com/maduby/c4flow-nextjs](https://github.com/maduby/c4flow-nextjs) in your browser
+2. You'll see a yellow banner: **"fix/update-class-description had recent pushes — Compare & pull request"**
+3. Click that button
+4. Fill in the PR form:
+   - **Title:** A short summary of what you did (e.g. "Fix: update class description text")
+   - **Description:** Explain **what** you changed and **why**. For example:
+
+     ```
+     ## What I changed
+     - Updated the description text for the Dynamic Static class
+     - Fixed a typo in the pricing section footer
+
+     ## How to test
+     - Go to /classes and scroll to Dynamic Static
+     - Check that the new description looks correct
+     ```
+
+5. Click **"Create pull request"**
+6. Message Marc (Slack, WhatsApp, etc.) to let him know it's ready
+
+> **You only open a PR once per branch.** If you push more commits later, the PR updates automatically — you don't need to create a new one.
+
+---
+
+### Step 6: Respond to review feedback
+
+Marc will review your PR on GitHub. He might:
+- **Approve it** — great, he'll merge it and you're done
+- **Request changes** — he'll leave comments explaining what to fix
+
+If changes are requested:
+
+1. Read the comments on the PR page on GitHub
+2. Go back to your editor — make sure you're still on your branch (check bottom-left)
+3. Make the fixes
+4. Commit and push again:
+
+**In Cursor / VS Code:**
+1. Stage your changes (Source Control panel → **+** button)
+2. Write a commit message like `fix: address review feedback`
+3. Click the checkmark to commit
+4. Click **...** → **Push**
+
+**In terminal:**
+
+```bash
+git add .
+git commit -m "fix: address review feedback"
+git push
+```
+
+The PR on GitHub updates automatically. Marc will see your new changes and review again.
+
+---
+
+### Step 7: After your PR is merged
+
+Once Marc merges your PR, your code is live. Now clean up:
+
+**In Cursor / VS Code:**
+1. Click the branch name in the bottom-left
+2. Select **`main`**
+3. Source Control panel → **...** → **Pull** (to get the merged code)
+4. To delete your old branch: open a terminal (`Ctrl+`` `) and run:
+
+```bash
+git branch -d fix/update-class-description
+```
+
+**In terminal:**
+
+```bash
+git checkout main
+git pull
+git branch -d fix/update-class-description
+```
+
+> **Never** continue working on a merged branch. Always start fresh from `main` for your next task.
 
 ### What happens when code reaches main
 
