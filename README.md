@@ -333,48 +333,132 @@ To add a new section type:
 
 ## Git Workflow
 
-### Branch
+### Branches
 
-We work on a single branch: **`main`**.
+The **`main`** branch is **protected** — it deploys directly to the live site. You cannot push to it directly.
 
-### How to commit and push
+Instead, we use **feature branches** and **Pull Requests (PRs)**:
 
-```bash
-# Check what changed
-git status
-git diff
-
-# Stage and commit
-git add .
-git commit -m "Brief description of what you changed"
-
-# Push to GitHub
-git push
+```
+main (protected, deploys to live)
+ └── fix/broken-whatsapp-link    ← you work here
+ └── feat/add-gallery-section    ← or here
 ```
 
-### What happens when you push
+### The workflow (step by step)
 
-Pushing to `main` triggers **automatic deployments** on both platforms:
+1. **Create a branch** for your task
+2. **Do your work** — make changes, commit often
+3. **Push your branch** to GitHub
+4. **Open a Pull Request** — this asks Marc to review your code
+5. **Marc reviews and merges** — this deploys to the live site
 
-| Platform   | URL                                | What happens                           |
-| ---------- | ---------------------------------- | -------------------------------------- |
-| **Vercel** | https://c4flow.vercel.app          | Builds and deploys automatically (~1-2 min) |
-| **Hostinger** | https://c4flow.co.za            | Builds and deploys automatically (~3-5 min)  |
+### Using Git in Cursor / VS Code (GUI method)
 
-Both platforms pull the latest code from the `main` branch, run `npm run build`, and serve the result. You don't need to do anything extra — just push.
+If you prefer clicking over typing commands, Cursor and VS Code have Git built in.
 
-> **Tip:** Vercel updates faster and shows build logs in the [Vercel dashboard](https://vercel.com). If something breaks, check there first.
+#### Create a new branch
+
+1. Look at the **bottom-left corner** of your editor — you'll see the current branch name (e.g. `main`)
+2. **Click on it** — a dropdown appears at the top
+3. Click **"Create new branch..."**
+4. Type a name like `fix/update-class-description` and press Enter
+5. You're now on your new branch
+
+> **Branch naming:** Use prefixes like `fix/`, `feat/`, or `style/` followed by a short description with dashes. Examples: `fix/mobile-nav-bug`, `feat/add-faq-page`, `style/footer-spacing`.
+
+#### Make commits
+
+1. Make your code changes
+2. Open the **Source Control panel** — click the Git icon in the left sidebar (or press `Ctrl+Shift+G`)
+3. You'll see your changed files listed
+4. Click the **+** button next to each file to stage it (or click **+** next to "Changes" to stage all)
+5. Type a commit message in the text box at the top (e.g. `fix: update class description text`)
+6. Click the **checkmark button** (or press `Ctrl+Enter`) to commit
+
+#### Push your branch
+
+1. After committing, click the **...** menu in the Source Control panel
+2. Click **"Push"**
+3. If it's your first push on this branch, it will ask to publish — click **OK**
+
+#### Open a Pull Request
+
+After pushing, go to the GitHub repo in your browser:
+
+1. Go to [github.com/maduby/c4flow-nextjs](https://github.com/maduby/c4flow-nextjs)
+2. You'll see a yellow banner: **"your-branch had recent pushes — Compare & pull request"**
+3. Click that button
+4. Add a title describing what you did
+5. In the description, explain what changed and why
+6. Click **"Create pull request"**
+7. Let Marc know it's ready for review
+
+### Using Git from the terminal
+
+If you prefer the command line, here's the same flow:
+
+```bash
+# 1. Make sure you're starting from the latest main
+git checkout main
+git pull
+
+# 2. Create a new branch
+git checkout -b fix/update-class-description
+
+# 3. Do your work, then stage and commit
+git add .
+git commit -m "fix: update class description text"
+
+# 4. Push your branch to GitHub
+git push -u origin fix/update-class-description
+
+# 5. Open a Pull Request
+#    Go to github.com/maduby/c4flow-nextjs and click
+#    "Compare & pull request"
+```
+
+### After your PR is merged
+
+Once Marc merges your PR, switch back to `main` and pull the latest:
+
+**In Cursor / VS Code:**
+1. Click the branch name in the bottom-left
+2. Select `main`
+3. Open Source Control panel → click **...** → **Pull**
+
+**In terminal:**
+
+```bash
+git checkout main
+git pull
+```
+
+> **Never** continue working on a merged branch. Always start a new branch from `main` for your next task.
+
+### What happens when code reaches main
+
+Merging a PR into `main` triggers **automatic deployments** on both platforms:
+
+| Platform      | URL                       | What happens                                |
+| ------------- | ------------------------- | ------------------------------------------- |
+| **Vercel**    | https://c4flow.vercel.app | Builds and deploys automatically (~1-2 min) |
+| **Hostinger** | https://c4flow.co.za      | Builds and deploys automatically (~3-5 min) |
+
+> **Tip:** Vercel also creates **preview deployments** for every PR, so you can test your changes on a live URL before merging. Look for the Vercel bot comment on your PR.
 
 ### Commit message style
 
-Keep messages short and descriptive:
+Keep messages short and descriptive. Use a prefix:
 
-```
-feat: add testimonials carousel to homepage
-fix: WhatsApp button URL encoding on mobile
-style: reduce section padding on mobile
-content: update pricing bundle names
-```
+| Prefix      | When to use                           | Example                                    |
+| ----------- | ------------------------------------- | ------------------------------------------ |
+| `feat:`     | New feature or section                | `feat: add testimonials carousel`          |
+| `fix:`      | Bug fix                               | `fix: WhatsApp button URL on mobile`       |
+| `style:`    | Visual/CSS changes                    | `style: reduce section padding on mobile`  |
+| `content:`  | Content or copy updates               | `content: update pricing bundle names`     |
+| `docs:`     | Documentation changes                 | `docs: update README setup steps`          |
+| `refactor:` | Code cleanup (no behavior change)     | `refactor: extract PricingCard component`  |
 
 ---
 
