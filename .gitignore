@@ -22,8 +22,8 @@
 .DS_Store
 *.pem
 
-# cursor (contains MCP tokens)
-.cursor/
+# cursor — track rules and skills, exclude secrets
+.cursor/mcp.json
 
 # debug
 npm-debug.log*

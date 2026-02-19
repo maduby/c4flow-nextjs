@@ -1,0 +1,52 @@
+---
+description: Sanity schema and query conventions for C4 Flow
+globs: src/sanity/**/*.ts
+alwaysApply: false
+---
+
+# Sanity Conventions
+
+## Schema Files
+
+- **Documents** → `src/sanity/schemaTypes/documents/` (siteSettings, page, danceClass…)
+- **Page builder objects** → `src/sanity/schemaTypes/objects/` (hero, ctaSection, classesSection…)
+- **Shared helpers** → `src/sanity/schemaTypes/shared/` (seoFields)
+- **Registry** → `src/sanity/schemaTypes/index.ts` — every type must be listed here.
+
+## Schema Rules
+
+- Always use `defineType`, `defineField`, `defineArrayMember` from `sanity`.
+- Name fields for **what the content is**, not how it looks (`headline` not `bigText`).
+- Enable `hotspot: true` on all image fields.
+- Never delete fields with production data — use the deprecation lifecycle.
+- Plugins: `@sanity/color-input` is installed for color picker fields (`type: "color"`).
+
+## GROQ Queries
+
+All queries live in `src/sanity/lib/queries.ts`. Wrap with `defineQuery()`:
+
+```ts
+import { defineQuery } from "next-sanity";
+export const MY_QUERY = defineQuery(`*[_type == "myType"]{ _id, title }`);
+```
+
+- Put `_type` filter first (index-backed).
+- Always project fields — never fetch entire documents.
+- Never use `->` in filter expressions — compare `_ref` directly.
+
+## Fetching Data
+
+Use `sanityFetch` from `@/sanity/lib/live`:
+
+```ts
+const { data } = await sanityFetch({ query: MY_QUERY });
+```
+
+Add `stega: false` when the data is used for logic (prices, toggles), not display.
+
+## Studio Config
+
+- Studio runs at `/admin` (embedded in Next.js).
+- Config: `sanity.config.ts` at project root.
+- Structure: `src/sanity/structure.ts`.
+- Project ID: `ik9ho36m`, dataset: `production`.

@@ -1,0 +1,56 @@
+---
+description: React/Next.js component conventions for C4 Flow
+globs: src/components/**/*.tsx
+alwaysApply: false
+---
+
+# Component Conventions
+
+## File Organisation
+
+- **`sections/`** — Full page-builder sections, rendered by `PageBuilder.tsx`.
+- **`sections/hero/`** — Hero sub-components: `CenteredHero`, `SplitHero`, `HeroCta`, shared `types.ts`.
+- **`ui/`** — Reusable client-side widgets (`ClassCard`, `GalleryGrid`, `TrackedCtaLink`).
+- **`shared/`** — Layout primitives: `Container`, `SectionHeading`, `MotionDiv`.
+- **`layout/`** — Site chrome: `Header`, `Footer`, `AnnouncementBar`.
+
+## Server vs Client
+
+Default to Server Components. Mark `"use client"` only when the component uses:
+- `useState`, `useEffect`, `useRef`, `useCallback`
+- Browser APIs or event handlers
+- Framer Motion interactive features (`whileHover`, `onMouseMove`)
+
+## Image Pattern
+
+Always use `blurProps()` for Sanity images:
+
+```tsx
+import { urlFor, blurProps } from "@/sanity/lib/image";
+
+<Image
+  src={urlFor(image).width(600).height(450).quality(80).url()}
+  alt={image.alt || "Fallback"}
+  fill
+  className="object-cover"
+  sizes="(max-width: 768px) 100vw, 50vw"
+  {...blurProps(image.lqip)}
+/>
+```
+
+## Shared Utilities
+
+- `cn()` from `@/lib/utils` for conditional Tailwind classes.
+- `formatCurrency(amount)` for ZAR pricing (e.g. `R 150`).
+- `<TrackedCtaLink>` for external links with analytics.
+- `<BookNowLink>` for booking buttons with analytics.
+- `<HeroCta>` for hero CTA buttons (`size="default"` or `size="lg"`).
+- `<SectionHeading>` for consistent section headers with animation.
+
+## New Section Checklist
+
+1. Create `src/components/sections/MySection.tsx` (Server Component).
+2. Create `src/sanity/schemaTypes/objects/mySection.ts` (schema).
+3. Register schema in `src/sanity/schemaTypes/index.ts`.
+4. Add `defineArrayMember({ type: "mySection" })` in `page.ts` sections array.
+5. Add `case "mySection"` in `PageBuilder.tsx` switch.

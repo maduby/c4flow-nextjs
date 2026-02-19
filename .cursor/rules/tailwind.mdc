@@ -1,0 +1,54 @@
+---
+description: Tailwind CSS v4 and design system tokens for C4 Flow
+globs: "**/*.tsx,**/*.css"
+alwaysApply: false
+---
+
+# Tailwind CSS v4 & Design System
+
+## Config
+
+No `tailwind.config.ts` — all tokens are defined via `@theme inline` in `src/app/globals.css`.
+
+## Breakpoints
+
+| Token | Width | Use for |
+|-------|-------|---------|
+| `sm:` | 600px | Small tablets |
+| `md:` | 920px | Tablets / small laptops |
+| `lg:` | 1224px | Desktops |
+| `xl:` | 1440px | Wide screens |
+
+## Brand Colours
+
+| Token | Hex | Use |
+|-------|-----|-----|
+| `primary-500` | `#5025d1` | Main purple |
+| `primary-600` | `#2f1c6a` | Dark purple |
+| `pink-500` | `#fc5185` | CTA buttons, accents |
+| `pink-600` | `#d63163` | Hover state |
+| `plum-900` | `#3d1f3a` | Hero dark background |
+| `plum-800` | `#4a2249` | Hero gradient mid |
+| `orange-500` | `#fea419` | Star ratings, highlights |
+| `teal-500` | `#00b090` | Success states |
+
+Never use raw hex values in components — use the token names above.
+
+## Fonts
+
+- **`font-heading`**: Mynerve (cursive) — headings, section titles
+- **`font-body`**: Montserrat (sans-serif) — body text (default)
+
+## Utility Classes (globals.css)
+
+- `.glass-card` / `.glass-card-strong` — frosted glass effect
+- `.animated-gradient` / `.animated-gradient-slow` — background animation
+- `.gradient-orb` — decorative blurred orb
+- `.section-divider` — subtle gradient line
+- `.scrollbar-hide` — hide scrollbar for carousels
+- `.feature-card-1` through `.feature-card-4` — feature grid variants
+
+## Shadows
+
+Use `shadow-card` for card elements, `shadow-card-hover` for hover states.
+Avoid Tailwind defaults (`shadow-sm/md/lg`) — use the project tokens instead.

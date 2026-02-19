@@ -1,0 +1,59 @@
+---
+description: C4 Flow project conventions, structure, and dev workflow
+alwaysApply: true
+---
+
+# C4 Flow — Project Overview
+
+Pole & exotic dance studio website. Next.js 16 App Router + Sanity CMS + Tailwind CSS v4.
+
+## Stack
+
+- **Next.js 16** (App Router, Server Components first)
+- **Sanity v5** (embedded Studio at `/admin`, page builder pattern)
+- **Tailwind CSS v4** (no config file — `@theme inline` in `globals.css`)
+- **TypeScript** (strict, `@/*` path alias → `src/*`)
+- **Framer Motion** for animations
+
+## Project Structure
+
+```
+src/
+├── app/              # Routes, layout, API endpoints
+│   ├── admin/        # Embedded Sanity Studio
+│   └── api/          # Revalidation, draft mode, contact
+├── components/
+│   ├── layout/       # Header, Footer, AnnouncementBar, WhatsApp
+│   ├── sections/     # Page builder sections (HeroSection, ClassesSection…)
+│   │   └── hero/     # Extracted hero sub-components + types
+│   ├── shared/       # Container, SectionHeading, MotionDiv, JsonLd
+│   └── ui/           # ClassCard, GalleryGrid, PricingCards, TrackedCtaLink
+├── lib/              # utils (cn, formatCurrency), constants, analytics
+└── sanity/
+    ├── lib/          # client, queries, image (urlFor, blurProps), live
+    └── schemaTypes/  # documents/ + objects/ + shared/
+```
+
+## Key Patterns
+
+- **Page builder**: Pages use `sections` array. `PageBuilder.tsx` dispatches by `_type`.
+- **Server Components by default**: Only add `"use client"` for interactivity.
+- **`blurProps(lqip)`**: Use for all `next/image` blur placeholders (from `@/sanity/lib/image`).
+- **`cn()`**: Tailwind class merging via `@/lib/utils`.
+- **`SITE_CONFIG`**: All site-wide constants (URLs, contact, booking) in `@/lib/constants`.
+- **Analytics**: `trackBookNow`, `trackOutboundLink`, `trackBannerClick` from `@/lib/analytics`.
+
+## Dev Commands
+
+```bash
+nvm use            # Node 22 (see .nvmrc)
+npm install        # Install dependencies
+npm run dev        # http://localhost:3000 (site) + /admin (Studio)
+npm run build      # Production build
+```
+
+## MCP Setup
+
+Copy `.cursor/mcp.json.example` to `.cursor/mcp.json`, then:
+1. Add your Hostinger API token
+2. Run `npx sanity@latest mcp configure` for Sanity token
