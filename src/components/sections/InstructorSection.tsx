@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Instagram } from "lucide-react";
-import { urlFor } from "@/sanity/lib/image";
+import { urlFor, blurProps } from "@/sanity/lib/image";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PortableText } from "@portabletext/react";
@@ -53,10 +53,7 @@ export function InstructorSection({
                 height={670}
                 className="h-auto w-full object-cover object-top md:object-center lg:absolute lg:inset-0 lg:h-full lg:w-full"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 384px, 320px"
-                {...(instructor.photo.lqip && {
-                  placeholder: "blur" as const,
-                  blurDataURL: instructor.photo.lqip,
-                })}
+                {...blurProps(instructor.photo.lqip)}
               />
             </div>
           )}

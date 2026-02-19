@@ -48,6 +48,24 @@ export const hero = defineType({
       description: 'Optional italic text, e.g. a motto like "Move to Express".',
     }),
     defineField({
+      name: "headlineColor",
+      title: "Headline Colour",
+      type: "color",
+      description:
+        "Override the headline text colour. Leave empty to use the default for each layout.",
+      options: {
+        colorList: [
+          { title: "White", value: "#ffffff" },
+          { title: "Pink", value: "#fc5185" },
+          { title: "Deep Pink", value: "#d63163" },
+          { title: "Purple", value: "#5025d1" },
+          { title: "Dark Purple", value: "#2f1c6a" },
+          { title: "Indigo", value: "#673de6" },
+          { title: "Neutral Dark", value: "#1d1e20" },
+        ],
+      },
+    }),
+    defineField({
       name: "body",
       title: "Body Text",
       type: "text",
@@ -62,6 +80,64 @@ export const hero = defineType({
       description:
         'Used as the full background in "Centered" layout, or as the right-side image in "Split" layout. Not used in "Gradient" layout.',
       options: { hotspot: true },
+    }),
+    defineField({
+      name: "imageRatio",
+      title: "Image Aspect Ratio",
+      type: "object",
+      description:
+        "Override the default image proportions per screen size. Leave empty to keep the defaults.",
+      options: { columns: 3 },
+      fields: [
+        defineField({
+          name: "mobile",
+          title: "Mobile",
+          type: "string",
+          options: {
+            list: [
+              { title: "Default", value: "" },
+              { title: "Square (1:1)", value: "1:1" },
+              { title: "Landscape 4:3", value: "4:3" },
+              { title: "Portrait 3:4", value: "3:4" },
+              { title: "Widescreen 16:9", value: "16:9" },
+              { title: "Tall 9:16", value: "9:16" },
+              { title: "Photo 3:2", value: "3:2" },
+            ],
+          },
+        }),
+        defineField({
+          name: "tablet",
+          title: "Tablet (md)",
+          type: "string",
+          options: {
+            list: [
+              { title: "Default", value: "" },
+              { title: "Square (1:1)", value: "1:1" },
+              { title: "Landscape 4:3", value: "4:3" },
+              { title: "Portrait 3:4", value: "3:4" },
+              { title: "Widescreen 16:9", value: "16:9" },
+              { title: "Tall 9:16", value: "9:16" },
+              { title: "Photo 3:2", value: "3:2" },
+            ],
+          },
+        }),
+        defineField({
+          name: "desktop",
+          title: "Desktop (lg)",
+          type: "string",
+          options: {
+            list: [
+              { title: "Default", value: "" },
+              { title: "Square (1:1)", value: "1:1" },
+              { title: "Landscape 4:3", value: "4:3" },
+              { title: "Portrait 3:4", value: "3:4" },
+              { title: "Widescreen 16:9", value: "16:9" },
+              { title: "Tall 9:16", value: "9:16" },
+              { title: "Photo 3:2", value: "3:2" },
+            ],
+          },
+        }),
+      ],
     }),
     defineField({
       name: "sectionBackground",

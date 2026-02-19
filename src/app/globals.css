@@ -35,6 +35,10 @@
   --color-teal-500: #00b090;
   --color-teal-600: #008361;
 
+  /* Plum (hero overlays & dark accents) */
+  --color-plum-900: #3d1f3a;
+  --color-plum-800: #4a2249;
+
   /* Neutral Scale */
   --color-neutral-50: #f2f3f6;
   --color-neutral-100: #D8DAE0;

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import { trackGalleryOpen } from "@/lib/analytics";
+import { blurProps } from "@/sanity/lib/image";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -79,10 +80,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
-              {...(image.lqip && {
-                placeholder: "blur" as const,
-                blurDataURL: image.lqip,
-              })}
+              {...blurProps(image.lqip)}
             />
             {/* Hover overlay */}
             <div

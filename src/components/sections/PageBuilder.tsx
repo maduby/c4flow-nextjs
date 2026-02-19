@@ -38,6 +38,8 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 key={section._key}
                 layout={section.layout as string | null}
                 headline={section.headline as string}
+                headlineColor={section.headlineColor as never}
+                imageRatio={section.imageRatio as never}
                 subtitle={section.subtitle as string | null}
                 tagline={section.tagline as string | null}
                 body={section.body as string | null}

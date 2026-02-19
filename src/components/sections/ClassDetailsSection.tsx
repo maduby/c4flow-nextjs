@@ -9,7 +9,7 @@ import {
 } from "@/sanity/lib/queries";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { urlFor } from "@/sanity/lib/image";
+import { urlFor, blurProps } from "@/sanity/lib/image";
 import { formatCurrency } from "@/lib/utils";
 import { BookNowLink } from "@/components/ui/BookNowLink";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -74,7 +74,7 @@ export async function ClassDetailsSection({
           {heading || "More About Our Classes..."}
         </SectionHeading>
 
-        <div className="mx-auto max-w-5xl divide-y divide-border/60 [&>*:last-child]:pb-0 [&>*+*]:pt-12 md:[&>*+*]:pt-16">
+        <div className="mx-auto mt-4 max-w-5xl divide-y divide-border/60 md:mt-6 [&>*:last-child]:pb-0 [&>*+*]:pt-12 md:[&>*+*]:pt-16">
           {classes.map(
             (
               cls: {
@@ -135,10 +135,7 @@ export async function ClassDetailsSection({
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        {...(cls.image.lqip && {
-                          placeholder: "blur" as const,
-                          blurDataURL: cls.image.lqip,
-                        })}
+                        {...blurProps(cls.image.lqip)}
                       />
                     </div>
                   )}

@@ -97,7 +97,7 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
       data-announcement
       role="status"
       aria-label="Announcement"
-      className={`sticky top-(--header-h) z-40 flex min-h-9 items-center justify-center gap-2 bg-pink-500 px-4 py-2 transition-transform duration-300 ${
+      className={`sticky top-(--header-h) z-40 flex min-h-9 items-center justify-center gap-2 bg-pink-500 pl-4 pr-10 py-2 transition-transform duration-300 ${
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >

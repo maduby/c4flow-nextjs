@@ -119,7 +119,7 @@ export async function ClassesSection({
         </MotionDiv>
 
         {showBookingNote && (
-          <p className="mt-8 flex items-center justify-center gap-1.5 text-center text-sm text-neutral-400">
+          <p className="mt-8 flex flex-col items-center gap-1 text-center text-sm text-neutral-400">
             <Info size={14} className="shrink-0" aria-hidden="true" />
             Clicking &ldquo;Book Now&rdquo; will redirect you to our booking
             platform (Setmore).

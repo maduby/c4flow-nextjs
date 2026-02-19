@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { urlFor } from "@/sanity/lib/image";
+import { urlFor, blurProps } from "@/sanity/lib/image";
 import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -244,10 +244,7 @@ function TestimonialCard({
               width={40}
               height={40}
               className="h-10 w-10 rounded-full object-cover ring-2 ring-white"
-              {...(photo?.lqip && {
-                placeholder: "blur" as const,
-                blurDataURL: photo.lqip,
-              })}
+              {...blurProps(photo?.lqip)}
             />
           ) : (
             <div

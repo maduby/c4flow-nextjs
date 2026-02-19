@@ -1,0 +1,90 @@
+export interface SanityImageField {
+  asset?: { _ref: string };
+  alt?: string;
+  lqip?: string | null;
+}
+
+export interface SanityColorValue {
+  hex?: string;
+  _type?: string;
+}
+
+export interface ImageRatio {
+  mobile?: string | null;
+  tablet?: string | null;
+  desktop?: string | null;
+}
+
+export interface HeroSectionProps {
+  layout?: string | null;
+  headline: string;
+  headlineColor?: SanityColorValue | null;
+  imageRatio?: ImageRatio | null;
+  subtitle?: string | null;
+  tagline?: string | null;
+  body?: string | null;
+  backgroundImage?: SanityImageField | null;
+  sectionBackground?: SanityImageField | null;
+  overlayLogo?: SanityImageField | null;
+  ctaText?: string | null;
+  ctaUrl?: string | null;
+  siteLogoUrl?: string | null;
+}
+
+/*
+ * Responsive aspect-ratio class lookup.
+ *
+ * Every class string is a literal so Tailwind v4's content scanner
+ * detects and generates the CSS for it.
+ */
+const MOBILE_ASPECT: Record<string, string> = {
+  "1:1": "aspect-square",
+  "4:3": "aspect-4/3",
+  "3:4": "aspect-3/4",
+  "16:9": "aspect-video",
+  "9:16": "aspect-9/16",
+  "3:2": "aspect-3/2",
+};
+
+const TABLET_ASPECT: Record<string, string> = {
+  "1:1": "md:aspect-square",
+  "4:3": "md:aspect-4/3",
+  "3:4": "md:aspect-3/4",
+  "16:9": "md:aspect-video",
+  "9:16": "md:aspect-9/16",
+  "3:2": "md:aspect-3/2",
+};
+
+const DESKTOP_ASPECT: Record<string, string> = {
+  "1:1": "lg:aspect-square",
+  "4:3": "lg:aspect-4/3",
+  "3:4": "lg:aspect-3/4",
+  "16:9": "lg:aspect-video",
+  "9:16": "lg:aspect-9/16",
+  "3:2": "lg:aspect-3/2",
+};
+
+/**
+ * Returns Tailwind aspect-ratio classes for responsive hero image overrides.
+ * Returns an empty string when no overrides are set.
+ */
+export function heroAspectClasses(ratio?: ImageRatio | null): string {
+  if (!ratio) return "";
+  const parts: string[] = [];
+  if (ratio.mobile && MOBILE_ASPECT[ratio.mobile]) {
+    parts.push(MOBILE_ASPECT[ratio.mobile]);
+  }
+  if (ratio.tablet && TABLET_ASPECT[ratio.tablet]) {
+    parts.push(TABLET_ASPECT[ratio.tablet]);
+  }
+  if (ratio.desktop && DESKTOP_ASPECT[ratio.desktop]) {
+    parts.push(DESKTOP_ASPECT[ratio.desktop]);
+  }
+  return parts.join(" ");
+}
+
+/** True when at least one responsive ratio override is set. */
+export function hasImageRatio(ratio?: ImageRatio | null): boolean {
+  if (!ratio) return false;
+  return !!(ratio.mobile || ratio.tablet || ratio.desktop);
+}

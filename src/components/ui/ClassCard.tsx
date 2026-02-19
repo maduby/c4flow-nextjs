@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Tag } from "lucide-react";
 import { motion } from "framer-motion";
-import { urlFor } from "@/sanity/lib/image";
+import { urlFor, blurProps } from "@/sanity/lib/image";
 import { formatCurrency } from "@/lib/utils";
 import { BookNowLink } from "@/components/ui/BookNowLink";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -85,10 +85,7 @@ export function ClassCard({ danceClass, bannerDiscount, detailsHref, scheduleDay
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            {...(image.lqip && {
-              placeholder: "blur" as const,
-              blurDataURL: image.lqip,
-            })}
+            {...blurProps(image.lqip)}
           />
           {/* Price badge */}
           <div className="absolute right-2 top-2 rounded-full bg-white/90 px-2.5 py-0.5 text-xs font-bold backdrop-blur-sm">

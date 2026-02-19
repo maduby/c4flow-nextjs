@@ -3,11 +3,12 @@
 import { useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
-import { urlFor } from "@/sanity/lib/image";
+import { urlFor, blurProps } from "@/sanity/lib/image";
+import { HeroCta } from "@/components/sections/hero/HeroCta";
 
 interface GradientHeroClientProps {
   headline: string;
+  headlineColor?: { hex?: string } | null;
   subtitle?: string | null;
   body?: string | null;
   backgroundImage?: {
@@ -24,6 +25,7 @@ const SPRING_CONFIG = { stiffness: 50, damping: 30, mass: 1 };
 
 export function GradientHeroClient({
   headline,
+  headlineColor,
   subtitle,
   body,
   backgroundImage,
@@ -82,10 +84,7 @@ export function GradientHeroClient({
           priority
           className="object-cover -z-20"
           sizes="100vw"
-          {...(backgroundImage.lqip && {
-            placeholder: "blur" as const,
-            blurDataURL: backgroundImage.lqip,
-          })}
+          {...blurProps(backgroundImage.lqip)}
         />
       )}
 
@@ -108,7 +107,10 @@ export function GradientHeroClient({
       </motion.div>
 
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="font-heading text-5xl tracking-tight text-primary-600 sm:text-6xl lg:text-7xl">
+        <h1
+          className="font-heading text-5xl tracking-tight text-primary-600 sm:text-6xl lg:text-7xl"
+          style={headlineColor?.hex ? { color: headlineColor.hex } : undefined}
+        >
           {headline}
         </h1>
         {subtitle && (
@@ -123,14 +125,9 @@ export function GradientHeroClient({
         )}
         {ctaText && ctaUrl && (
           <div className="mt-10">
-            <TrackedCtaLink
-              href={ctaUrl}
-              source="hero_gradient"
-              className="rounded-full bg-pink-500 px-7 py-3 text-sm font-semibold text-white shadow-sm hover:bg-pink-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-500"
-            >
+            <HeroCta href={ctaUrl} source="hero_gradient">
               {ctaText}
-              <span className="sr-only"> (opens in new tab)</span>
-            </TrackedCtaLink>
+            </HeroCta>
           </div>
         )}
       </div>
