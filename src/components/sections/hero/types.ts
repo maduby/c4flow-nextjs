@@ -64,11 +64,19 @@ const DESKTOP_ASPECT: Record<string, string> = {
   "3:2": "lg:aspect-3/2",
 };
 
+interface AspectOptions {
+  /** Skip the lg: breakpoint (e.g. SplitHero where desktop is absolute-positioned). */
+  skipDesktop?: boolean;
+}
+
 /**
  * Returns Tailwind aspect-ratio classes for responsive hero image overrides.
  * Returns an empty string when no overrides are set.
  */
-export function heroAspectClasses(ratio?: ImageRatio | null): string {
+export function heroAspectClasses(
+  ratio?: ImageRatio | null,
+  opts?: AspectOptions,
+): string {
   if (!ratio) return "";
   const parts: string[] = [];
   if (ratio.mobile && MOBILE_ASPECT[ratio.mobile]) {
@@ -77,14 +85,18 @@ export function heroAspectClasses(ratio?: ImageRatio | null): string {
   if (ratio.tablet && TABLET_ASPECT[ratio.tablet]) {
     parts.push(TABLET_ASPECT[ratio.tablet]);
   }
-  if (ratio.desktop && DESKTOP_ASPECT[ratio.desktop]) {
+  if (!opts?.skipDesktop && ratio.desktop && DESKTOP_ASPECT[ratio.desktop]) {
     parts.push(DESKTOP_ASPECT[ratio.desktop]);
   }
   return parts.join(" ");
 }
 
 /** True when at least one responsive ratio override is set. */
-export function hasImageRatio(ratio?: ImageRatio | null): boolean {
+export function hasImageRatio(
+  ratio?: ImageRatio | null,
+  opts?: AspectOptions,
+): boolean {
   if (!ratio) return false;
+  if (opts?.skipDesktop) return !!(ratio.mobile || ratio.tablet);
   return !!(ratio.mobile || ratio.tablet || ratio.desktop);
 }

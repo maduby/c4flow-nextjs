@@ -94,8 +94,8 @@ export function SplitHero({
       <div
         className={cn(
           "relative lg:absolute lg:inset-y-0 lg:right-0 lg:min-h-0 lg:w-1/2",
-          hasImageRatio(imageRatio)
-            ? heroAspectClasses(imageRatio)
+          hasImageRatio(imageRatio, { skipDesktop: true })
+            ? heroAspectClasses(imageRatio, { skipDesktop: true })
             : "aspect-4/3",
           hasSectionBg &&
             "lg:[clip-path:polygon(18%_0%,100%_0%,100%_100%,0%_100%)]",
