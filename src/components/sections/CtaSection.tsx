@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { PortableText } from "@portabletext/react";
 import { Container } from "@/components/shared/Container";
 import { cn } from "@/lib/utils";
 import { stegaClean } from "next-sanity";
@@ -23,7 +24,7 @@ interface SecondaryLink {
 
 interface CtaSectionProps {
   heading: string;
-  subtitle?: string | null;
+  subtitle?: Array<Record<string, unknown>> | string | null;
   buttonText: string;
   buttonUrl?: string | null;
   style?: string | null;
@@ -90,20 +91,24 @@ export function CtaSection({
           {heading}
         </motion.h2>
         {subtitle && (
-          <motion.p
+          <motion.div
             className={cn(
-              "mx-auto mt-4 max-w-xl text-lg",
+              "mx-auto mt-4 max-w-xl text-lg [&_p]:mb-0",
               cleanStyle === "light" || hasBgImage
-                ? "text-neutral-500"
-                : "text-primary-100"
+                ? "text-neutral-500 [&_a]:text-pink-600 [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-pink-700"
+                : "text-primary-100 [&_a]:text-white [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-pink-200"
             )}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            {subtitle}
-          </motion.p>
+            {typeof subtitle === "string" ? (
+              <p>{subtitle}</p>
+            ) : (
+              <PortableText value={subtitle as never} />
+            )}
+          </motion.div>
         )}
         {buttonUrl && (
           <motion.div

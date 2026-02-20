@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PortableText } from "@portabletext/react";
 import { urlFor, blurProps } from "@/sanity/lib/image";
 import { cn } from "@/lib/utils";
 import type { HeroSectionProps } from "./types";
@@ -74,9 +75,13 @@ export function SplitHero({
               )}
 
               {body && (
-                <p className="mt-6 text-base leading-relaxed text-neutral-500 sm:text-lg">
-                  {body}
-                </p>
+                <div className="mt-6 text-base leading-relaxed text-neutral-500 sm:text-lg [&_a]:text-pink-600 [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-pink-700 [&_p]:mb-0">
+                  {typeof body === "string" ? (
+                    <p>{body}</p>
+                  ) : (
+                    <PortableText value={body as never} />
+                  )}
+                </div>
               )}
 
               {ctaText && ctaUrl && (

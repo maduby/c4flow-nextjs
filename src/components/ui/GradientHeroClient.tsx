@@ -3,6 +3,7 @@
 import { useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { PortableText } from "@portabletext/react";
 import { urlFor, blurProps } from "@/sanity/lib/image";
 import { HeroCta } from "@/components/sections/hero/HeroCta";
 
@@ -10,7 +11,7 @@ interface GradientHeroClientProps {
   headline: string;
   headlineColor?: { hex?: string } | null;
   subtitle?: string | null;
-  body?: string | null;
+  body?: Array<Record<string, unknown>> | string | null;
   backgroundImage?: {
     asset?: { _ref: string };
     alt?: string;
@@ -119,9 +120,13 @@ export function GradientHeroClient({
           </p>
         )}
         {body && (
-          <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-neutral-400 sm:text-lg">
-            {body}
-          </p>
+          <div className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-neutral-400 sm:text-lg [&_a]:text-pink-500 [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-pink-600 [&_p]:mb-0">
+            {typeof body === "string" ? (
+              <p>{body}</p>
+            ) : (
+              <PortableText value={body as never} />
+            )}
+          </div>
         )}
         {ctaText && ctaUrl && (
           <div className="mt-10">

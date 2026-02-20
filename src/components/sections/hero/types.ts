@@ -22,7 +22,7 @@ export interface HeroSectionProps {
   imageRatio?: ImageRatio | null;
   subtitle?: string | null;
   tagline?: string | null;
-  body?: string | null;
+  body?: Array<Record<string, unknown>> | string | null;
   backgroundImage?: SanityImageField | null;
   sectionBackground?: SanityImageField | null;
   overlayLogo?: SanityImageField | null;

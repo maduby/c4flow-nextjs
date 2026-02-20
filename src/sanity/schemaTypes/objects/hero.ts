@@ -1,5 +1,6 @@
 import { defineType, defineField } from "sanity";
 import { ImageIcon } from "@sanity/icons";
+import { simpleRichText } from "../shared/simpleRichText";
 
 export const hero = defineType({
   name: "hero",
@@ -68,10 +69,10 @@ export const hero = defineType({
     defineField({
       name: "body",
       title: "Body Text",
-      type: "text",
-      rows: 4,
+      type: "array",
+      of: simpleRichText,
       description:
-        'Optional paragraph shown below the headline. Useful for the "Split" and "Gradient" layouts.',
+        'Optional paragraph shown below the headline. Supports bold, italic, and links. Useful for the "Split" and "Gradient" layouts.',
     }),
     defineField({
       name: "backgroundImage",

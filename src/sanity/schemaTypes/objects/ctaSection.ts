@@ -1,5 +1,6 @@
 import { defineType, defineField } from "sanity";
 import { LaunchIcon } from "@sanity/icons";
+import { simpleRichText } from "../shared/simpleRichText";
 
 export const ctaSection = defineType({
   name: "ctaSection",
@@ -16,8 +17,9 @@ export const ctaSection = defineType({
     defineField({
       name: "subtitle",
       title: "Subtitle",
-      type: "text",
-      rows: 2,
+      type: "array",
+      of: simpleRichText,
+      description: "Supports bold, italic, and links.",
     }),
     defineField({
       name: "buttonText",
