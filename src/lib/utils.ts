@@ -5,11 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(amount: number, currency = "ZAR"): string {
-  return new Intl.NumberFormat("en-ZA", {
-    style: "currency",
-    currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
+/**
+ * Deterministic currency formatter — avoids Intl.NumberFormat which can
+ * produce different Unicode space characters on Node vs the browser,
+ * causing React hydration mismatches.
+ */
+export function formatCurrency(amount: number): string {
+  const whole = Math.round(amount).toString();
+  const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return `R ${grouped}`;
 }
