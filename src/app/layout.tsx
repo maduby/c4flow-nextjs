@@ -13,7 +13,6 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
-import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
 import "./globals.css";
@@ -205,7 +204,6 @@ export default async function RootLayout({
         />
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
-        <ScrollToTop />
         <a href="#main-content" className="skip-to-content">
           Skip to content
         </a>
