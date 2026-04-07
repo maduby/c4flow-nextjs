@@ -67,6 +67,7 @@ export function PageBuilder({ sections, siteLogoUrl }: PageBuilderProps) {
                 key={section._key}
                 heading={section.heading as string | null}
                 subtitle={section.subtitle as string | null}
+                columns={section.columns as number | null}
                 showBookingNote={section.showBookingNote as boolean | null}
               />
             );

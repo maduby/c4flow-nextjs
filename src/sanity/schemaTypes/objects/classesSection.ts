@@ -20,6 +20,22 @@ export const classesSection = defineType({
       rows: 2,
     }),
     defineField({
+      name: "columns",
+      title: "Desktop Columns",
+      type: "number",
+      description: "Number of columns on large screens. Defaults to 4.",
+      options: {
+        list: [
+          { title: "2 per row", value: 2 },
+          { title: "3 per row", value: 3 },
+          { title: "4 per row", value: 4 },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
+      initialValue: 4,
+    }),
+    defineField({
       name: "showBookingNote",
       title: "Show Booking Note",
       type: "boolean",

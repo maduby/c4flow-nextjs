@@ -25,6 +25,7 @@ const DAY_ORDER = ["monday", "tuesday", "wednesday", "thursday", "friday", "satu
 interface ClassesSectionProps {
   heading?: string | null;
   subtitle?: string | null;
+  columns?: number | null;
   showBookingNote?: boolean | null;
 }
 
@@ -42,9 +43,16 @@ const cardReveal = {
   },
 };
 
+const GRID_COLS: Record<number, string> = {
+  2: "sm:grid-cols-2",
+  3: "sm:grid-cols-2 lg:grid-cols-3",
+  4: "sm:grid-cols-2 lg:grid-cols-4",
+};
+
 export async function ClassesSection({
   heading,
   subtitle,
+  columns,
   showBookingNote,
 }: ClassesSectionProps) {
   const [{ data: classes }, { data: discountDoc }, { data: schedule }] =
@@ -102,7 +110,7 @@ export async function ClassesSection({
         </SectionHeading>
 
         <MotionDiv
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          className={`grid gap-6 ${GRID_COLS[columns ?? 4] ?? GRID_COLS[4]}`}
           variants={staggerContainer}
           viewport={{ once: true, amount: 0.15 }}
         >
