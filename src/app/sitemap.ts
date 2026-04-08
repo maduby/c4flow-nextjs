@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { createClient } from "next-sanity";
+import { getSiteOriginForMetadata } from "@/lib/site-origin";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -8,9 +9,9 @@ const client = createClient({
   useCdn: true,
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://c4flow.co.za";
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = getSiteOriginForMetadata();
+
   const pages = await client.fetch<{ slug: string; _updatedAt: string }[]>(
     `*[_type == "page" && defined(slug.current)]{ "slug": slug.current, _updatedAt }`
   );

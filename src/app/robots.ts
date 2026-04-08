@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
+import { getSiteOriginForMetadata } from "@/lib/site-origin";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://c4flow.co.za";
+const baseUrl = getSiteOriginForMetadata();
 
 export default function robots(): MetadataRoute.Robots {
   return {

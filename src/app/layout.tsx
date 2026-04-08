@@ -16,6 +16,7 @@ import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
+import { getSiteOriginForMetadata } from "@/lib/site-origin";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -48,9 +49,7 @@ export const metadata: Metadata = {
   },
   description:
     "C4 Flow Studio offers pole dancing classes Cape Town loves — group and private classes for all levels and abilities are available at our inclusive studio space in Woodstock.",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-  ),
+  metadataBase: new URL(getSiteOriginForMetadata()),
   keywords: [
     "pole dancing classes Cape Town",
     "pole and exotic dance classes",
@@ -137,7 +136,7 @@ export default async function RootLayout({
             name: settings?.siteName || "C-4 Flow",
             description:
               "Pole & Exotic Dance Studio in Woodstock, Cape Town. Group and private classes for all levels.",
-            url: process.env.NEXT_PUBLIC_SITE_URL || "https://c4flow.co.za",
+            url: getSiteOriginForMetadata(),
             telephone: settings?.phone || "+27 65 391 7901",
             email: settings?.contactEmail || "marc@duby.io",
             address: {

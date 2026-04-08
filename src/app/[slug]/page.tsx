@@ -42,9 +42,12 @@ export async function generateMetadata({
       ? urlFor(settings.defaultOgImage).width(1200).height(630).url()
       : undefined;
 
+  const title = page.seoTitle || page.title || undefined;
+  const description = page.seoDescription || undefined;
+
   return {
-    title: page.seoTitle || page.title,
-    description: page.seoDescription || undefined,
+    title,
+    description,
     alternates: {
       canonical: `/${slug}`,
     },
@@ -52,9 +55,18 @@ export async function generateMetadata({
       type: "website",
       locale: "en_ZA",
       siteName: "C4 Flow",
-      title: page.seoTitle || page.title || undefined,
-      description: page.seoDescription || undefined,
-      ...(ogImage && { images: [{ url: ogImage, width: 1200, height: 630, type: "image/jpeg" }] }),
+      title,
+      description,
+      url: `/${slug}`,
+      ...(ogImage && {
+        images: [{ url: ogImage, width: 1200, height: 630, type: "image/jpeg" }],
+      }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(ogImage && { images: [ogImage] }),
     },
   };
 }
