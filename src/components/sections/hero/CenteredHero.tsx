@@ -89,9 +89,9 @@ export function CenteredHero({
         )}
 
         {tagline && (
-          <h3 className="mt-4 text-lg font-medium italic tracking-wide text-pink-200 drop-shadow-sm md:text-xl">
+          <p className="mt-4 text-lg font-medium italic tracking-wide text-pink-200 drop-shadow-sm md:text-xl">
             {tagline}
-          </h3>
+          </p>
         )}
 
         {ctaText && ctaUrl && (

@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import { trackNavClick, trackBookNow } from "@/lib/analytics";
+import { getExternalLinkRel } from "@/lib/seo";
 
 interface HeaderProps {
   siteName: string;
@@ -82,7 +83,7 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
           <Link
             href="https://movetoexpresswithc4flow.setmore.com/"
             target="_blank"
-            rel="noopener noreferrer"
+            rel={getExternalLinkRel("https://movetoexpresswithc4flow.setmore.com/")}
             onClick={() => trackBookNow(undefined, "header")}
             className="rounded-full bg-pink-500 px-5 py-2 text-sm font-medium text-white hover:bg-pink-600"
           >
@@ -170,7 +171,7 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
                 <Link
                   href="https://movetoexpresswithc4flow.setmore.com/"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel={getExternalLinkRel("https://movetoexpresswithc4flow.setmore.com/")}
                   onClick={() => {
                     closeMenu();
                     trackBookNow(undefined, "header_mobile");

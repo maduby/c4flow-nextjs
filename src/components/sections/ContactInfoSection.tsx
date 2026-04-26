@@ -2,6 +2,7 @@ import { MapPin, MessageCircle, Mail, Clock } from "lucide-react";
 import { sanityFetch } from "@/sanity/lib/live";
 import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import { Container } from "@/components/shared/Container";
+import { getExternalLinkRel } from "@/lib/seo";
 
 interface ContactInfoSectionProps {
   studioHours?: string | null;
@@ -110,7 +111,7 @@ export async function ContactInfoSection({
                   key={card.title}
                   href={card.href}
                   target={card.href.startsWith("mailto:") ? undefined : "_blank"}
-                  rel={card.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                  rel={card.href.startsWith("mailto:") ? undefined : getExternalLinkRel(card.href)}
                   className={`${cardClasses} transition-colors hover:border-pink-200 hover:bg-pink-50/30`}
                 >
                   {inner}

@@ -26,15 +26,25 @@ export function AnnouncementBar({ text, link, version }: AnnouncementBarProps) {
 
   /* ── localStorage check (fallback — blocking script handles the fast path) ── */
   useEffect(() => {
+    let frameId: number | null = null;
+
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored === version) {
-        setDismissed(true);
         document.documentElement.style.setProperty("--banner-h", "0px");
+        frameId = window.requestAnimationFrame(() => {
+          setDismissed(true);
+        });
       }
     } catch {
       /* localStorage unavailable — keep showing */
     }
+
+    return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
   }, [version]);
 
   /* ── Measure actual banner height (only fine-tune, don't touch --header-h) ── */

@@ -3,6 +3,8 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { PAGE_BY_SLUG_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { PageBuilder } from "@/components/sections/PageBuilder";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { buildFaqJsonLd } from "@/lib/seo";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,9 +23,11 @@ export async function generateMetadata(): Promise<Metadata> {
     page?.seoTitle || "C-4 Flow | Pole & Exotic Dance Studio";
   const description =
     page?.seoDescription ||
-    "Pole & Exotic Dance Studio in Woodstock, Cape Town. Group and private classes for all levels.";
+    "C4 Flow Studio offers pole dancing classes in Cape Town, with group and private sessions for all levels at our inclusive Woodstock studio.";
 
   return {
+    title,
+    description,
     alternates: {
       canonical: "/",
     },
@@ -58,9 +62,11 @@ export default async function Home() {
   const siteLogoUrl = settings?.logo?.asset
     ? urlFor(settings.logo).width(320).url()
     : null;
+  const faqJsonLd = buildFaqJsonLd(page.sections as never);
 
   return (
     <main id="main-content">
+      {faqJsonLd && <JsonLd data={faqJsonLd} />}
       <PageBuilder sections={page.sections} siteLogoUrl={siteLogoUrl} />
     </main>
   );

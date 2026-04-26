@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { getExternalLinkRel } from "@/lib/seo";
 
 interface ScheduleNotice {
   _key: string;
@@ -163,7 +164,7 @@ export function ScheduleNotices({ notices }: ScheduleNoticesProps) {
                     }
                     rel={
                       notice.linkUrl.startsWith("http")
-                        ? "noopener noreferrer"
+                        ? getExternalLinkRel(notice.linkUrl)
                         : undefined
                     }
                     className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium shadow-sm transition-colors ${style.btnBg} ${style.btnText}`}

@@ -5,6 +5,7 @@ import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { PortableText } from "@portabletext/react";
 import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
+import { getExternalLinkRel } from "@/lib/seo";
 
 interface InstructorSectionProps {
   heading?: string | null;
@@ -96,7 +97,7 @@ export function InstructorSection({
                 <a
                   href={instructor.instagramUrl}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel={getExternalLinkRel(instructor.instagramUrl)}
                   className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-neutral-600 hover:border-neutral-200 hover:bg-neutral-50"
                   aria-label={`${instructor.name} on Instagram`}
                 >

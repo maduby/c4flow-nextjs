@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: "C-4 Flow",
   tagline: "Pole & Exotic Dance Studio",
   motto: "Move to Express",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://c4flow.co.za",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.c4flow.co.za",
   email: "marc@duby.io",
   phone: "+27 65 391 7901",
   whatsapp: {

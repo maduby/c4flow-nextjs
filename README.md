@@ -1,6 +1,6 @@
 # C-4 Flow — Pole & Exotic Dance Studio
 
-Marketing website for [C-4 Flow Dance Studio](https://c4flow.co.za), Cape Town.
+Marketing website for [C-4 Flow Dance Studio](https://www.c4flow.co.za), Cape Town.
 
 Built with **Next.js 16**, **Sanity CMS**, **Tailwind CSS v4**, and deployed to **Vercel** and **Hostinger**.
 
@@ -537,8 +537,8 @@ Merging a PR into `main` triggers **automatic deployments** on both platforms:
 
 | Platform      | URL                       | What happens                                |
 | ------------- | ------------------------- | ------------------------------------------- |
-| **Vercel**    | https://c4flow.vercel.app | Builds and deploys automatically (~1-2 min) |
-| **Hostinger** | https://c4flow.co.za      | Builds and deploys automatically (~3-5 min) |
+| **Vercel**    | https://c4flow.vercel.app     | Builds and deploys automatically (~1-2 min) |
+| **Hostinger** | https://www.c4flow.co.za      | Builds and deploys automatically (~3-5 min) |
 
 > **Tip:** Vercel also creates **preview deployments** for every PR, so you can test your changes on a live URL before merging. Look for the Vercel bot comment on your PR.
 
@@ -581,9 +581,9 @@ Both Vercel and Hostinger have their own copies of the environment variables. If
 
 | Resource              | URL                                                                 |
 | --------------------- | ------------------------------------------------------------------- |
-| Live site             | https://c4flow.co.za                                                |
+| Live site             | https://www.c4flow.co.za                                            |
 | Vercel preview        | https://c4flow.vercel.app                                           |
-| Sanity Studio (prod)  | https://c4flow.co.za/admin                                          |
+| Sanity Studio (prod)  | https://www.c4flow.co.za/admin                                      |
 | Sanity project        | https://www.sanity.io/manage/project/ik9ho36m                       |
 | GitHub repo           | https://github.com/maduby/c4flow-nextjs                             |
 | Sanity docs           | https://www.sanity.io/docs                                          |

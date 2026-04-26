@@ -1,6 +1,7 @@
 "use client";
 
 import { trackBookNow, trackOutboundLink } from "@/lib/analytics";
+import { getExternalLinkRel } from "@/lib/seo";
 
 interface TrackedCtaLinkProps {
   href: string;
@@ -24,7 +25,7 @@ export function TrackedCtaLink({
     <a
       href={href}
       target="_blank"
-      rel="noopener noreferrer"
+      rel={getExternalLinkRel(href)}
       onClick={handleClick}
       className={className}
     >

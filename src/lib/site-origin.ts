@@ -1,7 +1,9 @@
+import { CANONICAL_PRODUCTION_ORIGIN } from "@/lib/site-url";
+
 /**
  * Canonical site origin for metadata (canonical links, Open Graph, JSON-LD, sitemap).
  *
- * Production builds default to https://c4flow.co.za so deploys served from
+ * Production builds default to https://www.c4flow.co.za so deploys served from
  * *.vercel.app still declare the real domain — otherwise Google may index the
  * Vercel hostname.
  *
@@ -11,7 +13,6 @@
  * Optional override: NEXT_PUBLIC_CANONICAL_SITE_URL (no trailing slash), must not
  * be a vercel.app host.
  */
-const PRODUCTION_ORIGIN = "https://c4flow.co.za";
 
 function hostnameIsVercelDeployment(host: string): boolean {
   return host === "vercel.app" || host.endsWith(".vercel.app");
@@ -54,5 +55,5 @@ export function getSiteOriginForMetadata(): string {
     return siteUrl;
   }
 
-  return PRODUCTION_ORIGIN;
+  return CANONICAL_PRODUCTION_ORIGIN;
 }

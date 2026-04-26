@@ -72,6 +72,7 @@ export function FeatureGridSection({
 
   const variant = stegaClean(style) || "minimal";
   const count = features.length;
+  const resolvedHeading = heading?.trim() || "Studio Benefits";
   const gridCols =
     count === 1
       ? "max-w-md mx-auto"
@@ -89,8 +90,10 @@ export function FeatureGridSection({
           aria-hidden="true"
         />
         <Container>
-          {heading && (
+          {heading ? (
             <SectionHeading subtitle={subtitle}>{heading}</SectionHeading>
+          ) : (
+            <h2 className="sr-only">{resolvedHeading}</h2>
           )}
           <motion.div
             className={`grid items-start gap-7 ${gridCols}`}
@@ -145,8 +148,10 @@ export function FeatureGridSection({
   return (
     <section className="py-8 md:py-24">
       <Container>
-        {heading && (
+        {heading ? (
           <SectionHeading subtitle={subtitle}>{heading}</SectionHeading>
+        ) : (
+          <h2 className="sr-only">{resolvedHeading}</h2>
         )}
 
         <motion.div

@@ -2,6 +2,7 @@
 
 import { ExternalLink } from "lucide-react";
 import { trackBookNow } from "@/lib/analytics";
+import { getExternalLinkRel } from "@/lib/seo";
 
 interface BookNowLinkProps {
   href: string;
@@ -27,7 +28,7 @@ export function BookNowLink({
     <a
       href={href}
       target="_blank"
-      rel="noopener noreferrer"
+      rel={getExternalLinkRel(href)}
       onClick={() => trackBookNow(label, source)}
       className={className}
       aria-label={ariaLabel}

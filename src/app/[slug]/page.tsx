@@ -8,6 +8,8 @@ import {
 } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { PageBuilder } from "@/components/sections/PageBuilder";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { buildFaqJsonLd } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -84,9 +86,11 @@ export default async function DynamicPage({ params }: PageProps) {
   const siteLogoUrl = settings?.logo?.asset
     ? urlFor(settings.logo).width(320).url()
     : null;
+  const faqJsonLd = buildFaqJsonLd(page.sections as never);
 
   return (
     <main id="main-content">
+      {faqJsonLd && <JsonLd data={faqJsonLd} />}
       <PageBuilder sections={page.sections} siteLogoUrl={siteLogoUrl} />
     </main>
   );

@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { TrackedCtaLink } from "@/components/ui/TrackedCtaLink";
 import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
+import { getExternalLinkRel } from "@/lib/seo";
 
 interface SanityImage {
   asset?: { _ref?: string; _type?: string } | null;
@@ -154,7 +155,7 @@ export function CtaSection({
                   key={link._key || i}
                   href={link.url}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel={getExternalLinkRel(link.url)}
                   className={linkClass}
                 >
                   {link.label}

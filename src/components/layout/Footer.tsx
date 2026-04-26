@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Mail, Phone, MapPin, Navigation, ExternalLink } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
+import { getExternalLinkRel } from "@/lib/seo";
 
 interface FooterProps {
   siteName: string;
@@ -83,7 +84,7 @@ export function Footer({
                   <a
                     href={bookingUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={getExternalLinkRel(bookingUrl)}
                     className="text-sm font-medium text-pink-700 underline decoration-pink-400/0 underline-offset-2 hover:text-pink-900 hover:decoration-pink-400"
                   >
                     Book a Class
@@ -126,7 +127,7 @@ export function Footer({
                   <a
                     href={instagramUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={getExternalLinkRel(instagramUrl)}
                     className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900"
                   >
                     <Instagram size={14} />
@@ -148,7 +149,7 @@ export function Footer({
                   <a
                     href={mapsUrl || "#"}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={mapsUrl ? getExternalLinkRel(mapsUrl) : undefined}
                     className="inline-flex items-start gap-2 text-sm text-neutral-600 hover:text-neutral-900"
                   >
                     <MapPin size={14} className="mt-0.5 shrink-0" />
@@ -163,7 +164,7 @@ export function Footer({
                   <a
                     href="https://www.google.com/maps/dir/?api=1&destination=Woodstock+Exchange,+66+Albert+Road,+Cape+Town,+8001"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={getExternalLinkRel("https://www.google.com/maps/dir/?api=1&destination=Woodstock+Exchange,+66+Albert+Road,+Cape+Town,+8001")}
                     className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900"
                   >
                     <Navigation size={14} />
@@ -174,7 +175,7 @@ export function Footer({
                   <a
                     href="https://www.google.com/maps/place/Woodstock+Exchange/@-33.926702,18.4434095,17z/"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={getExternalLinkRel("https://www.google.com/maps/place/Woodstock+Exchange/@-33.926702,18.4434095,17z/")}
                     className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900"
                   >
                     <ExternalLink size={14} />

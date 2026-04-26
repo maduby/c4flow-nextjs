@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     template: "%s | C4 Flow",
   },
   description:
-    "C4 Flow Studio offers pole dancing classes Cape Town loves — group and private classes for all levels and abilities are available at our inclusive studio space in Woodstock.",
+    "C4 Flow Studio offers pole dancing classes in Cape Town, with group and private sessions for all levels at our inclusive Woodstock studio.",
   metadataBase: new URL(getSiteOriginForMetadata()),
   keywords: [
     "pole dancing classes Cape Town",
