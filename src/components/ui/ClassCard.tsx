@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import { urlFor, blurProps } from "@/sanity/lib/image";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, formatPriceLabel } from "@/lib/utils";
 import { BookNowLink } from "@/components/ui/BookNowLink";
 import { SITE_CONFIG } from "@/lib/constants";
 
@@ -45,6 +45,7 @@ export function ClassCard({ danceClass, bannerDiscount, detailsHref, scheduleDay
   } = danceClass;
 
   const originalPrice = price || 0;
+  const isFreeClass = price === 0;
 
   const classHasSale = salePrice && salePrice < originalPrice;
   const effectiveSalePrice = classHasSale
@@ -92,7 +93,7 @@ export function ClassCard({ danceClass, bannerDiscount, detailsHref, scheduleDay
             {hasDiscount ? (
               <>
                 <span className="text-pink-500">
-                  {formatCurrency(effectiveSalePrice)}
+                  {formatPriceLabel(effectiveSalePrice)}
                 </span>
                 <span className="ml-1 text-[10px] text-neutral-400 line-through">
                   {formatCurrency(originalPrice)}
@@ -100,12 +101,12 @@ export function ClassCard({ danceClass, bannerDiscount, detailsHref, scheduleDay
               </>
             ) : (
               <span className="text-primary-600">
-                {formatCurrency(originalPrice)}
+                {formatPriceLabel(originalPrice)}
               </span>
             )}
           </div>
           {/* Discount badge */}
-          {hasDiscount && (
+          {hasDiscount && !isFreeClass && (
             <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-pink-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
               <Tag size={9} />
               {showBannerBadge ? `${bannerDiscount}% OFF` : "SALE"}

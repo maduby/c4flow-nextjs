@@ -5,6 +5,8 @@ import { urlFor } from "@/sanity/lib/image";
 import { PageBuilder } from "@/components/sections/PageBuilder";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { buildFaqJsonLd } from "@/lib/seo";
+import { getKnowledgeBase } from "@/lib/catalog";
+import { buildCatalogPageJsonLd } from "@/lib/structured-data";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -52,9 +54,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [{ data: page }, { data: settings }] = await Promise.all([
+  const [{ data: page }, { data: settings }, knowledge] = await Promise.all([
     sanityFetch({ query: PAGE_BY_SLUG_QUERY, params: { slug: "home" } }),
     sanityFetch({ query: SITE_SETTINGS_QUERY, stega: false }),
+    getKnowledgeBase(),
   ]);
 
   if (!page) notFound();
@@ -63,10 +66,20 @@ export default async function Home() {
     ? urlFor(settings.logo).width(320).url()
     : null;
   const faqJsonLd = buildFaqJsonLd(page.sections as never);
+  const catalogJsonLd = buildCatalogPageJsonLd({
+    pageUrl: knowledge.site.url,
+    pageTitle: page.seoTitle || page.title || knowledge.site.name,
+    pageDescription:
+      page.seoDescription ||
+      "Browse C4 Flow classes, weekly schedule, and pricing in Cape Town.",
+    classes: knowledge.classes,
+    bundles: knowledge.bundles,
+  });
 
   return (
     <main id="main-content">
       {faqJsonLd && <JsonLd data={faqJsonLd} />}
+      <JsonLd data={catalogJsonLd} />
       <PageBuilder sections={page.sections} siteLogoUrl={siteLogoUrl} />
     </main>
   );

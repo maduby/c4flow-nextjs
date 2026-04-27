@@ -5,10 +5,8 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
-  SITE_SETTINGS_QUERY,
   ANNOUNCEMENT_BAR_QUERY,
 } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -17,6 +15,8 @@ import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
 import { getSiteOriginForMetadata } from "@/lib/site-origin";
+import { getKnowledgeBase } from "@/lib/catalog";
+import { buildDanceSchoolJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -100,14 +100,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [{ data: settings }, { data: announcement }] = await Promise.all([
-    sanityFetch({ query: SITE_SETTINGS_QUERY, stega: false }),
+  const [knowledge, { data: announcement }] = await Promise.all([
+    getKnowledgeBase(),
     sanityFetch({ query: ANNOUNCEMENT_BAR_QUERY, stega: false }),
   ]);
 
-  const logoUrl = settings?.logo?.asset
-    ? urlFor(settings.logo).width(96).height(100).url()
-    : null;
+  const { site } = knowledge;
+  const logoUrl = site.logoUrl;
 
   return (
     <html
@@ -121,6 +120,36 @@ export default async function RootLayout({
       }
     >
       <head>
+        <link
+          rel="alternate"
+          type="application/json"
+          href="/knowledge.json"
+          title="C4 Flow knowledge base"
+        />
+        <link
+          rel="alternate"
+          type="application/json"
+          href="/classes.json"
+          title="C4 Flow classes feed"
+        />
+        <link
+          rel="alternate"
+          type="application/json"
+          href="/schedule.json"
+          title="C4 Flow schedule feed"
+        />
+        <link
+          rel="alternate"
+          type="application/json"
+          href="/pricing.json"
+          title="C4 Flow pricing feed"
+        />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href="/llms.txt"
+          title="C4 Flow llms.txt"
+        />
         {/* Blocking script: hide dismissed banner before first paint to prevent CLS */}
         {announcement?.enabled && announcement?.text && (
           <script
@@ -130,77 +159,7 @@ export default async function RootLayout({
           />
         )}
         <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "DanceSchool",
-            name: settings?.siteName || "C-4 Flow",
-            description:
-              "Pole & Exotic Dance Studio in Woodstock, Cape Town. Group and private classes for all levels.",
-            url: getSiteOriginForMetadata(),
-            telephone: settings?.phone || "+27 65 391 7901",
-            email: settings?.contactEmail || "marc@duby.io",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: settings?.address?.street || "66 Albert Road",
-              addressLocality: settings?.address?.city || "Cape Town",
-              addressRegion:
-                settings?.address?.province || "Western Cape",
-              postalCode: settings?.address?.postalCode || "8001",
-              addressCountry: "ZA",
-            },
-            geo: {
-              "@type": "GeoCoordinates",
-              latitude: -33.926702,
-              longitude: 18.4434095,
-            },
-            openingHoursSpecification: [
-              {
-                "@type": "OpeningHoursSpecification",
-                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                opens: "09:00",
-                closes: "21:00",
-              },
-              {
-                "@type": "OpeningHoursSpecification",
-                dayOfWeek: "Saturday",
-                opens: "09:00",
-                closes: "14:00",
-              },
-            ],
-            priceRange: "R150 - R600",
-            currenciesAccepted: "ZAR",
-            paymentAccepted: "Cash, Credit Card, EFT",
-            sameAs: [
-              settings?.instagramUrl,
-              settings?.instructorInstagramUrl,
-            ].filter(Boolean),
-            ...(logoUrl && {
-              image: logoUrl,
-              logo: logoUrl,
-            }),
-            hasOfferCatalog: {
-              "@type": "OfferCatalog",
-              name: "Dance Classes",
-              itemListElement: [
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Group Pole Dance Classes",
-                    description: "Group pole dance classes for all levels",
-                  },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Private Pole Dance Lessons",
-                    description: "One-on-one pole dance instruction",
-                  },
-                },
-              ],
-            },
-          }}
+          data={buildDanceSchoolJsonLd(knowledge)}
         />
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
@@ -209,7 +168,7 @@ export default async function RootLayout({
           Skip to content
         </a>
         <Header
-          siteName={settings?.siteName || "C-4 Flow"}
+          siteName={site.name}
           logoUrl={logoUrl}
         />
         {announcement?.enabled && announcement?.text && (
@@ -221,19 +180,23 @@ export default async function RootLayout({
         )}
         {children}
         <Footer
-          siteName={settings?.siteName || "C-4 Flow"}
+          siteName={site.name}
           logoUrl={logoUrl}
-          email={settings?.contactEmail}
-          phone={settings?.phone}
-          instagramUrl={settings?.instagramUrl}
-          address={settings?.address}
-          mapsUrl={settings?.mapsUrl}
-          bookingUrl={settings?.bookingUrl}
+          email={site.email}
+          phone={site.phone}
+          instagramUrl={site.instagramUrl}
+          address={{
+            building: site.address.building || undefined,
+            street: site.address.street,
+            city: site.address.city,
+          }}
+          mapsUrl={site.mapsUrl}
+          bookingUrl={site.bookingUrl}
         />
-        {settings?.whatsappNumber && (
+        {site.whatsappNumber && (
           <WhatsAppButton
-            phoneNumber={settings.whatsappNumber}
-            message={settings.whatsappMessage || undefined}
+            phoneNumber={site.whatsappNumber}
+            message={site.whatsappMessage || undefined}
           />
         )}
         <SanityLive />

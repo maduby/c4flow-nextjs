@@ -15,3 +15,9 @@ export function formatCurrency(amount: number): string {
   const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return `R ${grouped}`;
 }
+
+export function formatPriceLabel(amount: number | null | undefined): string | null {
+  if (amount == null) return null;
+  if (amount === 0) return "FREE";
+  return formatCurrency(amount);
+}

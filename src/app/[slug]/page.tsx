@@ -10,6 +10,8 @@ import { urlFor } from "@/sanity/lib/image";
 import { PageBuilder } from "@/components/sections/PageBuilder";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { buildFaqJsonLd } from "@/lib/seo";
+import { getKnowledgeBase } from "@/lib/catalog";
+import { buildCatalogPageJsonLd } from "@/lib/structured-data";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -76,9 +78,10 @@ export async function generateMetadata({
 export default async function DynamicPage({ params }: PageProps) {
   const { slug } = await params;
 
-  const [{ data: page }, { data: settings }] = await Promise.all([
+  const [{ data: page }, { data: settings }, knowledge] = await Promise.all([
     sanityFetch({ query: PAGE_BY_SLUG_QUERY, params: { slug } }),
     sanityFetch({ query: SITE_SETTINGS_QUERY, stega: false }),
+    getKnowledgeBase(),
   ]);
 
   if (!page) notFound();
@@ -87,10 +90,33 @@ export default async function DynamicPage({ params }: PageProps) {
     ? urlFor(settings.logo).width(320).url()
     : null;
   const faqJsonLd = buildFaqJsonLd(page.sections as never);
+  const sectionTypes = (page.sections || [])
+    .map((section: { _type?: string | null }) => section?._type || "")
+    .filter(Boolean);
+  const showCatalogJsonLd = sectionTypes.some((type: string) =>
+    [
+      "classesSection",
+      "classDetailsSection",
+      "scheduleSection",
+      "pricingSection",
+    ].includes(type),
+  );
+  const catalogJsonLd = showCatalogJsonLd
+    ? buildCatalogPageJsonLd({
+        pageUrl: `${knowledge.site.url}/${slug}`,
+        pageTitle: page.seoTitle || page.title || slug,
+        pageDescription:
+          page.seoDescription ||
+          `Browse ${knowledge.site.name} classes, schedule, and pricing.`,
+        classes: knowledge.classes,
+        bundles: knowledge.bundles,
+      })
+    : null;
 
   return (
     <main id="main-content">
       {faqJsonLd && <JsonLd data={faqJsonLd} />}
+      {catalogJsonLd && <JsonLd data={catalogJsonLd} />}
       <PageBuilder sections={page.sections} siteLogoUrl={siteLogoUrl} />
     </main>
   );

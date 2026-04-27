@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/shared/SectionHeading";
 import { BookNowLink } from "@/components/ui/BookNowLink";
 import { ScheduleNotices } from "@/components/ui/ScheduleNotices";
 import { SITE_CONFIG } from "@/lib/constants";
+import { formatPriceLabel } from "@/lib/utils";
 
 interface ScheduleSectionProps {
   heading?: string | null;
@@ -79,8 +80,8 @@ function formatPrice(
   slot: Slot,
   discount: number | null,
 ): { original: number; discounted: number | null } | null {
-  const original = slot.price || 0;
-  if (!original) return null;
+  const original = slot.price;
+  if (original == null) return null;
 
   // Class's own sale price takes priority over the banner percentage
   if (slot.salePrice && slot.salePrice < original) {
@@ -193,15 +194,15 @@ export async function ScheduleSection({
                             {pricing.discounted ? (
                               <>
                                 <span className="font-semibold text-pink-500">
-                                  R{pricing.discounted}
+                                  {formatPriceLabel(pricing.discounted)}
                                 </span>
                                 <span className="ml-1.5 text-neutral-400 line-through">
-                                  R{pricing.original}
+                                  {formatPriceLabel(pricing.original)}
                                 </span>
                               </>
                             ) : (
-                              <span className="text-neutral-600">
-                                R{pricing.original}
+                              <span className="font-medium text-pink-500">
+                                {formatPriceLabel(pricing.original)}
                               </span>
                             )}
                           </p>
@@ -278,15 +279,15 @@ export async function ScheduleSection({
                           pricing.discounted ? (
                             <span>
                               <span className="font-semibold text-pink-500">
-                                R{pricing.discounted}
+                                {formatPriceLabel(pricing.discounted)}
                               </span>
                               <span className="ml-1.5 text-sm text-neutral-400 line-through">
-                                R{pricing.original}
+                                {formatPriceLabel(pricing.original)}
                               </span>
                             </span>
                           ) : (
-                            <span className="text-neutral-600">
-                              R{pricing.original}
+                            <span className="font-medium text-pink-500">
+                              {formatPriceLabel(pricing.original)}
                             </span>
                           )
                         ) : (

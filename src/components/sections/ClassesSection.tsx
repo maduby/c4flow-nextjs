@@ -119,7 +119,7 @@ export async function ClassesSection({
               <ClassCard
                 danceClass={cls as never}
                 bannerDiscount={getDiscountForClass(cls._id)}
-                detailsHref={`/classes#${cls._id}`}
+                detailsHref={typeof cls.slug === "string" ? `/classes/${cls.slug}` : "/classes"}
                 scheduleDays={daysByClass[cls._id] || null}
               />
             </MotionDiv>
