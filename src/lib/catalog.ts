@@ -52,6 +52,12 @@ export interface SiteKnowledge {
   mapsUrl: string | null;
   logoUrl: string | null;
   defaultOgImageUrl: string | null;
+  primaryInstructor: {
+    name: string;
+    title: string | null;
+    instagramUrl: string | null;
+    photoUrl: string | null;
+  } | null;
   address: {
     building: string | null;
     street: string;
@@ -102,6 +108,7 @@ export interface ClassKnowledge {
   imageLqip: string | null;
   bookingUrl: string;
   priceCurrency: "ZAR";
+  offerValidFrom: string;
   listPrice: number | null;
   currentPrice: number | null;
   salePrice: number | null;
@@ -189,6 +196,7 @@ interface RawBlock {
 
 interface RawClass {
   _id: string;
+  _updatedAt?: string | null;
   name?: string | null;
   slug?: string | null;
   shortDescription?: string | null;
@@ -205,6 +213,15 @@ interface RawClass {
   salePrice?: number | null;
   duration?: number | null;
   bookingUrl?: string | null;
+}
+
+interface RawInstructor {
+  name?: string | null;
+  title?: string | null;
+  instagramUrl?: string | null;
+  photo?: {
+    asset?: { _ref?: string } | null;
+  } | null;
 }
 
 interface RawDiscount {
@@ -395,6 +412,7 @@ function buildDaysSummary(schedule: ScheduleEntry[]): string | null {
 async function fetchPublishedKnowledgeSource() {
   return client.fetch<{
     settings: RawSettings | null;
+    primaryInstructor: RawInstructor | null;
     pages: RawPage[];
     classes: RawClass[];
     discount: RawDiscount | null;
@@ -417,6 +435,12 @@ async function fetchPublishedKnowledgeSource() {
       mapsUrl,
       defaultOgImage
     },
+    "primaryInstructor": *[_type == "instructor"] | order(_updatedAt desc, _createdAt desc)[0]{
+      name,
+      title,
+      instagramUrl,
+      photo
+    },
     "pages": *[_type == "page" && defined(slug.current)] | order(title asc){
       title,
       "slug": slug.current,
@@ -427,6 +451,7 @@ async function fetchPublishedKnowledgeSource() {
     },
     "classes": *[_type == "danceClass" && active != false] | order(order asc, name asc){
       _id,
+      _updatedAt,
       name,
       "slug": slug.current,
       shortDescription,
@@ -475,6 +500,7 @@ async function fetchPublishedKnowledgeSource() {
 
 export async function getKnowledgeBase(): Promise<KnowledgeBase> {
   const source = await fetchPublishedKnowledgeSource();
+  const generatedAt = new Date().toISOString();
 
   const site: SiteKnowledge = {
     name: source.settings?.siteName || SITE_CONFIG.name,
@@ -502,6 +528,17 @@ export async function getKnowledgeBase(): Promise<KnowledgeBase> {
       source.settings?.defaultOgImage?.asset
         ? urlFor(source.settings.defaultOgImage).width(1200).height(630).url()
         : null,
+    primaryInstructor: source.primaryInstructor?.name
+      ? {
+          name: source.primaryInstructor.name,
+          title: stripWhitespace(source.primaryInstructor.title),
+          instagramUrl: stripWhitespace(source.primaryInstructor.instagramUrl),
+          photoUrl:
+            source.primaryInstructor.photo?.asset
+              ? urlFor(source.primaryInstructor.photo).width(1200).height(1600).url()
+              : null,
+        }
+      : null,
     address: {
       building: source.settings?.address?.building || SITE_CONFIG.address.building,
       street: source.settings?.address?.street || SITE_CONFIG.address.street,
@@ -609,6 +646,7 @@ export async function getKnowledgeBase(): Promise<KnowledgeBase> {
         imageLqip: rawClass.image?.lqip || null,
         bookingUrl: rawClass.bookingUrl || site.bookingUrl,
         priceCurrency: "ZAR",
+        offerValidFrom: generatedAt,
         listPrice,
         currentPrice,
         salePrice: manualSalePrice,
@@ -694,7 +732,7 @@ export async function getKnowledgeBase(): Promise<KnowledgeBase> {
   }).filter((day) => day.slots.length > 0);
 
   return {
-    generatedAt: new Date().toISOString(),
+    generatedAt,
     site,
     pages,
     classes,

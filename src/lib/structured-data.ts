@@ -44,11 +44,13 @@ function buildOffer({
   currency,
   url,
   name,
+  validFrom,
 }: {
   price: number | null;
   currency: string;
   url: string;
   name?: string;
+  validFrom?: string | null;
 }) {
   if (price == null) return undefined;
 
@@ -59,6 +61,33 @@ function buildOffer({
     priceCurrency: currency,
     url,
     availability: "https://schema.org/InStock",
+    ...(validFrom && { validFrom }),
+  };
+}
+
+function getStructuredDataImage(
+  entry: Pick<ClassKnowledge, "imageUrl">,
+  site: Pick<SiteKnowledge, "defaultOgImageUrl" | "logoUrl">,
+) {
+  return entry.imageUrl || site.defaultOgImageUrl || site.logoUrl || undefined;
+}
+
+function buildEventPerformer(site: SiteKnowledge) {
+  if (site.primaryInstructor?.name) {
+    return {
+      "@type": "Person",
+      name: site.primaryInstructor.name,
+      ...(site.primaryInstructor.title && { jobTitle: site.primaryInstructor.title }),
+      ...(site.primaryInstructor.instagramUrl && {
+        sameAs: [site.primaryInstructor.instagramUrl],
+      }),
+      ...(site.primaryInstructor.photoUrl && { image: site.primaryInstructor.photoUrl }),
+    };
+  }
+
+  return {
+    "@type": "PerformingGroup",
+    name: site.name,
   };
 }
 
@@ -90,8 +119,11 @@ function buildServiceForClass(
       currency: entry.priceCurrency,
       url: entry.bookingUrl,
       name: `${entry.name} booking`,
+      validFrom: entry.offerValidFrom,
     }),
-    ...(entry.imageUrl && { image: entry.imageUrl }),
+    ...(getStructuredDataImage(entry, site) && {
+      image: getStructuredDataImage(entry, site),
+    }),
     url: entry.url,
   };
 }
@@ -100,6 +132,9 @@ function buildClassEventGraph(
   entry: ClassKnowledge,
   site: SiteKnowledge,
 ): Record<string, unknown>[] {
+  const image = getStructuredDataImage(entry, site);
+  const performer = buildEventPerformer(site);
+
   return entry.schedule.map((slot, index) => ({
     "@type": "EducationEvent",
     "@id": `${entry.url}#event-${index + 1}`,
@@ -115,7 +150,9 @@ function buildClassEventGraph(
       name: site.name,
       url: site.url,
     },
-    isAccessibleForFree: false,
+    performer,
+    ...(image && { image }),
+    isAccessibleForFree: entry.currentPrice === 0,
     ...(slot.nextOccurrenceIso && { startDate: slot.nextOccurrenceIso }),
     ...(slot.endTime24 && slot.nextOccurrenceIso
       ? {
@@ -140,6 +177,7 @@ function buildClassEventGraph(
       currency: entry.priceCurrency,
       url: entry.bookingUrl,
       name: `${entry.name} booking`,
+      validFrom: entry.offerValidFrom,
     }),
     url: entry.url,
   }));
@@ -159,6 +197,7 @@ function buildClassListItem(entry: ClassKnowledge, position: number) {
         price: entry.currentPrice,
         currency: entry.priceCurrency,
         url: entry.bookingUrl,
+        validFrom: entry.offerValidFrom,
       }),
     },
   };
@@ -225,7 +264,7 @@ export function buildDanceSchoolJsonLd(knowledge: KnowledgeBase): Record<string,
           name: entry.name,
           description: entry.summary,
           url: entry.url,
-          ...(entry.currentPrice && {
+          ...(entry.currentPrice != null && {
             price: entry.currentPrice,
             priceCurrency: entry.priceCurrency,
           }),
