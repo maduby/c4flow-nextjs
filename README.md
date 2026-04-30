@@ -1,666 +1,468 @@
-# C-4 Flow — Pole & Exotic Dance Studio
+# C4 Flow Website Handover
 
-Marketing website for [C-4 Flow Dance Studio](https://www.c4flow.co.za), Cape Town.
+Marketing website and CMS for [C4 Flow](https://www.c4flow.co.za), a pole and exotic dance studio in Cape Town.
 
-Built with **Next.js 16**, **Sanity CMS**, **Tailwind CSS v4**, and deployed to **Vercel** and **Hostinger**.
+This README is written for a developer taking over or extending the project, especially if the next phase includes replacing the current external booking links with a proper booking system.
 
----
+Last updated: 30 April 2026.
+
+## Current Ownership Snapshot
+
+| Area | Current setup |
+| --- | --- |
+| Website hosting | Vercel, currently under Marc's Vercel Pro workspace |
+| Live domain | `https://www.c4flow.co.za` |
+| Apex domain | `https://c4flow.co.za` permanently redirects to `www` |
+| DNS nameservers | `ns1.fahrenheit.sui-inter.net`, `ns2.fahrenheit.sui-inter.net` |
+| DNS/admin panel | `https://fahrenheit.sui-inter.net/` |
+| Email hosting | POP/SMTP mailbox service on Marc's server |
+| CMS | Sanity Cloud, embedded Studio at `/admin` |
+| Transactional email | Resend, used by the contact form |
+| Booking | External Setmore links managed through Sanity/site config |
+| Repository | `git@github.com:maduby/c4flow-nextjs.git` |
+
+## Handover Notes
+
+The site is currently running without hosting or email charges being passed on to the client. The website is under Marc's Vercel Pro plan, and the email service is a simple POP/SMTP mailbox on Marc's server. Both can stay where they are for collaboration, or they can be migrated if a new developer takes over the full project.
+
+If taking over fully, plan for these handovers:
+
+- GitHub repository access
+- Vercel project transfer or a new Vercel project connected to the repo
+- Sanity project access or Sanity project transfer
+- DNS control at `fahrenheit.sui-inter.net`
+- Email mailbox/DNS migration if moving email off Marc's server
+- Resend account/API key handover or replacement
+- Google Search Console and analytics access
+- Setmore access if preserving the existing booking flow during transition
+
+Do not commit secrets into the repository. Share environment variables through Vercel, a password manager, or another secure channel.
 
 ## Tech Stack
 
-| Layer        | Technology                                      |
-| ------------ | ----------------------------------------------- |
-| Framework    | Next.js 16 (App Router, TypeScript, RSC)        |
-| CMS          | Sanity v3 (embedded Studio, Visual Editing)     |
-| Styling      | Tailwind CSS v4, custom design tokens           |
-| Animations   | Framer Motion                                   |
-| Email        | Resend (contact form)                           |
-| Fonts        | Montserrat (body), Mynerve (headings)           |
-| Hosting      | Vercel (primary), Hostinger (secondary mirror)  |
+| Layer | Technology |
+| --- | --- |
+| App framework | Next.js 16, App Router, React Server Components, TypeScript |
+| CMS | Sanity, embedded Studio, Visual Editing support |
+| Styling | Tailwind CSS v4 |
+| Animation | Framer Motion |
+| Forms/email | Resend |
+| Images | Sanity image CDN, Next image optimization |
+| SEO/AEO | Metadata API, sitemap, robots, JSON-LD, machine-readable knowledge files |
+| Deployment | Vercel |
 
----
+## Live Infrastructure
 
-## Prerequisites
+### Domains and DNS
 
-- **Node.js 22** — managed via nvm (see setup below)
-- **npm** (comes with Node)
-- **Git** with SSH access to the GitHub repo
-- **Cursor** (recommended) or **VS Code** as your editor
-- The `.env.local` secrets file (ask Marc for this)
+The canonical public host is:
 
----
-
-## Setting Up Your Machine (Windows)
-
-If this is a fresh Windows laptop, follow these steps first. If you already have Git, nvm, and Node working, skip to [Getting Started](#getting-started-step-by-step).
-
-### Install Git
-
-1. Download Git for Windows from [git-scm.com/downloads/win](https://git-scm.com/downloads/win)
-2. Run the installer — accept all defaults
-3. Open a terminal (see below) and verify: `git --version`
-
-### Install nvm for Windows
-
-The standard `nvm` is for Mac/Linux. On Windows, use **nvm-windows** instead:
-
-1. Go to [github.com/coreybutler/nvm-windows/releases](https://github.com/coreybutler/nvm-windows/releases)
-2. Download `nvm-setup.exe` from the latest release
-3. Run the installer — accept all defaults
-4. **Close and reopen your terminal** after installing
-5. Verify it worked:
-
-```bash
-nvm version
-# Should print a version number like 1.2.2
+```text
+https://www.c4flow.co.za
 ```
 
-### Install Node.js via nvm
+The apex domain redirects permanently:
 
-```bash
-nvm install 22.17.0
-nvm use 22.17.0
+```text
+https://c4flow.co.za -> https://www.c4flow.co.za
 ```
 
-Verify:
+The nameservers are currently on Marc's server:
 
-```bash
-node -v
-# Should print v22.17.0
-
-npm -v
-# Should print a version number
+```text
+ns1.fahrenheit.sui-inter.net
+ns2.fahrenheit.sui-inter.net
 ```
 
-> **Important:** Every time you open a new terminal, you may need to run `nvm use 22.17.0` again. To make it the default, run: `nvm alias default 22.17.0` (Mac/Linux) or `nvm use 22.17.0` sets it permanently on Windows.
+Important DNS records at handover:
 
-### Set up your editor
+| Host | Type | Value | Purpose |
+| --- | --- | --- | --- |
+| `c4flow.co.za` | `A` | `216.150.1.1` | Vercel apex handling |
+| `www.c4flow.co.za` | `CNAME` | `225a20385c815432.vercel-dns-016.com.` | Vercel custom domain |
+| `mail.c4flow.co.za` | `A` | `80.74.145.45` | Mail server |
+| `webmail.c4flow.co.za` | `A` | `80.74.145.45` | Webmail |
+| `c4flow.co.za` | `MX` | `mail.c4flow.co.za` | Incoming mail |
+| `c4flow.co.za` | `TXT` | SPF record | Mail authentication |
+| `default._domainkey.c4flow.co.za` | `TXT` | DKIM record | Mail authentication |
+| `_dmarc.c4flow.co.za` | `TXT` | DMARC record | Mail policy |
+| `c4flow.co.za` | `TXT` | Google verification | Search Console |
 
-We recommend **Cursor** ([cursor.com](https://www.cursor.com/)) — it's VS Code with AI built in. If you prefer plain VS Code, that works too.
+Keep `www` as the canonical host unless you intentionally redo all canonical URLs, sitemap entries, redirects, and Search Console setup.
 
-Useful extensions to install:
+### Email
 
-- **ESLint** — shows code errors inline
-- **Tailwind CSS IntelliSense** — autocomplete for CSS classes
-- **Prettier** — auto-formats your code on save
+The client's email currently runs through Marc's server as a simple POP/SMTP mailbox service. This is separate from the website application.
 
-### Set up SSH for GitHub
+If migrating DNS or nameservers, preserve mail records until the mailbox is migrated. Changing nameservers without recreating MX, SPF, DKIM, and DMARC records can break email delivery.
 
-You need an SSH key to push/pull code. Open your terminal and run:
+### Vercel
 
-```bash
-ssh-keygen -t ed25519 -C "your-email@example.com"
+The active Vercel project is:
+
+```text
+pixel-poetry/c4flow-nextjs
 ```
 
-Press Enter for all the prompts (default file location, no passphrase is fine).
+Production aliases:
 
-Then copy your public key:
-
-```bash
-# Windows (PowerShell)
-cat ~/.ssh/id_ed25519.pub | clip
-
-# Mac
-cat ~/.ssh/id_ed25519.pub | pbcopy
+```text
+https://www.c4flow.co.za
+https://c4flow.co.za
+https://c4flow.vercel.app
 ```
 
-Go to [github.com/settings/keys](https://github.com/settings/keys), click **New SSH key**, paste it, and save.
+Vercel handles:
 
-Test the connection:
+- Production builds
+- Preview deployments
+- Custom domain certificates
+- Apex to `www` redirect
+- Environment variables
+- Serverless API routes
+
+## Repository Workflow
+
+Current branch convention:
+
+| Branch | Purpose |
+| --- | --- |
+| `staging` | Integration/review branch before promoting to production |
+| `main` | Production branch |
+
+Recommended flow:
 
 ```bash
-ssh -T git@github.com
-# Should say "Hi username! You've successfully authenticated"
+git checkout staging
+git pull
+git checkout -b feature/your-change
+
+# make changes
+npm run lint
+npm run build
+
+git add .
+git commit -m "feat: describe the change"
+git push -u origin feature/your-change
 ```
 
----
+Open a pull request into `staging`. After review and testing, merge or promote `staging` into `main`.
 
-## Getting Started (Step by Step)
+Vercel creates preview deployments for pushed branches and deploys production from `main`.
 
-### 1. Clone the repo
+## Local Development
+
+### Requirements
+
+- Node.js 22, pinned by `.nvmrc`
+- npm
+- GitHub repo access
+- Sanity project access
+- A populated `.env.local`
+
+### Setup
 
 ```bash
 git clone git@github.com:maduby/c4flow-nextjs.git
 cd c4flow-nextjs
-```
 
-> If you get a permission error, your SSH key isn't set up or you haven't been added as a collaborator. Ask Marc for help.
-
-### 2. Switch to the correct Node version
-
-The project requires Node 22. There's an `.nvmrc` file that pins the exact version.
-
-**Mac/Linux:**
-
-```bash
 nvm install
 nvm use
-```
 
-**Windows:**
-
-```bash
-nvm use 22.17.0
-```
-
-Verify it worked:
-
-```bash
-node -v
-# Should print v22.17.0
-```
-
-### 3. Install dependencies
-
-```bash
 npm install
-```
-
-### 4. Set up environment variables
-
-The project needs secret API tokens that are **not** stored in Git.
-
-```bash
 cp .env.example .env.local
-```
-
-This creates a copy of `.env.example` with placeholder values. **Ask Marc for the real secrets** and paste them into `.env.local`. The file should never be committed to Git.
-
-Here's what each variable does:
-
-| Variable                           | What it is                                                    |
-| ---------------------------------- | ------------------------------------------------------------- |
-| `NEXT_PUBLIC_SANITY_PROJECT_ID`    | Sanity project ID (already filled in)                         |
-| `NEXT_PUBLIC_SANITY_DATASET`       | Sanity dataset name (already filled in)                       |
-| `NEXT_PUBLIC_SANITY_API_VERSION`   | Sanity API version date (already filled in)                   |
-| `NEXT_PUBLIC_SITE_URL`             | Site URL — keep as `http://localhost:3000` for local dev      |
-| `SANITY_API_READ_TOKEN`            | **Secret.** Sanity read token for server-side data fetching   |
-| `SANITY_API_WRITE_TOKEN`           | **Secret.** Sanity write token for contact form submissions   |
-| `SANITY_REVALIDATE_SECRET`         | **Secret.** Webhook secret for on-demand revalidation         |
-| `RESEND_API_KEY`                   | **Secret.** API key for the Resend email service              |
-| `CONTACT_EMAIL`                    | Where contact form submissions are sent                       |
-| `NEXT_PUBLIC_GOOGLE_VERIFICATION`  | Google Search Console tag (optional for local dev)            |
-
-### 5. Start the dev server
-
-```bash
 npm run dev
 ```
 
-Then open:
+Local URLs:
 
-- **Website** — [http://localhost:3000](http://localhost:3000)
-- **Sanity Studio** — [http://localhost:3000/admin](http://localhost:3000/admin)
+```text
+Website: http://localhost:3000
+Sanity Studio: http://localhost:3000/admin
+```
 
-You'll need to log into Sanity Studio with your Sanity account. Ask Marc to invite you to the project if you haven't been added yet.
+## Environment Variables
 
----
+Use `.env.example` as the template. The real values live outside Git.
+
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID, currently `ik9ho36m` |
+| `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset, currently `production` |
+| `NEXT_PUBLIC_SANITY_API_VERSION` | Sanity API version date |
+| `NEXT_PUBLIC_SITE_URL` | Local or deployment URL |
+| `NEXT_PUBLIC_CANONICAL_SITE_URL` | Production canonical host, use `https://www.c4flow.co.za` |
+| `SANITY_API_READ_TOKEN` | Server-side Sanity read token |
+| `SANITY_API_WRITE_TOKEN` | Server-side Sanity write token |
+| `SANITY_REVALIDATE_SECRET` | Shared secret for `/api/revalidate` |
+| `NEXT_PUBLIC_GOOGLE_VERIFICATION` | Google Search Console verification token |
+| `RESEND_API_KEY` | Resend API key |
+| `CONTACT_EMAIL` | Destination address for contact form messages |
+| `CONTACT_REPLY_TO` | Optional reply-to override |
+
+Production Vercel should use:
+
+```text
+NEXT_PUBLIC_SITE_URL=https://www.c4flow.co.za
+NEXT_PUBLIC_CANONICAL_SITE_URL=https://www.c4flow.co.za
+```
+
+Do not point production canonical variables at a `*.vercel.app` URL.
 
 ## Available Scripts
 
-| Command         | What it does                                     |
-| --------------- | ------------------------------------------------ |
-| `npm run dev`   | Start the development server (with hot reload)   |
-| `npm run build` | Create a production build                        |
-| `npm run start` | Serve the production build locally               |
-| `npm run lint`  | Run ESLint to check for code issues              |
-
----
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start local development server |
+| `npm run build` | Build production app |
+| `npm run start` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
 
 ## Project Structure
 
+```text
+src/
+  app/
+    page.tsx                    Homepage
+    [slug]/page.tsx             CMS pages such as /about, /classes, /contact
+    classes/[classSlug]/page.tsx Dedicated class landing pages
+    api/contact/route.ts        Contact form endpoint
+    api/revalidate/route.ts     Sanity webhook revalidation endpoint
+    admin/[[...tool]]/          Embedded Sanity Studio
+    sitemap.ts                  Sitemap generation
+    robots.ts                   Robots generation, if present
+    knowledge.json/             Machine-readable site knowledge route
+    classes.json/               Machine-readable class catalogue route
+    schedule.json/              Machine-readable schedule route
+    pricing.json/               Machine-readable pricing route
+    llms.txt/                   LLM summary route
+    llms-full.txt/              Full LLM summary route
+  components/
+    layout/                     Header, footer, announcement bar
+    sections/                   CMS-rendered page sections
+    shared/                     Shared primitives and JSON-LD renderer
+    ui/                         Small UI components
+  lib/
+    catalog.ts                  Normalized site/class/schedule/pricing data
+    knowledge-files.ts          JSON and llms.txt payload builders
+    structured-data.ts          Schema.org JSON-LD builders
+    site-origin.ts              Canonical origin helper
+    constants.ts                Site defaults and fallback config
+    utils.ts                    Shared utilities
+  sanity/
+    lib/queries.ts              GROQ queries
+    lib/client.ts               Sanity client
+    lib/image.ts                Sanity image URL builder
+    schemaTypes/                Sanity document/object schemas
 ```
-c4flow-nextjs/
-├── src/
-│   ├── app/                        # Next.js pages and routes
-│   │   ├── page.tsx                #   Homepage (/)
-│   │   ├── [slug]/page.tsx         #   Dynamic pages (/about, /classes, /contact)
-│   │   ├── admin/[[...tool]]/      #   Sanity Studio (/admin)
-│   │   └── api/                    #   API routes (contact form, revalidation, draft mode)
-│   ├── components/
-│   │   ├── layout/                 #   Header, Footer, MobileNav
-│   │   ├── sections/               #   Page sections (HeroSection, PricingSection, etc.)
-│   │   ├── shared/                 #   Reusable components (Container, SectionHeading)
-│   │   └── ui/                     #   Small UI pieces (PricingCards, BookNowLink, etc.)
-│   ├── lib/
-│   │   ├── utils.ts                #   Utility functions (cn, formatCurrency)
-│   │   ├── constants.ts            #   Site-wide config (booking URL, social links)
-│   │   └── actions/                #   Server actions (contact form submission)
-│   └── sanity/
-│       ├── client.ts               #   Sanity client setup
-│       ├── structure.ts            #   Studio sidebar layout
-│       ├── lib/
-│       │   ├── queries.ts          #   All GROQ queries
-│       │   ├── live.ts             #   Sanity Live / real-time content
-│       │   └── image.ts            #   Image URL builder
-│       └── schemaTypes/
-│           ├── index.ts            #   Schema registry (all types exported here)
-│           ├── documents/          #   Document schemas (page, danceClass, discount, etc.)
-│           ├── objects/            #   Object schemas (hero, pricingSection, etc.)
-│           └── shared/             #   Shared field definitions
-├── scripts/                        # One-time migration/seed scripts
-├── docs/                           # Project documentation and analysis
-├── public/                         # Static assets (favicon, robots, etc.)
-├── .env.example                    # Template for environment variables
-├── .nvmrc                          # Node version (22.17.0)
-├── sanity.config.ts                # Sanity Studio configuration
-├── sanity.cli.ts                   # Sanity CLI configuration
-├── next.config.mjs                 # Next.js configuration
-└── tailwind.config.ts              # Tailwind CSS configuration
-```
-
----
 
 ## Sanity CMS
 
-### What is Sanity?
+Sanity is the content source. The Studio is embedded at:
 
-Sanity is the headless CMS that powers all the site content. The client (C-4 Flow) edits content in **Sanity Studio**, and the Next.js frontend fetches that content at build/request time.
-
-The Studio is **embedded** inside the Next.js app at `/admin` — there's no separate Sanity deployment.
-
-### Accessing the Studio
-
-- **Local:** [http://localhost:3000/admin](http://localhost:3000/admin)
-- **Production:** [https://c4flow.co.za/admin](https://c4flow.co.za/admin)
-
-Log in with your Sanity account (Google or GitHub).
-
-### Studio Sidebar
-
-The Studio sidebar is organized like this:
-
-| Section                | Type        | What it manages                                |
-| ---------------------- | ----------- | ---------------------------------------------- |
-| **Site Settings**      | Singleton   | Logo, contact info, social links, default OG   |
-| **Announcement Bar**   | Singleton   | Top banner message and link                    |
-| **Discounts**          | Singleton   | Global discount %, scope (all/specific classes) |
-| ─                      |             |                                                |
-| **Pages**              | Collection  | All site pages (Home, About, Classes, Contact) |
-| ─                      |             |                                                |
-| **Dance Classes**      | Collection  | Individual class details and descriptions      |
-| **Pricing Bundles**    | Collection  | Group and private class packages with prices   |
-| **Weekly Schedule**    | Singleton   | Class timetable (day + time slots)             |
-| **Instructors**        | Collection  | Instructor bios and photos                     |
-| **Testimonials**       | Collection  | Student testimonials                           |
-| ─                      |             |                                                |
-| **Contact Submissions**| Collection  | Form submissions from the contact page         |
-
-### Key Sanity Concepts
-
-- **Document** = a content entry (a page, a class, a testimonial, etc.)
-- **Singleton** = a document type that only has one instance (Site Settings, Discounts, etc.)
-- **Draft vs Published** = when you edit a document in Studio, it creates a draft. You must click **Publish** to make changes live on the website.
-- **GROQ** = the query language Sanity uses (like SQL but for JSON). All queries live in `src/sanity/lib/queries.ts`.
-- **Schema** = defines what fields a document has. Schemas live in `src/sanity/schemaTypes/`.
-
-### How Content Flows
-
-```
-Sanity Studio (edit & publish)
-       ↓
-GROQ queries fetch content (src/sanity/lib/queries.ts)
-       ↓
-Server Components render pages (src/components/sections/)
-       ↓
-User sees the website
+```text
+https://www.c4flow.co.za/admin
 ```
 
-### Adding or Editing a Schema
+Main content types:
 
-1. Find (or create) the schema file in `src/sanity/schemaTypes/documents/` or `objects/`
-2. If it's a new schema, register it in `src/sanity/schemaTypes/index.ts`
-3. If it needs a sidebar entry, add it in `src/sanity/structure.ts`
-4. Add a GROQ query for it in `src/sanity/lib/queries.ts`
-5. Create or update the component that renders it
+| Content type | Purpose |
+| --- | --- |
+| Site Settings | Logo, contact details, social links, default images |
+| Announcement Bar | Optional top banner |
+| Pages | Homepage and static pages |
+| Dance Classes | Class descriptions, images, price, duration, booking URL |
+| Weekly Schedule | Day/time slots mapped to dance classes |
+| Pricing Bundles | Group/private package pricing |
+| Discounts | Global or class-specific discount logic |
+| Instructors | Instructor bios and performer data |
+| Testimonials | Student testimonials |
+| Contact Submissions | Stored form submissions |
 
----
+When content is published, Sanity should call `/api/revalidate` with `SANITY_REVALIDATE_SECRET`. The revalidation endpoint refreshes the relevant pages, sitemap, class pages, and machine-readable feeds.
 
-## Pages and the Page Builder
+If live content is stale after publishing:
 
-Pages are built with a **section-based page builder**. Each page in Sanity has a `sections` array, and each section is a different content block (hero, classes, pricing, gallery, map, etc.).
+- Confirm the Sanity document was published, not just saved as a draft
+- Check the Sanity webhook target and secret
+- Check Vercel function logs for `/api/revalidate`
+- Confirm the relevant route is included in [`src/app/api/revalidate/route.ts`](src/app/api/revalidate/route.ts)
 
-The component `src/components/sections/PageBuilder.tsx` reads the `sections` array and renders the correct component for each `_type`.
+## SEO, Structured Data, and AEO
 
-To add a new section type:
+The site has dedicated landing pages for classes:
 
-1. Create the object schema in `src/sanity/schemaTypes/objects/`
-2. Register it in the schema index and add it to the page's `sections` array options
-3. Create the React component in `src/components/sections/`
-4. Add a `case` for it in `PageBuilder.tsx`
-
----
-
-## Git Workflow
-
-### Branches
-
-The **`main`** branch is **protected** — it deploys directly to the live site. You cannot push to it directly.
-
-Instead, we use **feature branches** and **Pull Requests (PRs)**:
-
-```
-main (protected, deploys to live)
- └── fix/broken-whatsapp-link    ← you work here
- └── feat/add-gallery-section    ← or here
+```text
+/classes/free-play
+/classes/exotic-baddies
+/classes/dynamic-static
+/classes/spinning-goddess
+/classes/heels-and-queens
+/classes/stretching-and-flexibility
 ```
 
-### The workflow (step by step)
+These are included in `sitemap.xml` and publish self-referencing canonical URLs on `https://www.c4flow.co.za`.
 
-Here's the full cycle for every task you work on:
+Machine-readable routes:
 
-```
-1. Start from main       → make sure you have the latest code
-2. Create a branch       → your own workspace for this task
-3. Do your work          → make changes, commit often
-4. Push your branch      → upload it to GitHub
-5. Open a Pull Request   → ask Marc to review your code
-6. Marc reviews          → he may leave comments or request changes
-7. You fix any feedback  → commit and push again (the PR updates automatically)
-8. Marc merges           → your code goes live!
-9. Clean up              → switch back to main, pull, delete old branch
-```
+| Route | Purpose |
+| --- | --- |
+| `/knowledge.json` | Full normalized site knowledge |
+| `/classes.json` | Class catalogue |
+| `/schedule.json` | Weekly schedule |
+| `/pricing.json` | Pricing and bundles |
+| `/llms.txt` | Concise LLM-facing summary |
+| `/llms-full.txt` | Fuller LLM-facing summary |
 
-> **Important:** You cannot merge to `main` yourself. Only Marc can merge Pull Requests. This protects the live site from accidental changes.
+Structured data lives in [`src/lib/structured-data.ts`](src/lib/structured-data.ts). Keep JSON-LD aligned with visible page content. If schedule, price, class image, or instructor data changes, the visible page and JSON-LD should change together.
 
----
+## Current Booking Flow
 
-### Step 1: Start from the latest main
+The site currently sends bookings to Setmore.
 
-Before starting any new work, always make sure you have the latest code.
+Booking URLs come from:
 
-**In Cursor / VS Code:**
-1. Click the branch name in the **bottom-left corner** of the editor
-2. Select **`main`** from the list
-3. Open the **Source Control panel** (Git icon in left sidebar, or `Ctrl+Shift+G`)
-4. Click the **...** menu → **Pull**
+- `siteSettings.bookingUrl`
+- `danceClass.bookingUrl`
+- fallback constants in [`src/lib/constants.ts`](src/lib/constants.ts)
 
-**In terminal:**
+Main UI integration points:
+
+- [`src/components/ui/BookNowLink.tsx`](src/components/ui/BookNowLink.tsx)
+- [`src/components/sections/ClassesSection.tsx`](src/components/sections/ClassesSection.tsx)
+- [`src/components/sections/ClassDetailsSection.tsx`](src/components/sections/ClassDetailsSection.tsx)
+- [`src/components/sections/ScheduleSection.tsx`](src/components/sections/ScheduleSection.tsx)
+- [`src/app/classes/[classSlug]/page.tsx`](src/app/classes/%5BclassSlug%5D/page.tsx)
+
+## Notes for Implementing a Booking System
+
+A future booking system should decide early whether Sanity remains the content catalogue only, or whether class availability, capacity, bookings, and payments move into a transactional database.
+
+Recommended direction:
+
+- Keep Sanity for editorial content: class names, descriptions, images, SEO text, public schedule copy
+- Use a transactional database for bookings, customers, attendance, capacity, cancellations, and payment state
+- Keep the public class landing pages as the SEO source of truth
+- Keep schedule and pricing visible in HTML, JSON-LD, and the machine-readable feeds
+- Use Resend or the chosen booking platform for booking confirmations and admin notifications
+- Add admin workflows only where the studio actually needs them; avoid making Sanity handle transactional booking state
+
+Likely booking-system entities:
+
+| Entity | Notes |
+| --- | --- |
+| Class | Can reference the Sanity `danceClass` slug or ID |
+| Session | Specific date/time instance of a recurring class |
+| Instructor | Can reference Sanity instructor data |
+| Customer | Name, email, phone, consent fields |
+| Booking | Customer, session, status, notes |
+| Payment | Provider ID, amount, currency, status |
+| Capacity | Per session limit and waitlist state |
+| Notification | Confirmation, cancellation, reminder records |
+
+Important implementation points:
+
+- Preserve existing URLs under `/classes/[slug]`
+- Preserve the `www` canonical host
+- Preserve sitemap generation for class pages
+- Update JSON-LD if the source of price, availability, or schedule changes
+- Keep Setmore links in place until the replacement booking flow is production-ready
+- If taking payments, choose and document the payment provider before designing the database schema
+- If customer data is stored, document retention, access, and deletion responsibilities
+
+## Contact Form
+
+The contact form uses:
+
+- `src/app/api/contact/route.ts`
+- Resend via `RESEND_API_KEY`
+- `CONTACT_EMAIL` as the destination
+- Sanity write token for storing submissions, if enabled by the route
+
+If replacing email infrastructure, this does not necessarily affect the contact form. The contact form is API-based through Resend, while the client's mailbox is DNS/mail-server based.
+
+## Deployment Checklist
+
+Before merging to production:
 
 ```bash
-git checkout main
-git pull
-```
-
----
-
-### Step 2: Create a new branch
-
-**In Cursor / VS Code:**
-1. Click the branch name in the **bottom-left corner** (it should say `main`)
-2. Click **"Create new branch..."** in the dropdown
-3. Type a name like `fix/update-class-description` and press Enter
-4. You're now on your new branch — you'll see the name changed in the bottom-left
-
-**In terminal:**
-
-```bash
-git checkout -b fix/update-class-description
-```
-
-> **Branch naming:** Always use a prefix followed by a short dash-separated description:
->
-> | Prefix    | When to use            | Example                      |
-> | --------- | ---------------------- | ---------------------------- |
-> | `fix/`    | Bug fix                | `fix/mobile-nav-bug`         |
-> | `feat/`   | New feature or section | `feat/add-faq-page`          |
-> | `style/`  | Visual/CSS changes     | `style/footer-spacing`       |
-> | `content/`| Content updates        | `content/update-class-times` |
-
----
-
-### Step 3: Do your work and make commits
-
-Make your code changes, then commit them. Commit often — small commits are easier to review.
-
-**In Cursor / VS Code:**
-1. Make your code changes and save
-2. Open the **Source Control panel** (`Ctrl+Shift+G`)
-3. You'll see changed files listed under "Changes"
-4. Click the **+** button next to each file to stage it (or click **+** next to "Changes" to stage all)
-5. Type a short commit message in the text box (e.g. `fix: update class description text`)
-6. Click the **checkmark button** (or press `Ctrl+Enter`) to commit
-7. Repeat as you keep working — you can make multiple commits on the same branch
-
-**In terminal:**
-
-```bash
-git add .
-git commit -m "fix: update class description text"
-```
-
----
-
-### Step 4: Push your branch to GitHub
-
-**In Cursor / VS Code:**
-1. In the Source Control panel, click the **...** menu
-2. Click **"Push"**
-3. If it's your first push on this branch, it will ask to "publish" — click **OK**
-
-**In terminal:**
-
-```bash
-git push -u origin fix/update-class-description
-```
-
-> Every time you make more commits, just push again. The branch on GitHub updates automatically.
-
----
-
-### Step 5: Open a Pull Request on GitHub
-
-This is how you ask Marc to review your work.
-
-1. Go to [github.com/maduby/c4flow-nextjs](https://github.com/maduby/c4flow-nextjs) in your browser
-2. You'll see a yellow banner: **"fix/update-class-description had recent pushes — Compare & pull request"**
-3. Click that button
-4. Fill in the PR form:
-   - **Title:** A short summary of what you did (e.g. "Fix: update class description text")
-   - **Description:** Explain **what** you changed and **why**. For example:
-
-     ```
-     ## What I changed
-     - Updated the description text for the Dynamic Static class
-     - Fixed a typo in the pricing section footer
-
-     ## How to test
-     - Go to /classes and scroll to Dynamic Static
-     - Check that the new description looks correct
-     ```
-
-5. Click **"Create pull request"**
-6. Message Marc (Slack, WhatsApp, etc.) to let him know it's ready
-
-> **You only open a PR once per branch.** If you push more commits later, the PR updates automatically — you don't need to create a new one.
-
----
-
-### Step 6: Respond to review feedback
-
-Marc will review your PR on GitHub. He might:
-- **Approve it** — great, he'll merge it and you're done
-- **Request changes** — he'll leave comments explaining what to fix
-
-If changes are requested:
-
-1. Read the comments on the PR page on GitHub
-2. Go back to your editor — make sure you're still on your branch (check bottom-left)
-3. Make the fixes
-4. Commit and push again:
-
-**In Cursor / VS Code:**
-1. Stage your changes (Source Control panel → **+** button)
-2. Write a commit message like `fix: address review feedback`
-3. Click the checkmark to commit
-4. Click **...** → **Push**
-
-**In terminal:**
-
-```bash
-git add .
-git commit -m "fix: address review feedback"
-git push
-```
-
-The PR on GitHub updates automatically. Marc will see your new changes and review again.
-
----
-
-### Step 7: After your PR is merged
-
-Once Marc merges your PR, your code is live. Now clean up:
-
-**In Cursor / VS Code:**
-1. Click the branch name in the bottom-left
-2. Select **`main`**
-3. Source Control panel → **...** → **Pull** (to get the merged code)
-4. To delete your old branch: open a terminal (`Ctrl+`` `) and run:
-
-```bash
-git branch -d fix/update-class-description
-```
-
-**In terminal:**
-
-```bash
-git checkout main
-git pull
-git branch -d fix/update-class-description
-```
-
-> **Never** continue working on a merged branch. Always start fresh from `main` for your next task.
-
-### What happens when code reaches main
-
-Merging a PR into `main` triggers **automatic deployments** on both platforms:
-
-| Platform      | URL                       | What happens                                |
-| ------------- | ------------------------- | ------------------------------------------- |
-| **Vercel**    | https://c4flow.vercel.app     | Builds and deploys automatically (~1-2 min) |
-| **Hostinger** | https://www.c4flow.co.za      | Builds and deploys automatically (~3-5 min) |
-
-> **Tip:** Vercel also creates **preview deployments** for every PR, so you can test your changes on a live URL before merging. Look for the Vercel bot comment on your PR.
-
-### Commit message style
-
-Keep messages short and descriptive. Use a prefix:
-
-| Prefix      | When to use                           | Example                                    |
-| ----------- | ------------------------------------- | ------------------------------------------ |
-| `feat:`     | New feature or section                | `feat: add testimonials carousel`          |
-| `fix:`      | Bug fix                               | `fix: WhatsApp button URL on mobile`       |
-| `style:`    | Visual/CSS changes                    | `style: reduce section padding on mobile`  |
-| `content:`  | Content or copy updates               | `content: update pricing bundle names`     |
-| `docs:`     | Documentation changes                 | `docs: update README setup steps`          |
-| `refactor:` | Code cleanup (no behavior change)     | `refactor: extract PricingCard component`  |
-
----
-
-## Deployment
-
-### Vercel (primary)
-
-- Auto-deploys on every push to `main`
-- Dashboard: [vercel.com](https://vercel.com) (ask Marc for access)
-- Preview deployments are created for pull requests
-
-### Hostinger (secondary)
-
-- Also auto-deploys from `main` via GitHub integration
-- Slightly slower builds and more aggressive browser caching
-- Dashboard: [hpanel.hostinger.com](https://hpanel.hostinger.com) (ask Marc for access)
-
-### Environment variables on hosting
-
-Both Vercel and Hostinger have their own copies of the environment variables. If a new env var is added, it must be configured on both platforms (ask Marc to do this).
-
----
-
-## Useful Links
-
-| Resource              | URL                                                                 |
-| --------------------- | ------------------------------------------------------------------- |
-| Live site             | https://www.c4flow.co.za                                            |
-| Vercel preview        | https://c4flow.vercel.app                                           |
-| Sanity Studio (prod)  | https://www.c4flow.co.za/admin                                      |
-| Sanity project        | https://www.sanity.io/manage/project/ik9ho36m                       |
-| GitHub repo           | https://github.com/maduby/c4flow-nextjs                             |
-| Sanity docs           | https://www.sanity.io/docs                                          |
-| Next.js docs          | https://nextjs.org/docs                                             |
-| Tailwind CSS docs     | https://tailwindcss.com/docs                                        |
-
----
-
-## Troubleshooting
-
-### `nvm` not recognized (Windows)
-
-- Make sure you installed **nvm-windows** (not regular nvm)
-- Close and reopen your terminal after installing
-- If using Cursor/VS Code, restart the editor entirely
-
-### `node -v` shows the wrong version
-
-```bash
-nvm use 22.17.0
-```
-
-If that version isn't installed yet: `nvm install 22.17.0`
-
-### "Module not found" or dependency errors
-
-```bash
-# Windows
-rd /s /q node_modules .next
-npm install
-npm run dev
-
-# Mac/Linux
-rm -rf node_modules .next
-npm install
-npm run dev
-```
-
-### Content not updating after editing in Studio
-
-- Make sure you clicked **Publish** in Studio (drafts don't show on the live site)
-- Hard refresh the browser (`Ctrl + Shift + R` on Windows, `Cmd + Shift + R` on Mac)
-- If on Hostinger, it may take a few minutes due to CDN caching
-
-### Sanity Studio won't load at /admin
-
-- Check that `.env.local` has the correct `NEXT_PUBLIC_SANITY_PROJECT_ID`
-- Make sure you're logged into Sanity with an account that has project access
-- Try clearing the Next.js cache and restarting:
-
-```bash
-# Windows
-rd /s /q .next
-npm run dev
-
-# Mac/Linux
-rm -rf .next && npm run dev
-```
-
-### Build fails locally
-
-```bash
+npm run lint
 npm run build
 ```
 
-Read the error output. Common causes:
-- TypeScript errors (missing types, wrong props)
-- Missing environment variables in `.env.local`
-- Sanity schema changes that don't match existing queries
+After deployment, check:
 
-### Permission denied when pushing to GitHub
+- `https://www.c4flow.co.za`
+- `https://www.c4flow.co.za/classes`
+- one class page, such as `https://www.c4flow.co.za/classes/free-play`
+- `https://www.c4flow.co.za/sitemap.xml`
+- `https://www.c4flow.co.za/robots.txt`
+- `https://www.c4flow.co.za/knowledge.json`
+- contact form submission
+- a booking link
 
-- Your SSH key isn't set up — follow the [SSH setup steps](#set-up-ssh-for-github) above
-- Or you haven't been added as a collaborator on the repo — ask Marc
+For SEO-sensitive changes, inspect:
 
----
+- canonical URL
+- meta title and description
+- sitemap entry
+- Event/Service JSON-LD
+- Search Console after recrawl
+
+## Useful Links
+
+| Resource | URL |
+| --- | --- |
+| Live site | https://www.c4flow.co.za |
+| Apex redirect | https://c4flow.co.za |
+| Vercel alias | https://c4flow.vercel.app |
+| Sanity Studio | https://www.c4flow.co.za/admin |
+| Sanity project | https://www.sanity.io/manage/project/ik9ho36m |
+| GitHub repo | https://github.com/maduby/c4flow-nextjs |
+| DNS/admin panel | https://fahrenheit.sui-inter.net/ |
+| Next.js docs | https://nextjs.org/docs |
+| Sanity docs | https://www.sanity.io/docs |
+| Tailwind docs | https://tailwindcss.com/docs |
+| Resend docs | https://resend.com/docs |
+
+## Troubleshooting
+
+### Content does not update after publishing
+
+Check the Sanity webhook and `/api/revalidate` logs in Vercel. The static pages and JSON/LLM feeds rely on revalidation after content changes.
+
+### Canonical URLs point at the wrong host
+
+Check these Vercel environment variables:
+
+```text
+NEXT_PUBLIC_SITE_URL
+NEXT_PUBLIC_CANONICAL_SITE_URL
+```
+
+Production should use `https://www.c4flow.co.za`.
+
+### Email stops working after DNS changes
+
+Check MX, SPF, DKIM, and DMARC records in the DNS zone. The mailbox service is separate from Vercel.
+
+### Contact form fails
+
+Check:
+
+- `RESEND_API_KEY`
+- `CONTACT_EMAIL`
+- Vercel function logs for `/api/contact`
+- Resend account status and sending limits
+
+### Git push fails from this machine
+
+The local `origin` remote may be configured with a machine-specific SSH alias. The canonical GitHub remote is:
+
+```text
+git@github.com:maduby/c4flow-nextjs.git
+```
 
 ## License
 
-Private — C-4 Flow Dance Studio. All rights reserved.
+Private project for C4 Flow. All rights reserved.
