@@ -35,13 +35,22 @@ interface ContactPayload {
 export async function POST(req: NextRequest) {
   try {
     if (ratelimit) {
+      // x-forwarded-for is set by Vercel's infrastructure and is trustworthy here.
+      // Falls back to "anonymous" only for local dev without a proxy — all such
+      // requests share one bucket, which is acceptable in that context.
       const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
-      const { success } = await ratelimit.limit(ip);
-      if (!success) {
-        return NextResponse.json(
-          { error: "Too many requests. Please try again later." },
-          { status: 429 }
-        );
+      try {
+        const { success } = await ratelimit.limit(ip);
+        if (!success) {
+          return NextResponse.json(
+            { error: "Too many requests. Please try again later." },
+            { status: 429 }
+          );
+        }
+      } catch (err) {
+        // Fail open: if Redis is unavailable, let the request through rather
+        // than blocking legitimate users due to an infrastructure issue.
+        console.error("Rate limit check failed:", err);
       }
     }
 
@@ -76,8 +85,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const rawEmail = process.env.CONTACT_EMAIL || "marc@duby.io";
-    const recipients = rawEmail.split(",").map((e) => e.trim());
+    const contactEmail = process.env.CONTACT_EMAIL;
+    if (!contactEmail) {
+      console.error("CONTACT_EMAIL env var is not set — contact form submission dropped");
+      return NextResponse.json(
+        { error: "Something went wrong. Please try again later." },
+        { status: 500 }
+      );
+    }
+    const recipients = contactEmail.split(",").map((e) => e.trim());
     const replyToEmail = process.env.CONTACT_REPLY_TO || email;
     const fromAddress = process.env.RESEND_FROM_ADDRESS || "C4 Flow Website <noreply@mail.pixelpoetry.dev>";
 

@@ -410,6 +410,9 @@ function buildDaysSummary(schedule: ScheduleEntry[]): string | null {
   return `${labels.slice(0, -1).join(", ")} & ${labels[labels.length - 1]}`;
 }
 
+// cache() on getKnowledgeBase() (below) deduplicates calls within a single request.
+// This function is intentionally left uncached — the outer cache is sufficient,
+// and keeping this private avoids callers bypassing the deduplication layer.
 async function fetchPublishedKnowledgeSource() {
   return client.fetch<{
     settings: RawSettings | null;

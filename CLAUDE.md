@@ -25,6 +25,10 @@ The single source of truth for all content. `getKnowledgeBase()` makes one batch
 to Sanity and returns a fully-typed `KnowledgeBase` object covering site settings, pages,
 classes, bundles, schedule, and pricing.
 
+It is wrapped in React `cache()`, which deduplicates calls within a single server request —
+including across `generateMetadata` and the page component. This is per-request only: each
+ISR revalidation or fresh page request triggers a new Sanity fetch.
+
 **Always fetch through `getKnowledgeBase()` — never write ad-hoc Sanity queries in page
 components.** If you need a single record (e.g. one class), use `getClassBySlug()` which
 reads from the already-built knowledge base rather than hitting Sanity again.
