@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createClient } from "@sanity/client";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -12,6 +14,18 @@ const sanityClient = createClient({
   useCdn: false,
 });
 
+const ratelimit =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Ratelimit({
+        redis: new Redis({
+          url: process.env.UPSTASH_REDIS_REST_URL,
+          token: process.env.UPSTASH_REDIS_REST_TOKEN,
+        }),
+        limiter: Ratelimit.slidingWindow(5, "1 h"),
+        prefix: "c4flow:contact",
+      })
+    : null;
+
 interface ContactPayload {
   name: string;
   email: string;
@@ -20,12 +34,30 @@ interface ContactPayload {
 
 export async function POST(req: NextRequest) {
   try {
+    if (ratelimit) {
+      const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
+      const { success } = await ratelimit.limit(ip);
+      if (!success) {
+        return NextResponse.json(
+          { error: "Too many requests. Please try again later." },
+          { status: 429 }
+        );
+      }
+    }
+
     const body = (await req.json()) as ContactPayload;
     const { name, email, message } = body;
 
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: "All fields are required." },
+        { status: 400 }
+      );
+    }
+
+    if (name.length > 200) {
+      return NextResponse.json(
+        { error: "Name must be under 200 characters." },
         { status: 400 }
       );
     }
@@ -47,11 +79,12 @@ export async function POST(req: NextRequest) {
     const rawEmail = process.env.CONTACT_EMAIL || "marc@duby.io";
     const recipients = rawEmail.split(",").map((e) => e.trim());
     const replyToEmail = process.env.CONTACT_REPLY_TO || email;
+    const fromAddress = process.env.RESEND_FROM_ADDRESS || "C4 Flow Website <noreply@mail.pixelpoetry.dev>";
 
     // Send email via Resend and store in Sanity concurrently
     const [emailResult] = await Promise.allSettled([
       resend.emails.send({
-        from: `C4 Flow Website <noreply@mail.pixelpoetry.dev>`,
+        from: fromAddress,
         to: recipients,
         replyTo: replyToEmail,
         subject: `New contact from ${name} — C4 Flow Website`,

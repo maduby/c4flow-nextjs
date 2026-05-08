@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { getSiteOriginForMetadata } from "@/lib/site-origin";
 import { SITE_CONFIG } from "@/lib/constants";
 import { client } from "@/sanity/lib/client";
@@ -498,7 +499,7 @@ async function fetchPublishedKnowledgeSource() {
   }`);
 }
 
-export async function getKnowledgeBase(): Promise<KnowledgeBase> {
+export const getKnowledgeBase = cache(async function getKnowledgeBase(): Promise<KnowledgeBase> {
   const source = await fetchPublishedKnowledgeSource();
   const generatedAt = new Date().toISOString();
 
@@ -739,7 +740,7 @@ export async function getKnowledgeBase(): Promise<KnowledgeBase> {
     bundles,
     scheduleByDay,
   };
-}
+});
 
 export async function getClassBySlug(slug: string): Promise<ClassKnowledge | null> {
   const knowledgeBase = await getKnowledgeBase();
