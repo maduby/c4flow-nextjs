@@ -62,7 +62,7 @@ export const instructor = defineType({
       title: "Booking Link",
       type: "url",
       description:
-        'Personal Setmore booking link. Powers the "Book a Session" button.',
+        'Personal booking link. Powers the "Book a Session" button.',
     }),
   ],
   preview: {

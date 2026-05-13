@@ -105,7 +105,7 @@ export const siteSettings = defineType({
       type: "url",
       group: "contact",
       description:
-        'The main Setmore booking link. Used for the "Book Now" button in the navigation.',
+        'The main booking link (currently WhatsApp). Used for the "Book Now" button in the navigation and as the fallback for classes without their own booking link.',
     }),
 
     // ── Location ──

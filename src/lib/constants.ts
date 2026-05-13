@@ -22,8 +22,8 @@ export const SITE_CONFIG = {
     instructorInstagram: "https://www.instagram.com/cattleya_mystic_muse/",
   },
   booking: {
-    platform: "Setmore",
-    url: "https://movetoexpresswithc4flow.setmore.com/",
+    platform: "WhatsApp",
+    url: "https://wa.me/27653917901?text=Hey%2C%20I%27m%20interested%20in%20booking%20a%20class%20with%20you!",
   },
   maps: {
     lat: -33.926702,
