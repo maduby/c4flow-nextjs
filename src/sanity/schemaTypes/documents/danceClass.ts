@@ -151,7 +151,7 @@ export const danceClass = defineType({
       type: "url",
       group: "pricing",
       description:
-        'The Setmore link for this specific class. If left empty, the "Book Now" button links to the main Setmore booking page instead.',
+        'Booking link for this specific class (e.g. a Wix booking URL). If left empty, the "Book Now" button falls back to the main booking link set in Site Settings.',
     }),
   ],
   orderings: [
