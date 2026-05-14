@@ -6,7 +6,7 @@ export const SITE_CONFIG = {
   email: "marc@duby.io",
   phone: "+27 65 391 7901",
   whatsapp: {
-    number: "27653917901",
+    number: "27725884371",
     message: "Hey, I'm interested in booking a class with you!",
   },
   address: {
@@ -23,7 +23,7 @@ export const SITE_CONFIG = {
   },
   booking: {
     platform: "WhatsApp",
-    url: "https://wa.me/27653917901?text=Hey%2C%20I%27m%20interested%20in%20booking%20a%20class%20with%20you!",
+    url: "https://wa.me/27725884371?text=Hey%2C%20I%27m%20interested%20in%20booking%20a%20class%20with%20you!",
   },
   maps: {
     lat: -33.926702,
