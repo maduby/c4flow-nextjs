@@ -20,7 +20,8 @@ export function ScrollToTop() {
 
     const hash = window.location.hash;
     if (hash) {
-      const target = document.querySelector(hash);
+      let target: Element | null = null;
+      try { target = document.querySelector(hash); } catch { /* invalid selector (e.g. Sanity's #sid=...) — skip scroll */ }
       if (target) {
         target.scrollIntoView();
         requestAnimationFrame(() => {
