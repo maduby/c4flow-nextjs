@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 
 const NextStudio = dynamic(() => import("next-sanity/studio").then((mod) => mod.NextStudio), {
@@ -17,5 +18,14 @@ const NextStudio = dynamic(() => import("next-sanity/studio").then((mod) => mod.
 import config from "../../../../sanity.config";
 
 export default function StudioPage() {
+  useEffect(() => {
+    // Sanity's auth callback appends #sid=... to the URL. Next.js tries to
+    // scroll to that hash via querySelector, which throws because '=' is not
+    // valid in a CSS selector. Strip it before React processes it.
+    if (window.location.hash.startsWith("#sid=")) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  }, []);
+
   return <NextStudio config={config} />;
 }
