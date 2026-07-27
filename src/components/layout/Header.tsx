@@ -81,9 +81,9 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
             </Link>
           ))}
           <Link
-            href="https://movetoexpresswithc4flow.setmore.com/"
+            href="https://wa.me/27725884371"
             target="_blank"
-            rel={getExternalLinkRel("https://movetoexpresswithc4flow.setmore.com/")}
+            rel={getExternalLinkRel("https://wa.me/27725884371")}
             onClick={() => trackBookNow(undefined, "header")}
             className="rounded-full bg-pink-500 px-5 py-2 text-sm font-medium text-white hover:bg-pink-600"
           >
@@ -169,9 +169,9 @@ export function Header({ siteName, logoUrl }: HeaderProps) {
                 animate="open"
               >
                 <Link
-                  href="https://movetoexpresswithc4flow.setmore.com/"
+                  href="https://wa.me/27725884371"
                   target="_blank"
-                  rel={getExternalLinkRel("https://movetoexpresswithc4flow.setmore.com/")}
+                  rel={getExternalLinkRel("https://wa.me/27725884371")}
                   onClick={() => {
                     closeMenu();
                     trackBookNow(undefined, "header_mobile");
