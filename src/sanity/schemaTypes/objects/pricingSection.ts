@@ -27,7 +27,8 @@ export const pricingSection = defineType({
       options: {
         list: [
           { title: "Group Class Bundles", value: "group" },
-          { title: "Private Class Bundles", value: "private" },
+          { title: "Private Class Bundles (1 Month)", value: "private" },
+          { title: "Private Class Bundles (3 Month)", value: "private_3m" },
         ],
         layout: "radio",
       },
@@ -48,8 +49,10 @@ export const pricingSection = defineType({
         category === "group"
           ? "Group Bundles"
           : category === "private"
-            ? "Private Bundles"
-            : "Pricing";
+            ? "Private Bundles (1 Month)"
+            : category === "private_3m"
+              ? "Private Bundles (3 Month)"
+              : "Pricing";
       return { title: title || "Pricing", subtitle: tag };
     },
   },
