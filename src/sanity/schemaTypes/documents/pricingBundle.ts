@@ -65,7 +65,8 @@ export const pricingBundle = defineType({
       options: {
         list: [
           { title: "Group Classes", value: "group" },
-          { title: "Private Classes", value: "private" },
+          { title: "Private Classes (1 Month)", value: "private" },
+          { title: "Private Classes (3 Month)", value: "private_3m" },
         ],
         layout: "radio",
       },
@@ -95,7 +96,7 @@ export const pricingBundle = defineType({
       category: "category",
     },
     prepare({ title, price, salePrice, category }) {
-      const tag = category === "group" ? "Group" : "Private";
+      const tag = category === "group" ? "Group" : category === "private_3m" ? "Private (3 Month)" : "Private (1 Month)";
       const priceText = salePrice
         ? `R${salePrice} (was R${price})`
         : price

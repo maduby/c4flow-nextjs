@@ -54,7 +54,7 @@ export async function PricingSection({
   const discountApplies =
     discountActive &&
     ((bundleCategory === "group" && discountDoc.applyToGroupBundles) ||
-      (bundleCategory === "private" && discountDoc.applyToPrivateBundles));
+      ((bundleCategory === "private" || bundleCategory === "private_3m") && discountDoc.applyToPrivateBundles));
   const discountPercent = discountApplies ? discountDoc.discountPercent : null;
 
   const enrichedBundles = bundles.map(
