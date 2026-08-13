@@ -12,7 +12,7 @@ const PREVIEW_URL =
 export default defineConfig({
   name: "c4flow",
   title: "C4 Flow Studio",
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ik9ho36m",
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   basePath: "/admin",
 
