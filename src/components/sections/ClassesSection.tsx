@@ -127,10 +127,18 @@ export async function ClassesSection({
         </MotionDiv>
 
         {showBookingNote && (
-          <p className="mt-8 flex flex-col items-center gap-1 text-center text-sm text-neutral-400">
+          <p className="mt-8 flex items-center justify-center gap-1 text-center text-sm text-neutral-400">
             <Info size={14} className="shrink-0" aria-hidden="true" />
-            Clicking &ldquo;Book Now&rdquo; will redirect you to our booking
-            platform (Setmore).
+            Contact us via{" "}
+            <a
+              href="https://wa.me/27725884371"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-pink-500 underline hover:no-underline"
+            >
+              WhatsApp
+            </a>{" "}
+            to book.
           </p>
         )}
       </Container>
